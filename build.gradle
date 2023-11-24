@@ -1,0 +1,138 @@
+buildscript {
+	repositories {
+		maven {
+			name = "Forge"
+			url = "https://maven.minecraftforge.net"
+		}
+		maven {
+			name = "Parchment"
+			url = "https://maven.parchmentmc.org"
+		}
+		mavenCentral()
+	}
+	dependencies {
+		classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: forge_gradle_version, changing: true
+		classpath group: "org.parchmentmc", name: "librarian", version: parchment_gradle_version
+	}
+}
+
+apply plugin: "net.minecraftforge.gradle"
+apply plugin: "org.parchmentmc.librarian.forgegradle"
+
+JavaLanguageVersion JAVA_VERSION = JavaLanguageVersion.of(java_version)
+SourceSet MAIN_SOURCE_SET = sourceSets.main
+String MAIN_RESOURCES_PATH = "src/main/resources"
+String GENERATED_RESOURCES_PATH = "src/generated/resources"
+
+ext {
+	java_vm_version = System.getProperty("java.vm.version")
+	java_vm_vendor = System.getProperty("java.vm.vendor")
+}
+
+println "$mod_name: $mod_version"
+println "Forge: $forge_version"
+println "Minecraft: $minecraft_version"
+println "Java: $java_vm_version ($java_vm_vendor)"
+
+version = mod_version
+group = mod_maven_group
+archivesBaseName = "$mod_archives_base_name-forge-$minecraft_version"
+
+dependencies {
+	minecraft "net.minecraftforge:forge:$forge_version"
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDir GENERATED_RESOURCES_PATH
+		}
+	}
+}
+
+minecraft {
+	mappings channel: parchment_channel, version: parchment_version
+
+	accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
+
+	runs {
+		configureEach {
+			property "forge.logging.markers", "REGISTRIES"
+			property "forge.logging.console.level", "debug"
+			mods {
+				"$mod_id" {
+					source MAIN_SOURCE_SET
+				}
+			}
+		}
+
+		client {
+			taskName "runClient"
+			workingDirectory file("run")
+			property "forge.enabledGameTestNamespaces", mod_id
+		}
+
+		server {
+			taskName "runServer"
+			workingDirectory file("run")
+			property "forge.enabledGameTestNamespaces", mod_id
+			args "--nogui"
+		}
+
+		data {
+			taskName "generateData"
+			workingDirectory file("run")
+			args "--mod", mod_id, "--all", "--output", file(GENERATED_RESOURCES_PATH), "--existing", file(MAIN_RESOURCES_PATH)
+		}
+	}
+}
+
+java {
+	sourceCompatibility = JAVA_VERSION
+	targetCompatibility = JAVA_VERSION
+	toolchain.languageVersion.set(JAVA_VERSION)
+	withSourcesJar()
+}
+
+jar {
+	finalizedBy "reobfJar"
+
+	manifest {
+		attributes "Specification-Title": mod_name
+		attributes "Specification-Version": mod_version
+		attributes "Specification-Vendor": mod_author
+		attributes "Implementation-Title": mod_name
+		attributes "Implementation-Version": mod_version
+		attributes "Implementation-Vendor": mod_author
+		attributes "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+		attributes "Timestamp": System.currentTimeMillis()
+		attributes "Built-On-Forge": forge_version
+		attributes "Built-On-Minecraft": minecraft_version
+		attributes "Built-On-Java": "$java_vm_version ($java_vm_vendor)"
+	}
+
+	from "LICENSE"
+}
+
+processResources {
+	Properties properties = new Properties()
+
+	file("gradle.properties").withInputStream {
+		properties.load(it)
+	}
+
+	inputs.properties properties
+
+	filesMatching(["pack.mcmeta", "META-INF/mods.toml"]) {
+		expand properties
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = "UTF-8"
+	options.release.set(JAVA_VERSION.asInt())
+}
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+	enabled = false
+}

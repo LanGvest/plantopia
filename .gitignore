@@ -1,0 +1,9 @@
+# Gradle
+.gradle/
+.cache/
+build/
+run/
+
+# IDE
+.idea/
+out/

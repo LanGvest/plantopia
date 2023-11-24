@@ -1,0 +1,8 @@
+# Linux start script should use LF.
+/gradlew text eol=lf
+
+# Any Windows script should use CRLF.
+*.bat text eol=crlf
+
+# Any generated JSON file should use LF.
+src/generated/**/*.json text eol=lf
