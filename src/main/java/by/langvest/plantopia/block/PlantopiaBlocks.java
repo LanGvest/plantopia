@@ -30,6 +30,12 @@ public class PlantopiaBlocks {
 		return blockRegistryObject;
 	}
 
+	public static <T extends Block> RegistryObject<T> registerTripleHighBlock(String name, Supplier<T> supplier, CreativeModeTab tab) {
+		RegistryObject<T> blockRegistryObject = registerBlockWithoutItem(name, supplier);
+		PlantopiaItems.registerTripleHighBlockItem(name, blockRegistryObject, tab);
+		return blockRegistryObject;
+	}
+
 	public static void setup(IEventBus bus) {
 		BLOCK_REGISTER.register(bus);
 	}

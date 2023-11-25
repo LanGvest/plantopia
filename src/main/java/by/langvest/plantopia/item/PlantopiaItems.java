@@ -28,6 +28,10 @@ public class PlantopiaItems {
 		registerItem(name, () -> new DoubleHighBlockItem(blockRegistryObject.get(), new Item.Properties().tab(tab)));
 	}
 
+	public static <T extends Block> void registerTripleHighBlockItem(String name, RegistryObject<T> blockRegistryObject, CreativeModeTab tab) {
+		registerItem(name, () -> new PlantopiaTripleHighBlockItem(blockRegistryObject.get(), new Item.Properties().tab(tab)));
+	}
+
 	public static void setup(IEventBus bus) {
 		ITEM_REGISTER.register(bus);
 	}
