@@ -121,7 +121,7 @@ processResources {
 		properties.load(it)
 	}
 
-	inputs.properties properties
+	inputs.properties(properties)
 
 	filesMatching(["pack.mcmeta", "META-INF/mods.toml"]) {
 		expand properties
