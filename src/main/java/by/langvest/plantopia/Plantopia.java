@@ -1,5 +1,6 @@
 package by.langvest.plantopia;
 
+import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.item.PlantopiaItems;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -24,6 +25,7 @@ public class Plantopia {
 		bus.addListener(this::clientSetup);
 		bus.addListener(this::loadComplete);
 
+		PlantopiaBlocks.setup(bus);
 		PlantopiaItems.setup(bus);
 	}
 
