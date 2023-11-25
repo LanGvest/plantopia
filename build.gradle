@@ -39,7 +39,7 @@ group = mod_maven_group
 archivesBaseName = "$mod_archives_base_name-forge-$minecraft_version"
 
 dependencies {
-	minecraft "net.minecraftforge:forge:$forge_version"
+	minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
 }
 
 sourceSets {
