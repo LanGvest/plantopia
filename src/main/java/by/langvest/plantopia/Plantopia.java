@@ -1,5 +1,6 @@
 package by.langvest.plantopia;
 
+import by.langvest.plantopia.item.PlantopiaItems;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -22,6 +23,8 @@ public class Plantopia {
 		bus.addListener(this::commonSetup);
 		bus.addListener(this::clientSetup);
 		bus.addListener(this::loadComplete);
+
+		PlantopiaItems.setup(bus);
 	}
 
 	private void commonSetup(final @NotNull FMLCommonSetupEvent event) {}
