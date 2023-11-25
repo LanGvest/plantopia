@@ -55,33 +55,30 @@ minecraft {
 
 	accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
 
-	runs {
-		configureEach {
-			property "forge.logging.markers", "REGISTRIES"
-			property "forge.logging.console.level", "debug"
-			mods {
-				"$mod_id" {
-					source MAIN_SOURCE_SET
-				}
+	runs.configureEach {
+		workingDirectory file("run")
+		property "forge.logging.markers", "REGISTRIES"
+		property "forge.logging.console.level", "debug"
+		mods {
+			"$mod_id" {
+				source MAIN_SOURCE_SET
 			}
 		}
+	}
 
+	runs {
 		client {
 			taskName "runClient"
-			workingDirectory file("run")
 			property "forge.enabledGameTestNamespaces", mod_id
 		}
 
 		server {
 			taskName "runServer"
-			workingDirectory file("run")
 			property "forge.enabledGameTestNamespaces", mod_id
-			args "--nogui"
 		}
 
 		data {
 			taskName "generateData"
-			workingDirectory file("run")
 			args "--mod", mod_id, "--all", "--output", file(GENERATED_RESOURCES_PATH), "--existing", file(MAIN_RESOURCES_PATH)
 		}
 	}
