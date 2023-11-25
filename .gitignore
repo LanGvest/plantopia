@@ -1,6 +1,5 @@
 # Gradle
 .gradle/
-.cache/
 build/
 run/
 
