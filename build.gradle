@@ -5,6 +5,10 @@ buildscript {
 			url = "https://maven.minecraftforge.net"
 		}
 		maven {
+			name = "Spongepowered"
+			url = "https://repo.spongepowered.org/repository/maven-public"
+		}
+		maven {
 			name = "Parchment"
 			url = "https://maven.parchmentmc.org"
 		}
@@ -12,11 +16,13 @@ buildscript {
 	}
 	dependencies {
 		classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: forge_gradle_version, changing: true
+		classpath group: "org.spongepowered", name: "mixingradle", version: mixin_gradle_version
 		classpath group: "org.parchmentmc", name: "librarian", version: parchment_gradle_version
 	}
 }
 
 apply plugin: "net.minecraftforge.gradle"
+apply plugin: "org.spongepowered.mixin"
 apply plugin: "org.parchmentmc.librarian.forgegradle"
 
 JavaLanguageVersion JAVA_VERSION = JavaLanguageVersion.of(java_version)
@@ -25,6 +31,8 @@ String MAIN_RESOURCES_PATH = "src/main/resources"
 String GENERATED_RESOURCES_PATH = "src/generated/resources"
 
 ext {
+	mixin_config = mod_id + ".mixins.json"
+	mixin_refmap = mod_id + ".refmap.json"
 	java_vm_version = System.getProperty("java.vm.version")
 	java_vm_vendor = System.getProperty("java.vm.vendor")
 }
@@ -40,6 +48,7 @@ archivesBaseName = "$mod_archives_base_name-forge-$minecraft_version"
 
 dependencies {
 	minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
+	annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
 }
 
 sourceSets {
@@ -48,6 +57,11 @@ sourceSets {
 			srcDir GENERATED_RESOURCES_PATH
 		}
 	}
+}
+
+mixin {
+	add MAIN_SOURCE_SET, mixin_refmap
+	config mixin_config
 }
 
 minecraft {
@@ -59,6 +73,7 @@ minecraft {
 		workingDirectory file("run")
 		property "forge.logging.markers", "REGISTRIES"
 		property "forge.logging.console.level", "debug"
+		args "-mixin.config", mixin_config
 		mods {
 			"$mod_id" {
 				source MAIN_SOURCE_SET
@@ -106,6 +121,7 @@ jar {
 		attributes "Built-On-Forge": forge_version
 		attributes "Built-On-Minecraft": minecraft_version
 		attributes "Built-On-Java": "$java_vm_version ($java_vm_vendor)"
+		attributes "MixinConfigs": mixin_config
 	}
 
 	from "LICENSE"
