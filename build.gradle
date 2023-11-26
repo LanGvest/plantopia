@@ -103,7 +103,6 @@ java {
 	sourceCompatibility = JAVA_VERSION
 	targetCompatibility = JAVA_VERSION
 	toolchain.languageVersion.set(JAVA_VERSION)
-	withSourcesJar()
 }
 
 jar {
