@@ -29,6 +29,7 @@ JavaLanguageVersion JAVA_VERSION = JavaLanguageVersion.of(java_version)
 SourceSet MAIN_SOURCE_SET = sourceSets.main
 String MAIN_RESOURCES_PATH = "src/main/resources"
 String GENERATED_RESOURCES_PATH = "src/generated/resources"
+String DATA_PATH = data_package.replaceAll(/\./, "/")
 
 ext {
 	mixin_config = mod_id + ".mixins.json"
@@ -125,6 +126,7 @@ jar {
 	}
 
 	from "LICENSE"
+	exclude DATA_PATH
 }
 
 processResources {
