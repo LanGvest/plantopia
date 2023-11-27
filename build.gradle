@@ -30,6 +30,7 @@ SourceSet MAIN_SOURCE_SET = sourceSets.main
 Set<String> FILES_TO_EXPAND = ["pack.mcmeta", "META-INF/mods.toml"]
 String MAIN_RESOURCES_PATH = "src/main/resources"
 String GENERATED_RESOURCES_PATH = "src/generated/resources"
+String ACCESS_TRANSFORMER_PATH = "$MAIN_RESOURCES_PATH/META-INF/accesstransformer.cfg"
 String DATA_PATH = data_package.replaceAll(/\./, "/")
 
 ext {
@@ -70,7 +71,7 @@ mixin {
 minecraft {
 	mappings channel: parchment_channel, version: parchment_version
 
-	accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
+	accessTransformer = file(ACCESS_TRANSFORMER_PATH)
 
 	runs.configureEach {
 		workingDirectory file("run")
