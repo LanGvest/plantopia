@@ -1,4 +1,4 @@
-package by.langvest.plantopia.datagen;
+package by.langvest.plantopia.handler;
 
 import by.langvest.plantopia.Plantopia;
 import net.minecraft.data.DataGenerator;
