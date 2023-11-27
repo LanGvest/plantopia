@@ -27,6 +27,7 @@ apply plugin: "org.parchmentmc.librarian.forgegradle"
 
 JavaLanguageVersion JAVA_VERSION = JavaLanguageVersion.of(java_version)
 SourceSet MAIN_SOURCE_SET = sourceSets.main
+Set<String> FILES_TO_EXPAND = ["pack.mcmeta", "META-INF/mods.toml"]
 String MAIN_RESOURCES_PATH = "src/main/resources"
 String GENERATED_RESOURCES_PATH = "src/generated/resources"
 String DATA_PATH = data_package.replaceAll(/\./, "/")
@@ -138,7 +139,7 @@ processResources {
 
 	inputs.properties(properties)
 
-	filesMatching(["pack.mcmeta", "META-INF/mods.toml"]) {
+	filesMatching(FILES_TO_EXPAND) {
 		expand properties
 	}
 }
