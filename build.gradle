@@ -151,3 +151,16 @@ tasks.withType(JavaCompile).configureEach {
 tasks.withType(GenerateModuleMetadata).configureEach {
 	enabled = false
 }
+
+tasks.withType(JavaExec).configureEach {
+	if(name == minecraft.runs.data.taskName) {
+		doLast {
+			fileTree(GENERATED_RESOURCES_PATH).files.findAll {
+				it.name.endsWith(".json")
+			} each {
+				it.text = it.text.replaceAll(/(?m)(?<=^\s{0,100}) {2}/, "\t")
+				println "Reindent $it succeeded"
+			}
+		}
+	}
+}
