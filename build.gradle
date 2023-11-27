@@ -32,6 +32,7 @@ String MAIN_RESOURCES_PATH = "src/main/resources"
 String GENERATED_RESOURCES_PATH = "src/generated/resources"
 String ACCESS_TRANSFORMER_PATH = "$MAIN_RESOURCES_PATH/META-INF/accesstransformer.cfg"
 String DATA_PATH = data_package.replaceAll(/\./, "/")
+String DATA_HANDLER_PATH = data_handler.replaceAll(/\./, "/") + ".class"
 
 ext {
 	mixin_config = mod_id + ".mixins.json"
@@ -129,6 +130,7 @@ jar {
 
 	from "LICENSE"
 	exclude DATA_PATH
+	exclude DATA_HANDLER_PATH
 }
 
 processResources {
