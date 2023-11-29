@@ -4,6 +4,5 @@
 # Any Windows script should use CRLF.
 *.bat text eol=crlf
 
-# Any generated content should use LF.
-src/generated/**/.cache/cache text eol=lf
+# Any generated file should use LF.
 src/generated/**/*.json text eol=lf
