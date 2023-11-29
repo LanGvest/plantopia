@@ -77,7 +77,7 @@ minecraft {
 	runs.configureEach {
 		workingDirectory file("run")
 		property "forge.logging.markers", "REGISTRIES"
-		property "forge.logging.console.level", "debug"
+		property "forge.logging.console.level", "info"
 		args "-mixin.config", mixin_config
 		mods {
 			"$mod_id" {
