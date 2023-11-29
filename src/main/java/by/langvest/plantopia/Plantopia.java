@@ -1,6 +1,8 @@
 package by.langvest.plantopia;
 
 import by.langvest.plantopia.block.PlantopiaBlocks;
+import by.langvest.plantopia.client.PlantopiaColors;
+import by.langvest.plantopia.client.PlantopiaRenderLayers;
 import by.langvest.plantopia.item.PlantopiaItems;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -31,7 +33,11 @@ public class Plantopia {
 
 	private void commonSetup(final @NotNull FMLCommonSetupEvent event) {}
 
-	private void clientSetup(final @NotNull FMLClientSetupEvent event) {}
+	private void clientSetup(final @NotNull FMLClientSetupEvent event) {
+		event.enqueueWork(PlantopiaRenderLayers::setup);
+	}
 
-	private void loadComplete(final @NotNull FMLLoadCompleteEvent event) {}
+	private void loadComplete(final @NotNull FMLLoadCompleteEvent event) {
+		event.enqueueWork(PlantopiaColors::setup);
+	}
 }
