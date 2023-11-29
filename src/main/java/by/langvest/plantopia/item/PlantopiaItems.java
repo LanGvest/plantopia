@@ -1,15 +1,17 @@
 package by.langvest.plantopia.item;
 
 import by.langvest.plantopia.Plantopia;
+import by.langvest.plantopia.util.semantics.PlantopiaBlockSemantics;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item.Properties;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
@@ -20,16 +22,15 @@ public class PlantopiaItems {
 		return ITEM_REGISTER.register(name, supplier);
 	}
 
-	public static <T extends Block> void registerBlockItem(String name, RegistryObject<T> blockRegistryObject, CreativeModeTab tab) {
-		registerItem(name, () -> new BlockItem(blockRegistryObject.get(), new Item.Properties().tab(tab)));
-	}
-
-	public static <T extends Block> void registerDoubleHighBlockItem(String name, RegistryObject<T> blockRegistryObject, CreativeModeTab tab) {
-		registerItem(name, () -> new DoubleHighBlockItem(blockRegistryObject.get(), new Item.Properties().tab(tab)));
-	}
-
-	public static <T extends Block> void registerTripleHighBlockItem(String name, RegistryObject<T> blockRegistryObject, CreativeModeTab tab) {
-		registerItem(name, () -> new PlantopiaTripleHighBlockItem(blockRegistryObject.get(), new Item.Properties().tab(tab)));
+	public static void registerBlockItem(@NotNull PlantopiaBlockSemantics blockSemantics) {
+		CreativeModeTab group = blockSemantics.getGroup();
+		if(group == null) return;
+		Properties properties = new Properties().tab(group);
+		registerItem(blockSemantics.getName(), () -> switch(blockSemantics.getBlockHighType()) {
+			case DOUBLE -> new DoubleHighBlockItem(blockSemantics.getBlock(), properties);
+			case TRIPLE -> new PlantopiaTripleHighBlockItem(blockSemantics.getBlock(), properties);
+			default -> new BlockItem(blockSemantics.getBlock(), properties);
+		});
 	}
 
 	public static void setup(IEventBus bus) {
