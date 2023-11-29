@@ -158,7 +158,7 @@ public class PlantopiaBlockSemantics extends PlantopiaBaseSemantics<RegistryObje
 		}
 
 		public SemanticProperties noRender() {
-			this.renderType = null;
+			this.renderType = PlantopiaRenderType.NONE;
 			return this;
 		}
 
