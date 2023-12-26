@@ -11,5 +11,9 @@ public class PlantopiaItemModelProvider extends ItemModelProvider {
 	}
 
 	@Override
-	protected void registerModels() {}
+	protected void registerModels() {
+		generateAll();
+	}
+
+	private void generateAll() {}
 }

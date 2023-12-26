@@ -14,5 +14,9 @@ public class PlantopiaRecipeProvider extends RecipeProvider implements IConditio
 	}
 
 	@Override
-	protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {}
+	protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+		generateAll(consumer);
+	}
+
+	private void generateAll(@NotNull Consumer<FinishedRecipe> consumer) {}
 }

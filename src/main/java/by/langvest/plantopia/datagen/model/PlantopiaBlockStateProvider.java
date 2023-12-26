@@ -1,9 +1,10 @@
 package by.langvest.plantopia.datagen.model;
 
 import by.langvest.plantopia.Plantopia;
+import by.langvest.plantopia.meta.property.PlantopiaBlockModelType;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
-import by.langvest.plantopia.util.semantics.PlantopiaBlockSemantics;
-import by.langvest.plantopia.util.semantics.PlantopiaSemanticRegistry;
+import by.langvest.plantopia.meta.PlantopiaBlockMeta;
+import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -23,17 +24,23 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		PlantopiaSemanticRegistry.getBlocks().forEach(blockSemantics -> {
-			Block block = blockSemantics.getBlock();
+		generateAll();
+	}
+
+	private void generateAll() {
+		PlantopiaMetaStore.getBlocks().forEach(blockMeta -> {
+			if(blockMeta.getModelType() != PlantopiaBlockModelType.GENERATED) return;
+
+			Block block = blockMeta.getBlock();
 
 			if(block instanceof DoublePlantBlock) {
-				doublePlantBlock(blockSemantics);
+				doublePlantBlock(blockMeta);
 			}
 		});
 	}
 
-	private void doublePlantBlock(@NotNull PlantopiaBlockSemantics blockSemantics) {
-		String baseName = blockSemantics.getName();
+	private void doublePlantBlock(@NotNull PlantopiaBlockMeta blockMeta) {
+		String baseName = blockMeta.getName();
 
 		ResourceLocation topTexture = textureLoc(baseName + "_top");
 		ResourceLocation bottomTexture = textureLoc(baseName + "_bottom");
@@ -43,7 +50,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		itemModels().withExistingParent(baseName, "generated").texture("layer0", topTexture);
 
-		getVariantBuilder(blockSemantics.getBlock()).forAllStates(state -> {
+		getVariantBuilder(blockMeta.getBlock()).forAllStates(state -> {
 			DoubleBlockHalf half = state.getValue(DoublePlantBlock.HALF);
 			ModelFile modelFile = half == DoubleBlockHalf.UPPER ? topModel : bottomModel;
 			return ConfiguredModel.builder().modelFile(modelFile).build();

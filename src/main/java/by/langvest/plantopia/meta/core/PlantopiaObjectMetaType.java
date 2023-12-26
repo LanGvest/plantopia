@@ -1,15 +1,15 @@
-package by.langvest.plantopia.util.semantics;
+package by.langvest.plantopia.meta.core;
 
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public abstract class PlantopiaSemanticType<T, P extends PlantopiaSemanticProperties<T>> {
+public abstract class PlantopiaObjectMetaType<T, P extends PlantopiaObjectMetaProperties<T>> {
 	private final String category;
 	private final String name;
 	protected final P properties;
 	protected final T type;
 
-	public PlantopiaSemanticType(String category, String name, @NotNull P properties) {
+	public PlantopiaObjectMetaType(String category, String name, @NotNull P properties) {
 		this.category = category;
 		this.name = name;
 		this.properties = properties;

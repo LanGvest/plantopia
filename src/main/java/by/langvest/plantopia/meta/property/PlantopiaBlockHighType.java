@@ -1,4 +1,4 @@
-package by.langvest.plantopia.util;
+package by.langvest.plantopia.meta.property;
 
 public enum PlantopiaBlockHighType {
 	NORMAL(1),

@@ -1,10 +1,10 @@
-package by.langvest.plantopia.util.semantics;
+package by.langvest.plantopia.meta.core;
 
-public abstract class PlantopiaBaseSemantics<T> {
+public abstract class PlantopiaObjectMeta<T> {
 	private final String name;
 	private final T object;
 
-	public PlantopiaBaseSemantics(String name, T object) {
+	public PlantopiaObjectMeta(String name, T object) {
 		this.name = name;
 		this.object = object;
 	}

@@ -1,7 +1,7 @@
 package by.langvest.plantopia.item;
 
 import by.langvest.plantopia.Plantopia;
-import by.langvest.plantopia.util.semantics.PlantopiaBlockSemantics;
+import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DoubleHighBlockItem;
@@ -22,14 +22,14 @@ public class PlantopiaItems {
 		return ITEM_REGISTER.register(name, supplier);
 	}
 
-	public static void registerBlockItem(@NotNull PlantopiaBlockSemantics blockSemantics) {
-		CreativeModeTab group = blockSemantics.getGroup();
+	public static void registerBlockItem(@NotNull PlantopiaBlockMeta blockMeta) {
+		CreativeModeTab group = blockMeta.getGroup();
 		if(group == null) return;
 		Properties properties = new Properties().tab(group);
-		registerItem(blockSemantics.getName(), () -> switch(blockSemantics.getBlockHighType()) {
-			case DOUBLE -> new DoubleHighBlockItem(blockSemantics.getBlock(), properties);
-			case TRIPLE -> new PlantopiaTripleHighBlockItem(blockSemantics.getBlock(), properties);
-			default -> new BlockItem(blockSemantics.getBlock(), properties);
+		registerItem(blockMeta.getName(), () -> switch(blockMeta.getBlockHighType()) {
+			case DOUBLE -> new DoubleHighBlockItem(blockMeta.getBlock(), properties);
+			case TRIPLE -> new PlantopiaTripleHighBlockItem(blockMeta.getBlock(), properties);
+			default -> new BlockItem(blockMeta.getBlock(), properties);
 		});
 	}
 
