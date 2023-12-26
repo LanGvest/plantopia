@@ -1,6 +1,7 @@
 package by.langvest.plantopia;
 
 import by.langvest.plantopia.block.PlantopiaBlocks;
+import by.langvest.plantopia.block.PlantopiaCompats;
 import by.langvest.plantopia.client.PlantopiaColors;
 import by.langvest.plantopia.client.PlantopiaRenderLayers;
 import by.langvest.plantopia.item.PlantopiaItems;
@@ -31,7 +32,9 @@ public class Plantopia {
 		PlantopiaItems.setup(bus);
 	}
 
-	private void commonSetup(final @NotNull FMLCommonSetupEvent event) {}
+	private void commonSetup(final @NotNull FMLCommonSetupEvent event) {
+		event.enqueueWork(PlantopiaCompats::setup);
+	}
 
 	private void clientSetup(final @NotNull FMLClientSetupEvent event) {
 		event.enqueueWork(PlantopiaRenderLayers::setup);
