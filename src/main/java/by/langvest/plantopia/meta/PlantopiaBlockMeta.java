@@ -104,7 +104,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	public static final class MetaType extends PlantopiaObjectMetaType<MetaType, MetaProperties> {
 		public static final MetaType PLANT = new MetaProperties().cutoutRender().flammable(60, 100).compostable(0.5F).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("plant");
 		public static final MetaType FLOWER = MetaProperties.of(PLANT).compostable(0.65F).pottable().makeType("flower");
-		public static final MetaType POTTED = new MetaProperties().cutoutRender().noGroup().makeType("potted");
+		public static final MetaType POTTED = new MetaProperties().cutoutRender().noGroup().dropPotted().makeType("potted");
 
 		private MetaType(String name, MetaProperties properties) {
 			super("block", name, properties);
@@ -270,6 +270,12 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		public MetaProperties dropSeedsOrSelfByShears() {
 			if(type != null && !type.isOrganic()) throw new PlantopiaMetaException.UnableToSet("dropSeeds", type);
 			this.dropType = PlantopiaBlockDropType.SEEDS_OR_SELF_BY_SHEARS;
+			return this;
+		}
+
+		public MetaProperties dropPotted() {
+			if(type != null && type != MetaType.POTTED) throw new PlantopiaMetaException.UnableToSet("dropPotted", type);
+			this.dropType = PlantopiaBlockDropType.POTTED;
 			return this;
 		}
 

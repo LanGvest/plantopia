@@ -5,5 +5,6 @@ public enum PlantopiaBlockDropType {
 	CUSTOM,
 	SELF,
 	SELF_BY_SHEARS,
-	SEEDS_OR_SELF_BY_SHEARS
+	SEEDS_OR_SELF_BY_SHEARS,
+	POTTED
 }
