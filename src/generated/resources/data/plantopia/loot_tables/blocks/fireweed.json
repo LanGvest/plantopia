@@ -1,0 +1,91 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"rolls": 1.0,
+			"bonus_rolls": 0.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"conditions": [
+						{
+							"condition": "minecraft:match_tool",
+							"predicate": {
+								"items": [
+									"minecraft:shears"
+								]
+							}
+						}
+					],
+					"name": "plantopia:fireweed"
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:block_state_property",
+					"block": "plantopia:fireweed",
+					"properties": {
+						"half": "lower"
+					}
+				},
+				{
+					"condition": "minecraft:location_check",
+					"predicate": {
+						"block": {
+							"blocks": [
+								"plantopia:fireweed"
+							],
+							"state": {
+								"half": "upper"
+							}
+						}
+					},
+					"offsetY": 1
+				}
+			]
+		},
+		{
+			"rolls": 1.0,
+			"bonus_rolls": 0.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"conditions": [
+						{
+							"condition": "minecraft:match_tool",
+							"predicate": {
+								"items": [
+									"minecraft:shears"
+								]
+							}
+						}
+					],
+					"name": "plantopia:fireweed"
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:block_state_property",
+					"block": "plantopia:fireweed",
+					"properties": {
+						"half": "upper"
+					}
+				},
+				{
+					"condition": "minecraft:location_check",
+					"predicate": {
+						"block": {
+							"blocks": [
+								"plantopia:fireweed"
+							],
+							"state": {
+								"half": "lower"
+							}
+						}
+					},
+					"offsetY": -1
+				}
+			]
+		}
+	]
+}

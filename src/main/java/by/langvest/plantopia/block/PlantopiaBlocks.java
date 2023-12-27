@@ -2,12 +2,11 @@ package by.langvest.plantopia.block;
 
 import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.item.PlantopiaItems;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FlowerPotBlock;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaProperties;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,6 +18,8 @@ import java.util.function.Supplier;
 
 public class PlantopiaBlocks {
 	private static final DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Plantopia.MOD_ID);
+
+	public static final RegistryObject<Block> FIREWEED = registerBlock("fireweed", () -> new DoublePlantBlock(Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)), MetaProperties.of(MetaType.PLANT).doubleHigh().customModel().dropSelfByShears());
 
 	static {
 		registerPottedBlocks();
