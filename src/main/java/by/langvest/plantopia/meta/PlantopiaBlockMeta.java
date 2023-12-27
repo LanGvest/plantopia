@@ -102,9 +102,9 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public static final class MetaType extends PlantopiaObjectMetaType<MetaType, MetaProperties> {
-		public static final MetaType PLANT = new MetaProperties().cutoutRender().flammable(60, 100).compostable(0.5F).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("plant");
+		public static final MetaType PLANT = new MetaProperties().cutoutRender().generatedModel().flammable(60, 100).compostable(0.5F).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("plant");
 		public static final MetaType FLOWER = MetaProperties.of(PLANT).compostable(0.65F).pottable().makeType("flower");
-		public static final MetaType POTTED = new MetaProperties().cutoutRender().noGroup().dropPotted().makeType("potted");
+		public static final MetaType POTTED = new MetaProperties().cutoutRender().generatedModel().noGroup().dropPotted().makeType("potted");
 
 		private MetaType(String name, MetaProperties properties) {
 			super("block", name, properties);
