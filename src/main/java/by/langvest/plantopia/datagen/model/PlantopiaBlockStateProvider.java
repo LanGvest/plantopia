@@ -29,9 +29,10 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	private void generateAll() {
 		PlantopiaMetaStore.getBlocks().forEach(blockMeta -> {
-			if(blockMeta.getModelType() != PlantopiaBlockModelType.GENERATED) return;
-
 			Block block = blockMeta.getBlock();
+			PlantopiaBlockModelType modelType = blockMeta.getModelType();
+
+			if(modelType != PlantopiaBlockModelType.GENERATED) return;
 
 			if(block instanceof DoublePlantBlock) {
 				doublePlantBlock(blockMeta);
