@@ -3,11 +3,13 @@ package by.langvest.plantopia.datagen.tag;
 import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.tag.PlantopiaBlockTags;
 import com.google.common.collect.Sets;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +21,8 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 	Set<Block> REPLACEABLE_PLANTS = Sets.newHashSet();
 	Set<Block> TALL_FLOWERS = Sets.newHashSet();
 	Set<Block> MINEABLE_WITH_AXE = Sets.newHashSet();
+	Set<Block> IGNORED_BY_BEES = Sets.newHashSet();
+	Set<Block> PREFERRED_BY_BEES = Sets.newHashSet();
 
 	public PlantopiaBlockTagProvider(DataGenerator pGenerator, ExistingFileHelper existingFileHelper) {
 		super(pGenerator, Plantopia.MOD_ID, existingFileHelper);
@@ -27,6 +31,9 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 	@Override
 	protected void addTags() {
 		generateAll();
+
+		add(IGNORED_BY_BEES, Blocks.WITHER_ROSE);
+
 		saveAll();
 	}
 
@@ -44,6 +51,9 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 				if(type == MetaType.FLOWER) TALL_FLOWERS.add(block);
 				else if(type == MetaType.PLANT) MINEABLE_WITH_AXE.add(block);
 			}
+
+			if(blockMeta.isIgnoredByBees()) IGNORED_BY_BEES.add(block);
+			if(blockMeta.isPreferredByBees()) PREFERRED_BY_BEES.add(block);
 		});
 	}
 
@@ -51,5 +61,7 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 		if(!REPLACEABLE_PLANTS.isEmpty()) tag(BlockTags.REPLACEABLE_PLANTS).add(REPLACEABLE_PLANTS.toArray(Block[]::new));
 		if(!TALL_FLOWERS.isEmpty()) tag(BlockTags.TALL_FLOWERS).add(TALL_FLOWERS.toArray(Block[]::new));
 		if(!MINEABLE_WITH_AXE.isEmpty()) tag(BlockTags.MINEABLE_WITH_AXE).add(MINEABLE_WITH_AXE.toArray(Block[]::new));
+		if(!IGNORED_BY_BEES.isEmpty()) tag(PlantopiaBlockTags.IGNORED_BY_BEES).add(IGNORED_BY_BEES.toArray(Block[]::new));
+		if(!PREFERRED_BY_BEES.isEmpty()) tag(PlantopiaBlockTags.PREFERRED_BY_BEES).add(PREFERRED_BY_BEES.toArray(Block[]::new));
 	}
 }

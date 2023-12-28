@@ -4,7 +4,11 @@
 	"package": "by.langvest.plantopia.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"refmap": "plantopia.refmap.json",
-	"mixins": [],
+	"mixins": [
+		"PlantopiaBee$BeePollinateGoalMixin",
+		"PlantopiaBeeMixin",
+		"PlantopiaTemptGoalMixin"
+	],
 	"client": [],
 	"injectors": {
 		"defaultRequire": 1

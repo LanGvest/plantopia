@@ -25,6 +25,8 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final float compostability;
 	private final boolean isPottable;
 	private final RegistryObject<? extends Block> pottedBy;
+	private final boolean isIgnoredByBees;
+	private final boolean isPreferredByBees;
 
 	public PlantopiaBlockMeta(String name, RegistryObject<? extends Block> registryObject, @NotNull PlantopiaBlockMeta.MetaProperties metaProperties) {
 		super(name, registryObject);
@@ -39,6 +41,8 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		compostability = metaProperties.compostability;
 		isPottable = metaProperties.isPottable;
 		pottedBy = metaProperties.pottedBy;
+		isIgnoredByBees = metaProperties.isIgnoredByBees;
+		isPreferredByBees = metaProperties.isPreferredByBees;
 
 		if(type == MetaType.POTTED && pottedBy == null) throw new PlantopiaMetaException.Required("pottedBy", type);
 	}
@@ -49,6 +53,14 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public MetaType getType() {
 		return type;
+	}
+
+	public boolean isIgnoredByBees() {
+		return isIgnoredByBees;
+	}
+
+	public boolean isPreferredByBees() {
+		return isPreferredByBees;
 	}
 
 	@Nullable
@@ -130,6 +142,8 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private float compostability = 0.0F;
 		private boolean isPottable = false;
 		private RegistryObject<? extends Block> pottedBy = null;
+		private boolean isIgnoredByBees = false;
+		private boolean isPreferredByBees = false;
 
 		private MetaProperties() {}
 
@@ -141,6 +155,26 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 			MetaType metaType = new MetaType(name, this);
 			type = metaType;
 			return metaType;
+		}
+
+		public MetaProperties ignoredByBees() {
+			this.isIgnoredByBees = true;
+			return this;
+		}
+
+		public MetaProperties notIgnoredByBees() {
+			this.isIgnoredByBees = false;
+			return this;
+		}
+
+		public MetaProperties preferredByBees() {
+			this.isPreferredByBees = true;
+			return this;
+		}
+
+		public MetaProperties notPreferredByBees() {
+			this.isPreferredByBees = false;
+			return this;
 		}
 
 		public MetaProperties pottedBy(RegistryObject<? extends Block> pottedBy) {
