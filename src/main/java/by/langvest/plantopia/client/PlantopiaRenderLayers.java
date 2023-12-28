@@ -12,10 +12,10 @@ import org.jetbrains.annotations.Nullable;
 @OnlyIn(Dist.CLIENT)
 public class PlantopiaRenderLayers {
 	public static void setup() {
-		applyForAll();
+		setAll();
 	}
 
-	private static void applyForAll() {
+	private static void setAll() {
 		PlantopiaMetaStore.getBlocks().forEach(blockMeta -> {
 			RenderType renderType = getRenderType(blockMeta);
 			if(renderType == null) return;
