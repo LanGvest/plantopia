@@ -1,6 +1,7 @@
 package by.langvest.plantopia.datagen.loot;
 
 import by.langvest.plantopia.block.PlantopiaBlockStateProperties;
+import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -50,6 +52,8 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 	@Override
 	protected void addTables() {
 		generateAll();
+
+		add(PlantopiaBlocks.GIANT_GRASS.get(), block -> createTriplePlantWithSeedDrops(block, Blocks.GRASS, Items.WHEAT_SEEDS));
 	}
 
 	private void generateAll() {
