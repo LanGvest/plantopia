@@ -19,6 +19,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final PlantopiaRenderType renderType;
 	private final PlantopiaBlockModelType modelType;
 	private final PlantopiaBlockDropType dropType;
+	private final PlantopiaTintType tintType;
 	private final int encouragement;
 	private final int flammability;
 	private final float compostability;
@@ -35,6 +36,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		renderType = metaProperties.renderType;
 		modelType = metaProperties.modelType;
 		dropType = metaProperties.dropType;
+		tintType = metaProperties.tintType;
 		encouragement = metaProperties.encouragement;
 		flammability = metaProperties.flammability;
 		compostability = metaProperties.compostability;
@@ -88,6 +90,10 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		return dropType;
 	}
 
+	public PlantopiaTintType getTintType() {
+		return tintType;
+	}
+
 	public int getEncouragement() {
 		return encouragement;
 	}
@@ -136,6 +142,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private PlantopiaRenderType renderType = PlantopiaRenderType.NONE;
 		private PlantopiaBlockModelType modelType = PlantopiaBlockModelType.GENERATED;
 		private PlantopiaBlockDropType dropType = PlantopiaBlockDropType.GENERATED;
+		private PlantopiaTintType tintType = PlantopiaTintType.NONE;
 		private int encouragement = 0;
 		private int flammability = 0;
 		private float compostability = 0.0F;
@@ -302,6 +309,31 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 		public MetaProperties dropSelfByShears() {
 			this.dropType = PlantopiaBlockDropType.SELF_BY_SHEARS;
+			return this;
+		}
+
+		public MetaProperties noTint() {
+			this.tintType = PlantopiaTintType.NONE;
+			return this;
+		}
+
+		public MetaProperties customTint() {
+			this.tintType = PlantopiaTintType.CUSTOM;
+			return this;
+		}
+
+		public MetaProperties grassTint() {
+			this.tintType = PlantopiaTintType.GRASS;
+			return this;
+		}
+
+		public MetaProperties foliageTint() {
+			this.tintType = PlantopiaTintType.FOLIAGE;
+			return this;
+		}
+
+		public MetaProperties rainbowTint() {
+			this.tintType = PlantopiaTintType.RAINBOW;
 			return this;
 		}
 
