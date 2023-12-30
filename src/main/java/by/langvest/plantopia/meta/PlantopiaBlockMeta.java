@@ -94,6 +94,30 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		return tintType;
 	}
 
+	public boolean isTinted() {
+		return tintType != PlantopiaTintType.NONE;
+	}
+
+	public boolean hasDrop() {
+		return dropType != PlantopiaBlockDropType.NONE;
+	}
+
+	public boolean shouldGenerateModel() {
+		return modelType != PlantopiaBlockModelType.NONE && modelType != PlantopiaBlockModelType.CUSTOM;
+	}
+
+	public boolean shouldGenerateLootTable() {
+		return dropType != PlantopiaBlockDropType.NONE && dropType != PlantopiaBlockDropType.CUSTOM;
+	}
+
+	public boolean shouldApplyTint() {
+		return tintType != PlantopiaTintType.NONE && tintType != PlantopiaTintType.CUSTOM;
+	}
+
+	public boolean shouldApplyRenderLayer() {
+		return renderType != PlantopiaRenderType.NONE;
+	}
+
 	public int getEncouragement() {
 		return encouragement;
 	}
