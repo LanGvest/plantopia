@@ -11,17 +11,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class PlantopiaBlockStateProvider extends BlockStateProvider {
+	private final ExistingFileHelper existingFileHelper;
+
 	public PlantopiaBlockStateProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
 		super(generator, Plantopia.MOD_ID, existingFileHelper);
+		this.existingFileHelper = existingFileHelper;
 	}
 
 	@Override
@@ -60,14 +62,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		generatedItemModel(baseName, topTexture);
 
-		getVariantBuilder(blockMeta.getBlock()).forAllStates(state -> {
-			DoubleBlockHalf half = state.getValue(DoublePlantBlock.HALF);
-			ModelFile modelFile = switch(half) {
-				case UPPER -> topModel;
-				case LOWER -> bottomModel;
-			};
-			return ConfiguredModel.builder().modelFile(modelFile).build();
-		});
+		doubleHighBlockState(blockMeta.getBlock(), topModel, bottomModel);
 	}
 
 	private void triplePlantBlock(@NotNull PlantopiaBlockMeta blockMeta) {
@@ -84,7 +79,24 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		generatedItemModel(baseName, topTexture);
 
-		getVariantBuilder(blockMeta.getBlock()).forAllStates(state -> {
+		tripleHighBlockState(blockMeta.getBlock(), topModel, middleModel, bottomModel);
+	}
+
+	/* MODEL GENERATION HELPER METHODS ******************************************/
+
+	private void doubleHighBlockState(Block block, ModelFile topModel, ModelFile bottomModel) {
+		getVariantBuilder(block).forAllStates(state -> {
+			DoubleBlockHalf half = state.getValue(DoublePlantBlock.HALF);
+			ModelFile modelFile = switch(half) {
+				case UPPER -> topModel;
+				case LOWER -> bottomModel;
+			};
+			return ConfiguredModel.builder().modelFile(modelFile).build();
+		});
+	}
+
+	private void tripleHighBlockState(Block block, ModelFile topModel, ModelFile middleModel, ModelFile bottomModel) {
+		getVariantBuilder(block).forAllStates(state -> {
 			PlantopiaTripleBlockHalf half = state.getValue(PlantopiaTriplePlantBlock.HALF);
 			ModelFile modelFile = switch(half) {
 				case UPPER -> topModel;
@@ -97,8 +109,13 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	/* BLOCK MODELS ******************************************/
 
+	@Contract("_ -> new")
+	private @NotNull ModelFile existingModel(String name) {
+		return new ModelFile.ExistingModelFile(new PlantopiaIdentifier("block/" + name), existingFileHelper);
+	}
+
 	private ModelFile crossModel(String name, ResourceLocation crossTexture, boolean tinted) {
-		if(tinted) return tintedCrossBlockModel(name, crossTexture);
+		if(tinted) return tintedCrossModel(name, crossTexture);
 		return crossModel(name, crossTexture);
 	}
 
@@ -106,7 +123,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		return models().cross(name, crossTexture);
 	}
 
-	private ModelFile tintedCrossBlockModel(String name, ResourceLocation crossTexture) {
+	private ModelFile tintedCrossModel(String name, ResourceLocation crossTexture) {
 		return models().withExistingParent(name, "tinted_cross")
 			.texture("cross", crossTexture);
 	}
@@ -124,7 +141,16 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	/* HELPER METHODS ******************************************/
 
 	@Contract("_ -> new")
-	private @NotNull ResourceLocation texture(String name) {
+	private static @NotNull ResourceLocation texture(String name) {
 		return new PlantopiaIdentifier("block/" + name);
+	}
+
+	@Contract("_ -> new")
+	private static @NotNull ResourceLocation parent(String name) {
+		return new PlantopiaIdentifier("block/" + name);
+	}
+
+	private static @NotNull String nameOf(@NotNull Block block) {
+		return Objects.requireNonNull(block.getRegistryName()).getPath();
 	}
 }
