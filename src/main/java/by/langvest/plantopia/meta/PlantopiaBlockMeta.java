@@ -1,11 +1,10 @@
 package by.langvest.plantopia.meta;
 
+import by.langvest.plantopia.block.PlantopiaCompats.*;
 import by.langvest.plantopia.meta.core.*;
+import by.langvest.plantopia.meta.property.*;
 import by.langvest.plantopia.tab.PlantopiaCreativeModeTabs;
-import by.langvest.plantopia.meta.property.PlantopiaBlockDropType;
-import by.langvest.plantopia.meta.property.PlantopiaBlockHighType;
-import by.langvest.plantopia.meta.property.PlantopiaBlockModelType;
-import by.langvest.plantopia.meta.property.PlantopiaRenderType;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
@@ -114,9 +113,9 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public static final class MetaType extends PlantopiaObjectMetaType<MetaType, MetaProperties> {
-		public static final MetaType PLANT = new MetaProperties().cutoutRender().generatedModel().flammable(60, 100).compostable(0.5F).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("plant");
-		public static final MetaType FLOWER = MetaProperties.of(PLANT).compostable(0.65F).pottable().makeType("flower");
-		public static final MetaType POTTED = new MetaProperties().cutoutRender().generatedModel().noGroup().dropPotted().makeType("potted");
+		public static final MetaType PLANT = new MetaProperties().cutoutRender().flammable(Encouragement.PLANT, Flammability.PLANT).compostable(Compostability.PLANT_1).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("plant");
+		public static final MetaType FLOWER = MetaProperties.of(PLANT).compostable(Compostability.FLOWER).pottable().makeType("flower");
+		public static final MetaType POTTED = new MetaProperties().cutoutRender().noGroup().makeType("potted");
 
 		private MetaType(String name, MetaProperties properties) {
 			super("block", name, properties);
@@ -135,8 +134,8 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private CreativeModeTab group = null;
 		private PlantopiaBlockHighType blockHighType = PlantopiaBlockHighType.NORMAL;
 		private PlantopiaRenderType renderType = PlantopiaRenderType.NONE;
-		private PlantopiaBlockModelType modelType = PlantopiaBlockModelType.NONE;
-		private PlantopiaBlockDropType dropType = PlantopiaBlockDropType.NONE;
+		private PlantopiaBlockModelType modelType = PlantopiaBlockModelType.GENERATED;
+		private PlantopiaBlockDropType dropType = PlantopiaBlockDropType.GENERATED;
 		private int encouragement = 0;
 		private int flammability = 0;
 		private float compostability = 0.0F;
@@ -214,8 +213,8 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		}
 
 		public MetaProperties flammable(int encouragement, int flammability) {
-			this.encouragement = encouragement;
-			this.flammability = flammability;
+			this.encouragement = Math.max(encouragement, 0);
+			this.flammability = Math.max(flammability, 0);
 			return this;
 		}
 
@@ -237,7 +236,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		}
 
 		public MetaProperties compostable(float compostability) {
-			this.compostability = compostability;
+			this.compostability = Mth.clamp(compostability, 0.0F, 1.0F);
 			return this;
 		}
 
@@ -291,6 +290,11 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 			return this;
 		}
 
+		public MetaProperties generatedDrop() {
+			this.dropType = PlantopiaBlockDropType.GENERATED;
+			return this;
+		}
+
 		public MetaProperties dropSelf() {
 			this.dropType = PlantopiaBlockDropType.SELF;
 			return this;
@@ -298,18 +302,6 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 		public MetaProperties dropSelfByShears() {
 			this.dropType = PlantopiaBlockDropType.SELF_BY_SHEARS;
-			return this;
-		}
-
-		public MetaProperties dropSeedsOrSelfByShears() {
-			if(type != null && !type.isOrganic()) throw new PlantopiaMetaException.UnableToSet("dropSeeds", type);
-			this.dropType = PlantopiaBlockDropType.SEEDS_OR_SELF_BY_SHEARS;
-			return this;
-		}
-
-		public MetaProperties dropPotted() {
-			if(type != null && type != MetaType.POTTED) throw new PlantopiaMetaException.UnableToSet("dropPotted", type);
-			this.dropType = PlantopiaBlockDropType.POTTED;
 			return this;
 		}
 

@@ -3,8 +3,7 @@ package by.langvest.plantopia.meta.property;
 public enum PlantopiaBlockDropType {
 	NONE,
 	CUSTOM,
+	GENERATED,
 	SELF,
-	SELF_BY_SHEARS,
-	SEEDS_OR_SELF_BY_SHEARS,
-	POTTED
+	SELF_BY_SHEARS
 }
