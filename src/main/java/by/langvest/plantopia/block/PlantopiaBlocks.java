@@ -2,6 +2,7 @@ package by.langvest.plantopia.block;
 
 import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.block.special.PlantopiaFireweedBlock;
+import by.langvest.plantopia.block.PlantopiaCompats.Compostability;
 import by.langvest.plantopia.item.PlantopiaItems;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
@@ -20,7 +21,7 @@ import java.util.function.Supplier;
 public class PlantopiaBlocks {
 	private static final DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Plantopia.MOD_ID);
 
-	public static final RegistryObject<Block> FIREWEED = registerBlock("fireweed", () -> new PlantopiaFireweedBlock(Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)), MetaProperties.of(MetaType.PLANT).doubleHigh().customModel().dropSelfByShears().preferredByBees());
+	public static final RegistryObject<Block> FIREWEED = registerBlock("fireweed", () -> new PlantopiaFireweedBlock(Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)), MetaProperties.of(MetaType.PLANT).doubleHigh().customModel().customTint().dropSelfByShears().preferredByBees().compostable(Compostability.PLANT_2 + Compostability.HAS_FLOWERS));
 
 	static {
 		registerPottedBlocks();
