@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.Set;
 
 public class PlantopiaBlockTagProvider extends BlockTagsProvider {
-	Set<Block> REPLACEABLE_PLANTS = Sets.newHashSet();
-	Set<Block> TALL_FLOWERS = Sets.newHashSet();
-	Set<Block> MINEABLE_WITH_AXE = Sets.newHashSet();
-	Set<Block> IGNORED_BY_BEES = Sets.newHashSet();
-	Set<Block> PREFERRED_BY_BEES = Sets.newHashSet();
+	private final Set<Block> REPLACEABLE_PLANTS = Sets.newHashSet();
+	private final Set<Block> TALL_FLOWERS = Sets.newHashSet();
+	private final Set<Block> MINEABLE_WITH_AXE = Sets.newHashSet();
+	private final Set<Block> IGNORED_BY_BEES = Sets.newHashSet();
+	private final Set<Block> PREFERRED_BY_BEES = Sets.newHashSet();
 
 	public PlantopiaBlockTagProvider(DataGenerator pGenerator, ExistingFileHelper existingFileHelper) {
 		super(pGenerator, Plantopia.MOD_ID, existingFileHelper);
