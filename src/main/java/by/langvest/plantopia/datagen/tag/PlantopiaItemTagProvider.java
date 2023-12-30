@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class PlantopiaItemTagProvider extends ItemTagsProvider {
-	Set<Item> IGNORED_BY_BEES = Sets.newHashSet();
-	Set<Item> PREFERRED_BY_BEES = Sets.newHashSet();
+	private final Set<Item> IGNORED_BY_BEES = Sets.newHashSet();
+	private final Set<Item> PREFERRED_BY_BEES = Sets.newHashSet();
 
 	public PlantopiaItemTagProvider(DataGenerator generator, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
 		super(generator, blockTagsProvider, Plantopia.MOD_ID, existingFileHelper);
