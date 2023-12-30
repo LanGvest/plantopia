@@ -19,6 +19,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final PlantopiaRenderType renderType;
 	private final PlantopiaBlockModelType modelType;
 	private final PlantopiaBlockDropType dropType;
+	private final PlantopiaDisplayNameType displayNameType;
 	private final PlantopiaTintType tintType;
 	private final int encouragement;
 	private final int flammability;
@@ -36,6 +37,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		renderType = metaProperties.renderType;
 		modelType = metaProperties.modelType;
 		dropType = metaProperties.dropType;
+		displayNameType = metaProperties.displayNameType;
 		tintType = metaProperties.tintType;
 		encouragement = metaProperties.encouragement;
 		flammability = metaProperties.flammability;
@@ -94,6 +96,10 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		return dropType;
 	}
 
+	public PlantopiaDisplayNameType getDisplayNameType() {
+		return displayNameType;
+	}
+
 	public PlantopiaTintType getTintType() {
 		return tintType;
 	}
@@ -112,6 +118,10 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public boolean shouldGenerateLootTable() {
 		return dropType != PlantopiaBlockDropType.NONE && dropType != PlantopiaBlockDropType.CUSTOM;
+	}
+
+	public boolean shouldGenerateTranslation() {
+		return !isHidden() && displayNameType != PlantopiaDisplayNameType.NONE && displayNameType != PlantopiaDisplayNameType.CUSTOM;
 	}
 
 	public boolean shouldApplyTint() {
@@ -170,6 +180,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private PlantopiaRenderType renderType = PlantopiaRenderType.NONE;
 		private PlantopiaBlockModelType modelType = PlantopiaBlockModelType.GENERATED;
 		private PlantopiaBlockDropType dropType = PlantopiaBlockDropType.GENERATED;
+		private PlantopiaDisplayNameType displayNameType = PlantopiaDisplayNameType.GENERATED;
 		private PlantopiaTintType tintType = PlantopiaTintType.NONE;
 		private int encouragement = 0;
 		private int flammability = 0;
@@ -189,6 +200,21 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 			MetaType metaType = new MetaType(name, this);
 			type = metaType;
 			return metaType;
+		}
+
+		public MetaProperties noDisplayName() {
+			this.displayNameType = PlantopiaDisplayNameType.NONE;
+			return this;
+		}
+
+		public MetaProperties customDisplayName() {
+			this.displayNameType = PlantopiaDisplayNameType.CUSTOM;
+			return this;
+		}
+
+		public MetaProperties generatedDisplayName() {
+			this.displayNameType = PlantopiaDisplayNameType.GENERATED;
+			return this;
 		}
 
 		public MetaProperties ignoredByBees() {

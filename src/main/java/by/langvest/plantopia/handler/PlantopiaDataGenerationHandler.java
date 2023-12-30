@@ -1,6 +1,7 @@
 package by.langvest.plantopia.handler;
 
 import by.langvest.plantopia.Plantopia;
+import by.langvest.plantopia.datagen.lang.PlantopiaEnUsLangProvider;
 import by.langvest.plantopia.datagen.loot.PlantopiaLootTableProvider;
 import by.langvest.plantopia.datagen.model.PlantopiaBlockStateProvider;
 import by.langvest.plantopia.datagen.model.PlantopiaItemModelProvider;
@@ -25,6 +26,7 @@ public class PlantopiaDataGenerationHandler {
 		generator.addProvider(new PlantopiaLootTableProvider(generator));
 		generator.addProvider(new PlantopiaBlockStateProvider(generator, existingFileHelper));
 		generator.addProvider(new PlantopiaItemModelProvider(generator, existingFileHelper));
+		generator.addProvider(new PlantopiaEnUsLangProvider(generator));
 
 		PlantopiaBlockTagProvider blockTagProvider = new PlantopiaBlockTagProvider(generator, existingFileHelper);
 		generator.addProvider(blockTagProvider);
