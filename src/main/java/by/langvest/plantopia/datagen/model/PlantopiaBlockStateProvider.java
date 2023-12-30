@@ -1,6 +1,7 @@
 package by.langvest.plantopia.datagen.model;
 
 import by.langvest.plantopia.Plantopia;
+import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.block.special.PlantopiaTriplePlantBlock;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
@@ -29,6 +30,8 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		generateAll();
+
+		fireweedBlock(PlantopiaBlocks.FIREWEED.get());
 	}
 
 	private void generateAll() {
@@ -80,6 +83,23 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		generatedItemModel(baseName, topTexture);
 
 		tripleHighBlockState(blockMeta.getBlock(), topModel, middleModel, bottomModel);
+	}
+
+	/* CUSTOM MODELS GENERATION ******************************************/
+
+	private void fireweedBlock(Block block) {
+		String baseName = nameOf(block);
+
+		ResourceLocation topTexture = texture(baseName + "_top");
+		ResourceLocation flowersTexture = texture(baseName + "_top_flowers");
+		ResourceLocation bottomTexture = texture(baseName + "_bottom");
+
+		ModelFile topModel = existingModel(baseName + "_top");
+		ModelFile bottomModel = tintedCrossModel(baseName + "_bottom", bottomTexture);
+
+		generatedItemModel(baseName, topTexture, flowersTexture);
+
+		doubleHighBlockState(block, topModel, bottomModel);
 	}
 
 	/* MODEL GENERATION HELPER METHODS ******************************************/
