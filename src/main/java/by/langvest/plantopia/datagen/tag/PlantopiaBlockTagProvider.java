@@ -1,6 +1,7 @@
 package by.langvest.plantopia.datagen.tag;
 
 import by.langvest.plantopia.Plantopia;
+import by.langvest.plantopia.block.special.PlantopiaTriplePlantBlock;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import by.langvest.plantopia.tag.PlantopiaBlockTags;
@@ -46,7 +47,7 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 			Block block = blockMeta.getBlock();
 			MetaType type = blockMeta.getType();
 
-			if(block instanceof DoublePlantBlock) {
+			if(block instanceof DoublePlantBlock || block instanceof PlantopiaTriplePlantBlock) {
 				REPLACEABLE_PLANTS.add(block);
 				if(type == MetaType.FLOWER) TALL_FLOWERS.add(block);
 				else if(type == MetaType.PLANT) MINEABLE_WITH_AXE.add(block);
