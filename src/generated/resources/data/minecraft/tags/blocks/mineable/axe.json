@@ -1,7 +1,8 @@
 {
 	"replace": false,
 	"values": [
+		"plantopia:fireweed",
 		"plantopia:giant_grass",
-		"plantopia:fireweed"
+		"plantopia:giant_fern"
 	]
 }

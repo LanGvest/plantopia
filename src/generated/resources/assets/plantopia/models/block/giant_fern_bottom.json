@@ -1,0 +1,6 @@
+{
+	"parent": "plantopia:block/giant_fern_template",
+	"textures": {
+		"cross": "plantopia:block/giant_fern_bottom"
+	}
+}

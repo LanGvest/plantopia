@@ -54,6 +54,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 		generateAll();
 
 		add(PlantopiaBlocks.GIANT_GRASS.get(), block -> createTriplePlantWithSeedDrops(block, Blocks.GRASS, Items.WHEAT_SEEDS));
+		add(PlantopiaBlocks.GIANT_FERN.get(), block -> createTriplePlantWithSeedDrops(block, Blocks.FERN, Items.WHEAT_SEEDS));
 	}
 
 	private void generateAll() {

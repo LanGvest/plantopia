@@ -32,6 +32,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		generateAll();
 
 		fireweedBlock(PlantopiaBlocks.FIREWEED.get());
+		giantFernBlock(PlantopiaBlocks.GIANT_FERN.get());
 	}
 
 	private void generateAll() {
@@ -102,6 +103,22 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		doubleHighBlockState(block, topModel, bottomModel);
 	}
 
+	private void giantFernBlock(Block block) {
+		String baseName = nameOf(block);
+
+		ResourceLocation topTexture = texture(baseName + "_top");
+		ResourceLocation middleTexture = texture(baseName + "_middle");
+		ResourceLocation bottomTexture = texture(baseName + "_bottom");
+
+		ModelFile topModel = giantFernTemplateModel(baseName + "_top", topTexture);
+		ModelFile middleModel = giantFernTemplateModel(baseName + "_middle", middleTexture);
+		ModelFile bottomModel = giantFernTemplateModel(baseName + "_bottom", bottomTexture);
+
+		generatedItemModel(baseName, topTexture);
+
+		tripleHighBlockState(block, topModel, middleModel, bottomModel);
+	}
+
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
 	private void doubleHighBlockState(Block block, ModelFile topModel, ModelFile bottomModel) {
@@ -145,6 +162,11 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	private ModelFile tintedCrossModel(String name, ResourceLocation crossTexture) {
 		return models().withExistingParent(name, "tinted_cross")
+			.texture("cross", crossTexture);
+	}
+
+	private ModelFile giantFernTemplateModel(String name, ResourceLocation crossTexture) {
+		return models().withExistingParent(name, parent("giant_fern_template"))
 			.texture("cross", crossTexture);
 	}
 
