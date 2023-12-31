@@ -27,7 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +41,7 @@ public class PlantopiaColors {
 	public static void setup() {
 		registerAll();
 
-		fireweed();
+		fireweedBlock(PlantopiaBlocks.FIREWEED.get());
 
 		setAll();
 	}
@@ -50,10 +50,8 @@ public class PlantopiaColors {
 		blockSet.addAll(List.of(blocks));
 	}
 
-	private static void add(@NotNull Set<Item> itemSet, ItemLike... items) {
-		ArrayList<Item> itemsToBeAdded = new ArrayList<>();
-		if(items != null) for(ItemLike item : items) itemsToBeAdded.add(item.asItem());
-		itemSet.addAll(itemsToBeAdded);
+	private static void add(@NotNull Set<Item> itemSet, ItemLike... itemLikes) {
+		itemSet.addAll(Arrays.stream(itemLikes).map(ItemLike::asItem).toList());
 	}
 
 	private static void registerAll() {
@@ -111,10 +109,10 @@ public class PlantopiaColors {
 
 	/* CUSTOM TINTS ******************************************/
 
-	private static void fireweed() {
+	private static void fireweedBlock(@NotNull Block block) {
 		BlockColors blockColors = Minecraft.getInstance().getBlockColors();
 
-		ITEM_GRASS_COLOR_0.add(PlantopiaBlocks.FIREWEED.get().asItem());
+		ITEM_GRASS_COLOR_0.add(block.asItem());
 
 		/* FIREWEED BLOCK GRASS COLOR 0-1 ******************************************/
 		blockColors.register(
@@ -125,7 +123,7 @@ public class PlantopiaColors {
 				if(half == DoubleBlockHalf.LOWER && tintIndex == 0) return grassColor(level, baseBlockPos);
 				return noColor();
 			},
-			PlantopiaBlocks.FIREWEED.get()
+			block
 		);
 	}
 
