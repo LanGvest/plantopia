@@ -9,6 +9,7 @@ import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -66,7 +67,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		generatedItemModel(baseName, topTexture);
 
-		doubleHighBlockState(blockMeta.getBlock(), topModel, bottomModel);
+		doubleHighBlock(blockMeta.getBlock(), topModel, bottomModel);
 	}
 
 	private void triplePlantBlock(@NotNull PlantopiaBlockMeta blockMeta) {
@@ -83,7 +84,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		generatedItemModel(baseName, topTexture);
 
-		tripleHighBlockState(blockMeta.getBlock(), topModel, middleModel, bottomModel);
+		tripleHighBlock(blockMeta.getBlock(), topModel, middleModel, bottomModel);
 	}
 
 	/* CUSTOM MODELS GENERATION ******************************************/
@@ -100,7 +101,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		generatedItemModel(baseName, topTexture, flowersTexture);
 
-		doubleHighBlockState(block, topModel, bottomModel);
+		doubleHighBlock(block, topModel, bottomModel);
 	}
 
 	private void giantFernBlock(Block block) {
@@ -116,12 +117,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		generatedItemModel(baseName, topTexture);
 
-		tripleHighBlockState(block, topModel, middleModel, bottomModel);
+		tripleHighBlock(block, topModel, middleModel, bottomModel);
 	}
 
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
-	private void doubleHighBlockState(Block block, ModelFile topModel, ModelFile bottomModel) {
+	private void doubleHighBlock(Block block, ModelFile topModel, ModelFile bottomModel) {
 		getVariantBuilder(block).forAllStates(state -> {
 			DoubleBlockHalf half = state.getValue(DoublePlantBlock.HALF);
 			ModelFile modelFile = switch(half) {
@@ -132,7 +133,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		});
 	}
 
-	private void tripleHighBlockState(Block block, ModelFile topModel, ModelFile middleModel, ModelFile bottomModel) {
+	private void tripleHighBlock(Block block, ModelFile topModel, ModelFile middleModel, ModelFile bottomModel) {
 		getVariantBuilder(block).forAllStates(state -> {
 			PlantopiaTripleBlockHalf half = state.getValue(PlantopiaTriplePlantBlock.HALF);
 			ModelFile modelFile = switch(half) {
@@ -148,7 +149,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	@Contract("_ -> new")
 	private @NotNull ModelFile existingModel(String name) {
-		return new ModelFile.ExistingModelFile(new PlantopiaIdentifier("block/" + name), existingFileHelper);
+		return new ModelFile.ExistingModelFile(new PlantopiaIdentifier(ModelProvider.BLOCK_FOLDER + "/" + name), existingFileHelper);
 	}
 
 	private ModelFile crossModel(String name, ResourceLocation crossTexture, boolean tinted) {
@@ -182,17 +183,25 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	/* HELPER METHODS ******************************************/
 
+	private boolean isTextureExists(@NotNull ResourceLocation texture) {
+		return existingFileHelper.exists(texture, ResourceType.TEXTURE);
+	}
+
 	@Contract("_ -> new")
 	private static @NotNull ResourceLocation texture(String name) {
-		return new PlantopiaIdentifier("block/" + name);
+		return new PlantopiaIdentifier(ModelProvider.BLOCK_FOLDER + "/" + name);
 	}
 
 	@Contract("_ -> new")
 	private static @NotNull ResourceLocation parent(String name) {
-		return new PlantopiaIdentifier("block/" + name);
+		return new PlantopiaIdentifier(ModelProvider.BLOCK_FOLDER + "/" + name);
 	}
 
 	private static @NotNull String nameOf(@NotNull Block block) {
 		return Objects.requireNonNull(block.getRegistryName()).getPath();
+	}
+
+	private static final class ResourceType {
+		private static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
 	}
 }
