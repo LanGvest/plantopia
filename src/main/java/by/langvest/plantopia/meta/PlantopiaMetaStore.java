@@ -32,6 +32,11 @@ public class PlantopiaMetaStore {
 		return blocks.stream().filter(predicate).findFirst().orElse(null);
 	}
 
+	@Nullable
+	public static PlantopiaBlockMeta getBlock(Block block) {
+		return blocks.stream().filter(blockMeta -> blockMeta.getBlock() == block).findFirst().orElse(null);
+	}
+
 	public static <T extends Block> @NotNull PlantopiaBlockMeta add(String name, RegistryObject<T> object, PlantopiaBlockMeta.MetaProperties metaProperties) {
 		Objects.requireNonNull(name);
 		Objects.requireNonNull(object);
