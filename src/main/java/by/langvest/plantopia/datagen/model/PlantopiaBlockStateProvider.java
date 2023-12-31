@@ -4,6 +4,7 @@ import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.block.special.PlantopiaTriplePlantBlock;
+import by.langvest.plantopia.meta.property.PlantopiaBlockModelType;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
@@ -12,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -42,6 +44,11 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 			Block block = blockMeta.getBlock();
 
+			if(block instanceof FlowerPotBlock) {
+				flowerPotBlock(blockMeta);
+				return;
+			}
+
 			if(block instanceof PlantopiaTriplePlantBlock) {
 				triplePlantBlock(blockMeta);
 				return;
@@ -54,6 +61,22 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	}
 
 	/* MODELS GENERATION ******************************************/
+
+	private void flowerPotBlock(@NotNull PlantopiaBlockMeta blockMeta) {
+		FlowerPotBlock block = (FlowerPotBlock)blockMeta.getBlock();
+		Block plant = block.getContent();
+		PlantopiaBlockMeta plantMeta = PlantopiaMetaStore.getBlock(plant);
+
+		if(plantMeta != null && plantMeta.getModelType() == PlantopiaBlockModelType.CUSTOM) return;
+
+		ResourceLocation pottedPlantTexture = texture("potted_" + nameOf(plant));
+
+		ResourceLocation plantTexture = isTextureExists(pottedPlantTexture) ? pottedPlantTexture : blockTexture(plant);
+
+		ModelFile model = flowerPotCrossModel(blockMeta.getName(), plantTexture, blockMeta.isTinted());
+
+		simpleBlock(block, model);
+	}
 
 	private void doublePlantBlock(@NotNull PlantopiaBlockMeta blockMeta) {
 		String baseName = blockMeta.getName();
@@ -155,6 +178,21 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	private ModelFile crossModel(String name, ResourceLocation crossTexture, boolean tinted) {
 		if(tinted) return tintedCrossModel(name, crossTexture);
 		return crossModel(name, crossTexture);
+	}
+
+	private ModelFile flowerPotCrossModel(String name, ResourceLocation plantTexture, boolean tinted) {
+		if(tinted) return tintedFlowerPotCrossModel(name, plantTexture);
+		return flowerPotCrossModel(name, plantTexture);
+	}
+
+	private ModelFile flowerPotCrossModel(String name, ResourceLocation plantTexture) {
+		return models().withExistingParent(name, "flower_pot_cross")
+			.texture("plant", plantTexture);
+	}
+
+	private ModelFile tintedFlowerPotCrossModel(String name, ResourceLocation plantTexture) {
+		return models().withExistingParent(name, "tinted_flower_pot_cross")
+			.texture("plant", plantTexture);
 	}
 
 	private ModelFile crossModel(String name, ResourceLocation crossTexture) {
