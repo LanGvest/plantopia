@@ -1,12 +1,12 @@
 package by.langvest.plantopia.block;
 
+import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class PlantopiaCompats {
 	public static void setup() {
@@ -27,8 +27,11 @@ public class PlantopiaCompats {
 
 	private static void registerAll() {
 		PlantopiaMetaStore.getBlocks().forEach(blockMeta -> {
+			Block block = blockMeta.getBlock();
+
 			if(blockMeta.isFlammable()) registerFlammable(blockMeta.getBlock(), blockMeta.getEncouragement(), blockMeta.getFlammability());
 			if(blockMeta.isCompostable()) registerCompostable(blockMeta.getBlock(), blockMeta.getCompostability());
+			if(block instanceof FlowerPotBlock) registerPotted(blockMeta);
 		});
 	}
 
@@ -39,6 +42,12 @@ public class PlantopiaCompats {
 
 	public static void registerCompostable(@NotNull ItemLike item, float compostability) {
 		ComposterBlock.COMPOSTABLES.put(item.asItem(), compostability);
+	}
+
+	public static void registerPotted(@NotNull PlantopiaBlockMeta blockMeta) {
+		FlowerPotBlock flowerPotBlock = (FlowerPotBlock)Blocks.FLOWER_POT;
+		FlowerPotBlock block = (FlowerPotBlock)blockMeta.getBlock();
+		flowerPotBlock.addPlant(Objects.requireNonNull(block.getContent().getRegistryName()), blockMeta.getObject());
 	}
 
 	@SuppressWarnings("unused")
