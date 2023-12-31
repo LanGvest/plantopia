@@ -1,7 +1,6 @@
 package by.langvest.plantopia.datagen.lang;
 
 import by.langvest.plantopia.Plantopia;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import by.langvest.plantopia.tab.PlantopiaCreativeModeTabs;
 import net.minecraft.data.DataGenerator;
@@ -37,12 +36,12 @@ public class PlantopiaEnUsLangProvider extends LanguageProvider {
 
 			Block block = blockMeta.getBlock();
 
-			add(block, displayName(blockMeta));
+			add(block, getDisplayNameById(blockMeta.getName()));
 		});
 	}
 
-	private String displayName(@NotNull PlantopiaBlockMeta blockMeta) {
-		return Arrays.stream(blockMeta.getName().split("_"))
+	private String getDisplayNameById(@NotNull String id) {
+		return Arrays.stream(id.split("_"))
 			.map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
 			.collect(Collectors.joining(" "));
 	}
