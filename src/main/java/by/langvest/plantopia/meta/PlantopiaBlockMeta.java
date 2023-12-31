@@ -25,7 +25,6 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final int flammability;
 	private final float compostability;
 	private final boolean isPottable;
-	private final RegistryObject<? extends Block> pottedBy;
 	private final boolean isIgnoredByBees;
 	private final boolean isPreferredByBees;
 
@@ -43,11 +42,8 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		flammability = metaProperties.flammability;
 		compostability = metaProperties.compostability;
 		isPottable = metaProperties.isPottable;
-		pottedBy = metaProperties.pottedBy;
 		isIgnoredByBees = metaProperties.isIgnoredByBees;
 		isPreferredByBees = metaProperties.isPreferredByBees;
-
-		if(type == MetaType.POTTED && pottedBy == null) throw new PlantopiaMetaException.Required("pottedBy", type);
 	}
 
 	public Block getBlock() {
@@ -64,11 +60,6 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public boolean isPreferredByBees() {
 		return isPreferredByBees;
-	}
-
-	@Nullable
-	public RegistryObject<? extends Block> getPottedBy() {
-		return pottedBy;
 	}
 
 	@Nullable
@@ -186,7 +177,6 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private int flammability = 0;
 		private float compostability = 0.0F;
 		private boolean isPottable = false;
-		private RegistryObject<? extends Block> pottedBy = null;
 		private boolean isIgnoredByBees = false;
 		private boolean isPreferredByBees = false;
 
@@ -234,17 +224,6 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 		public MetaProperties notPreferredByBees() {
 			this.isPreferredByBees = false;
-			return this;
-		}
-
-		public MetaProperties pottedBy(RegistryObject<? extends Block> pottedBy) {
-			if(type != null && type != MetaType.POTTED) throw new PlantopiaMetaException.UnableToSet("pottedBy", type);
-			this.pottedBy = pottedBy;
-			return this;
-		}
-
-		public MetaProperties noPottedBy() {
-			this.pottedBy = null;
 			return this;
 		}
 
@@ -373,6 +352,12 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 		public MetaProperties customTint() {
 			this.tintType = PlantopiaTintType.CUSTOM;
+			return this;
+		}
+
+		public MetaProperties pottedTint(PlantopiaTintType tintType) {
+			if(type != null && type != MetaType.POTTED) throw new PlantopiaMetaException.UnableToSet("pottedTint", type);
+			this.tintType = tintType;
 			return this;
 		}
 

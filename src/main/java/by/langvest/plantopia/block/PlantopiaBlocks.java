@@ -39,7 +39,7 @@ public class PlantopiaBlocks {
 
 	private static void registerPottedBlocks() {
 		PlantopiaMetaStore.getBlocks(PlantopiaBlockMeta::isPottable).forEach(blockMeta ->
-			registerBlock("potted_" + blockMeta.getName(), () -> new FlowerPotBlock(null, blockMeta.getObject(), Properties.of(Material.DECORATION).instabreak()), MetaProperties.of(MetaType.POTTED).pottedBy(blockMeta.getObject()))
+			registerBlock("potted_" + blockMeta.getName(), () -> new FlowerPotBlock(null, blockMeta.getObject(), Properties.of(Material.DECORATION).instabreak()), MetaProperties.of(MetaType.POTTED).pottedTint(blockMeta.getTintType()))
 		);
 	}
 
