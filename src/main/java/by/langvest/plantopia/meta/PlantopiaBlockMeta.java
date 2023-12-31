@@ -76,8 +76,8 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		return group;
 	}
 
-	public boolean isHidden() {
-		return group == null;
+	public boolean hasItem() {
+		return group != null;
 	}
 
 	public PlantopiaBlockHighType getBlockHighType() {
@@ -121,7 +121,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public boolean shouldGenerateTranslation() {
-		return !isHidden() && displayNameType != PlantopiaDisplayNameType.NONE && displayNameType != PlantopiaDisplayNameType.CUSTOM;
+		return hasItem() && displayNameType != PlantopiaDisplayNameType.NONE && displayNameType != PlantopiaDisplayNameType.CUSTOM;
 	}
 
 	public boolean shouldApplyTint() {
@@ -145,7 +145,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public boolean isPottable() {
-		return !isHidden() && isPottable && blockHighType.getBaseHigh() == 1;
+		return hasItem() && isPottable && blockHighType.getBaseHigh() == 1;
 	}
 
 	public float getCompostability() {
@@ -153,7 +153,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public boolean isCompostable() {
-		return !isHidden() && compostability > 0.0F;
+		return hasItem() && compostability > 0.0F;
 	}
 
 	public static final class MetaType extends PlantopiaObjectMetaType<MetaType, MetaProperties> {
