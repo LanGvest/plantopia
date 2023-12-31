@@ -22,6 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -87,6 +88,13 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 	/* DROPS GENERATION ******************************************/
 
 	private void dropGenerated(@NotNull PlantopiaBlockMeta blockMeta) {
+		Block block = blockMeta.getBlock();
+
+		if(block instanceof FlowerPotBlock) {
+			dropPottedContents(block);
+			return;
+		}
+
 		dropSelf(blockMeta);
 	}
 
