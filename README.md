@@ -6,4 +6,4 @@
 
 <hr/>
 
-© 2023 LanGvest. All rights reserved.
+© 2024 LanGvest. All rights reserved.
