@@ -247,7 +247,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	}
 
 	private ModelFile giantFernTemplateModel(String name, ResourceLocation crossTexture) {
-		return models().withExistingParent(name, parent("giant_fern_template"))
+		return models().withExistingParent(name, parent("template_giant_fern"))
 			.texture("cross", crossTexture);
 	}
 
