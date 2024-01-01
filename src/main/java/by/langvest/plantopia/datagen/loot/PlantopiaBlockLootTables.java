@@ -3,6 +3,7 @@ package by.langvest.plantopia.datagen.loot;
 import by.langvest.plantopia.block.PlantopiaBlockStateProperties;
 import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
+import by.langvest.plantopia.block.special.PlantopiaCloverBlock;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
@@ -58,6 +59,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 		add(PlantopiaBlocks.GIANT_GRASS.get(), block -> createTriplePlantWithSeedDrops(block, Blocks.GRASS, Items.WHEAT_SEEDS));
 		add(PlantopiaBlocks.GIANT_FERN.get(), block -> createTriplePlantWithSeedDrops(block, Blocks.FERN, Items.WHEAT_SEEDS));
+		add(PlantopiaBlocks.CLOVER.get(), PlantopiaBlockLootTables::createCloverDrops);
 	}
 
 	private void generateAll() {
@@ -197,6 +199,21 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 			);
 
 		return createTripleHighPlantTable(block, lootEntry);
+	}
+
+	private static LootTable.@NotNull Builder createCloverDrops(Block block) {
+		LootPoolEntryContainer.Builder<?> lootEntry = createPartialLootEntry(block, PlantopiaCloverBlock.AMOUNT)
+			.when(HAS_SHEARS)
+			.otherwise(
+				withSurvivesExplosionCondition(block, item(Items.WHEAT_SEEDS))
+					.when(randomChance(SEEDS_CHANCE * 0.75F))
+			);
+
+		return LootTable.lootTable()
+			.withPool(
+				LootPool.lootPool()
+					.add(lootEntry)
+			);
 	}
 
 	/* HELPER METHODS ******************************************/

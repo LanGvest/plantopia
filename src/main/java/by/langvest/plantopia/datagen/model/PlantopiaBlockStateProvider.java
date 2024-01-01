@@ -3,6 +3,7 @@ package by.langvest.plantopia.datagen.model;
 import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
+import by.langvest.plantopia.block.special.PlantopiaCloverBlock;
 import by.langvest.plantopia.block.special.PlantopiaTriplePlantBlock;
 import by.langvest.plantopia.meta.property.PlantopiaBlockModelType;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
@@ -43,6 +44,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		fireweedBlock(PlantopiaBlocks.FIREWEED.get());
 		giantFernBlock(PlantopiaBlocks.GIANT_FERN.get());
+		cloverBlock(PlantopiaBlocks.CLOVER.get());
 	}
 
 	private void generateAll() {
@@ -148,6 +150,14 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		generatedItemModel(baseName, topTexture);
 
 		tripleHighBlock(block, topModel, middleModel, bottomModel);
+	}
+
+	private void cloverBlock(Block block) {
+		String baseName = nameOf(block);
+
+		generatedItemModel(baseName, itemTexture(baseName));
+
+		directionalPartialBlock(block, PlantopiaCloverBlock.AMOUNT);
 	}
 
 	/* MODEL GENERATION HELPER METHODS ******************************************/
