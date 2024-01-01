@@ -8,21 +8,28 @@ import by.langvest.plantopia.meta.property.PlantopiaBlockModelType;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import java.util.*;
 
 public class PlantopiaBlockStateProvider extends BlockStateProvider {
+	private static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
+	private static final Set<Direction> HORIZONTAL_DIRECTIONS = ImmutableSet.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 	private final ExistingFileHelper existingFileHelper;
 
 	public PlantopiaBlockStateProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -168,6 +175,27 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		});
 	}
 
+	private void directionalPartialBlock(Block block, @NotNull IntegerProperty property) {
+		String baseName = nameOf(block);
+		Integer maxValue = Collections.max(property.getPossibleValues());
+		MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
+
+		property.getPossibleValues().forEach(value -> {
+			ArrayList<Integer> values = Lists.newArrayList();
+			for(int i = value; i <= maxValue; i++) values.add(i);
+
+			ModelFile model = existingModel(baseName + "_" + value);
+
+			HORIZONTAL_DIRECTIONS.forEach(direction ->
+				builder.part()
+					.modelFile(model).rotationY((((int)direction.toYRot()) + 180) % 360).addModel()
+					.condition(BlockStateProperties.HORIZONTAL_FACING, direction)
+					.condition(property, values.toArray(Integer[]::new))
+					.end()
+			);
+		});
+	}
+
 	/* BLOCK MODELS ******************************************/
 
 	@Contract("_ -> new")
@@ -222,12 +250,17 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	/* HELPER METHODS ******************************************/
 
 	private boolean isTextureExists(@NotNull ResourceLocation texture) {
-		return existingFileHelper.exists(texture, ResourceType.TEXTURE);
+		return existingFileHelper.exists(texture, TEXTURE);
 	}
 
 	@Contract("_ -> new")
 	private static @NotNull ResourceLocation texture(String name) {
 		return new PlantopiaIdentifier(ModelProvider.BLOCK_FOLDER + "/" + name);
+	}
+
+	@Contract("_ -> new")
+	private static @NotNull ResourceLocation itemTexture(String name) {
+		return new PlantopiaIdentifier(ModelProvider.ITEM_FOLDER + "/" + name);
 	}
 
 	@Contract("_ -> new")
@@ -237,9 +270,5 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	private static @NotNull String nameOf(@NotNull Block block) {
 		return Objects.requireNonNull(block.getRegistryName()).getPath();
-	}
-
-	private static final class ResourceType {
-		private static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
 	}
 }
