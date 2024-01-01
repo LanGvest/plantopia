@@ -45,6 +45,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		fireweedBlock(PlantopiaBlocks.FIREWEED.get());
 		giantFernBlock(PlantopiaBlocks.GIANT_FERN.get());
 		cloverBlock(PlantopiaBlocks.CLOVER.get());
+		bigCloverBlock(PlantopiaBlocks.BIG_CLOVER.get());
 	}
 
 	private void generateAll() {
@@ -152,6 +153,15 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		String baseName = nameOf(block);
 		generatedItemModel(baseName, itemTexture(baseName));
 		directionalPartialBlock(block, PlantopiaCloverBlock.AMOUNT);
+	}
+
+	private void bigCloverBlock(Block block) {
+		String baseName = nameOf(block);
+		generatedItemModel(baseName, texture(baseName));
+		simpleBlock(block, existingModel(baseName));
+
+		Block pottedBlock = PlantopiaBlocks.getPottedBlock(block);
+		if(pottedBlock != null) simpleBlock(pottedBlock, existingModel(nameOf(pottedBlock)));
 	}
 
 	/* MODEL GENERATION HELPER METHODS ******************************************/

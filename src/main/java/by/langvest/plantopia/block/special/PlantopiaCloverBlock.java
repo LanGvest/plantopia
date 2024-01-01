@@ -1,6 +1,7 @@
 package by.langvest.plantopia.block.special;
 
 import by.langvest.plantopia.block.PlantopiaBlockStateProperties;
+import by.langvest.plantopia.block.PlantopiaBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -69,11 +70,12 @@ public class PlantopiaCloverBlock extends BushBlock implements BonemealableBlock
 
 	@Override
 	public boolean isValidBonemealTarget(@NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState state, boolean isClient) {
-		return state.getValue(AMOUNT) < MAX_LEAFS;
+		return true;
 	}
 
 	@Override
 	public boolean isBonemealSuccess(@NotNull Level level, @NotNull Random random, @NotNull BlockPos pos, @NotNull BlockState state) {
+		if(state.getValue(AMOUNT) == MAX_LEAFS) return level.random.nextFloat() < 0.45D;
 		return true;
 	}
 
@@ -88,6 +90,6 @@ public class PlantopiaCloverBlock extends BushBlock implements BonemealableBlock
 	}
 
 	protected void growBigClover(@NotNull ServerLevel level, BlockPos pos) {
-		// TODO grow big clover
+		level.setBlock(pos, PlantopiaBlocks.BIG_CLOVER.get().defaultBlockState(), 3);
 	}
 }

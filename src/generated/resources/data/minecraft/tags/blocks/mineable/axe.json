@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"plantopia:big_clover",
 		"plantopia:clover",
 		"plantopia:fireweed",
 		"plantopia:giant_fern",
