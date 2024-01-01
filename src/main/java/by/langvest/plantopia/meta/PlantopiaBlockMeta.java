@@ -7,6 +7,7 @@ import by.langvest.plantopia.tab.PlantopiaCreativeModeTabs;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +49,10 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public Block getBlock() {
 		return getObject().get();
+	}
+
+	public Material getMaterial() {
+		return getBlock().material;
 	}
 
 	public MetaType getType() {
@@ -149,19 +154,33 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public static final class MetaType extends PlantopiaObjectMetaType<MetaType, MetaProperties> {
 		public static final MetaType PLANT = new MetaProperties().cutoutRender().flammable(Encouragement.PLANT, Flammability.PLANT).compostable(Compostability.PLANT_1).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("plant");
-		public static final MetaType FLOWER = MetaProperties.of(PLANT).compostable(Compostability.FLOWER).pottable().makeType("flower");
+		public static final MetaType FLOWER = MetaProperties.of(PLANT).pottable().compostable(Compostability.FLOWER).makeType("flower");
+		public static final MetaType SAPLING = MetaProperties.of(PLANT).pottable().makeType("sapling");
+		public static final MetaType MUSHROOM = MetaProperties.of(PLANT).pottable().notFlammable().compostable(Compostability.MUSHROOM).makeType("mushroom");
+		public static final MetaType MUSHROOM_STEM = new MetaProperties().compostable(Compostability.MUSHROOM_STEM).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("mushroom_stem");
+		public static final MetaType MUSHROOM_BLOCK = MetaProperties.of(MUSHROOM_STEM).compostable(Compostability.MUSHROOM_BLOCK).makeType("mushroom_block");
 		public static final MetaType POTTED = new MetaProperties().cutoutRender().noGroup().makeType("potted");
+		public static final MetaType LEAVES = new MetaProperties().cutoutMippedRender().group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("leaves");
 
 		private MetaType(String name, MetaProperties properties) {
 			super("block", name, properties);
 		}
 
-		public boolean isOrganic() {
-			return type == PLANT || type == FLOWER;
+		public boolean isPlant() {
+			return type == PLANT
+				|| type == FLOWER
+				|| type == SAPLING
+				|| type == MUSHROOM;
+		}
+
+		public boolean isMushroom() {
+			return type == MUSHROOM
+				|| type == MUSHROOM_STEM
+				|| type == MUSHROOM_BLOCK;
 		}
 
 		public boolean isAbleToBePotted() {
-			return isOrganic();
+			return isPlant();
 		}
 	}
 
@@ -239,6 +258,11 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 		public MetaProperties cutoutRender() {
 			this.renderType = PlantopiaRenderType.CUTOUT;
+			return this;
+		}
+
+		public MetaProperties cutoutMippedRender() {
+			this.renderType = PlantopiaRenderType.CUTOUT_MIPPED;
 			return this;
 		}
 

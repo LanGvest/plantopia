@@ -1,7 +1,6 @@
 package by.langvest.plantopia.datagen.tag;
 
 import by.langvest.plantopia.Plantopia;
-import by.langvest.plantopia.block.special.PlantopiaTriplePlantBlock;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import by.langvest.plantopia.tag.PlantopiaBlockTags;
@@ -11,10 +10,8 @@ import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +21,12 @@ import java.util.Objects;
 public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 	private final PlantopiaTagSet<Block> REPLACEABLE_PLANTS = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> TALL_FLOWERS = PlantopiaTagSet.newTagSet();
+	private final PlantopiaTagSet<Block> SMALL_FLOWERS = PlantopiaTagSet.newTagSet();
+	private final PlantopiaTagSet<Block> LEAVES = PlantopiaTagSet.newTagSet();
+	private final PlantopiaTagSet<Block> SAPLINGS = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> MINEABLE_WITH_AXE = PlantopiaTagSet.newTagSet();
+	private final PlantopiaTagSet<Block> MINEABLE_WITH_HOE = PlantopiaTagSet.newTagSet();
+	private final PlantopiaTagSet<Block> ENDERMAN_HOLDABLE = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> FLOWER_POTS = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> IGNORED_BY_BEES = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> PREFERRED_BY_BEES = PlantopiaTagSet.newTagSet();
@@ -55,24 +57,54 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 		PlantopiaMetaStore.getBlocks().forEach(blockMeta -> {
 			Block block = blockMeta.getBlock();
 			MetaType type = blockMeta.getType();
-
-			if(block instanceof FlowerPotBlock) FLOWER_POTS.add(block);
-
-			if(block instanceof DoublePlantBlock || block instanceof PlantopiaTriplePlantBlock) {
-				REPLACEABLE_PLANTS.add(block);
-				if(type == MetaType.FLOWER) TALL_FLOWERS.add(block);
-				else if(type == MetaType.PLANT) MINEABLE_WITH_AXE.add(block);
-			}
+			Material material = blockMeta.getMaterial();
+			int baseHigh = blockMeta.getBlockHighType().getBaseHigh();
 
 			if(blockMeta.isIgnoredByBees()) IGNORED_BY_BEES.add(block);
 			if(blockMeta.isPreferredByBees()) PREFERRED_BY_BEES.add(block);
+
+			if(type == MetaType.POTTED) FLOWER_POTS.add(block);
+
+			if(type == MetaType.PLANT) {
+				MINEABLE_WITH_AXE.add(block);
+				if(material == Material.REPLACEABLE_PLANT) REPLACEABLE_PLANTS.add(block);
+			}
+
+			if(type == MetaType.FLOWER) {
+				if(baseHigh > 1) {
+					TALL_FLOWERS.add(block);
+					REPLACEABLE_PLANTS.add(block);
+				} else {
+					SMALL_FLOWERS.add(block);
+				}
+			}
+
+			if(type == MetaType.LEAVES) {
+				LEAVES.add(block);
+				MINEABLE_WITH_HOE.add(block);
+			}
+
+			if(type == MetaType.SAPLING) {
+				SAPLINGS.add(block);
+				MINEABLE_WITH_AXE.add(block);
+			}
+
+			if(type.isMushroom()) {
+				MINEABLE_WITH_AXE.add(block);
+				if(block instanceof BushBlock) ENDERMAN_HOLDABLE.add(block);
+			}
 		});
 	}
 
 	private void saveAll() {
 		save(BlockTags.REPLACEABLE_PLANTS, REPLACEABLE_PLANTS);
 		save(BlockTags.TALL_FLOWERS, TALL_FLOWERS);
+		save(BlockTags.SMALL_FLOWERS, SMALL_FLOWERS);
+		save(BlockTags.LEAVES, LEAVES);
+		save(BlockTags.SAPLINGS, SAPLINGS);
 		save(BlockTags.MINEABLE_WITH_AXE, MINEABLE_WITH_AXE);
+		save(BlockTags.MINEABLE_WITH_HOE, MINEABLE_WITH_HOE);
+		save(BlockTags.ENDERMAN_HOLDABLE, ENDERMAN_HOLDABLE);
 		save(BlockTags.FLOWER_POTS, FLOWER_POTS);
 		save(PlantopiaBlockTags.IGNORED_BY_BEES, IGNORED_BY_BEES);
 		save(PlantopiaBlockTags.PREFERRED_BY_BEES, PREFERRED_BY_BEES);
