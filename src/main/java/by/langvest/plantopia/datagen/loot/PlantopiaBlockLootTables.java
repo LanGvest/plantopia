@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -43,6 +44,7 @@ import java.util.Set;
 public class PlantopiaBlockLootTables extends BlockLoot {
 	private static final LootItemCondition.Builder SURVIVES_EXPLOSION = ExplosionCondition.survivesExplosion();
 	private static final LootItemCondition.Builder HAS_SHEARS = MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS));
+	private static final float SEEDS_CHANCE = 0.125F;
 	private static final Pair<Property<DoubleBlockHalf>, DoubleBlockHalf> DOUBLE_BLOCK_HALF_LOWER = Pair.of(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER);
 	private static final Pair<Property<DoubleBlockHalf>, DoubleBlockHalf> DOUBLE_BLOCK_HALF_UPPER = Pair.of(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER);
 	private static final Pair<Property<PlantopiaTripleBlockHalf>, PlantopiaTripleBlockHalf> TRIPLE_BLOCK_HALF_LOWER = Pair.of(PlantopiaBlockStateProperties.TRIPLE_BLOCK_HALF, PlantopiaTripleBlockHalf.LOWER);
@@ -191,7 +193,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 			.when(HAS_SHEARS)
 			.otherwise(
 				withSurvivesExplosionCondition(block, item(seeds))
-					.when(randomChance(0.125F))
+					.when(randomChance(SEEDS_CHANCE))
 			);
 
 		return createTripleHighPlantTable(block, lootEntry);
@@ -211,9 +213,15 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 		return LootItemRandomChanceCondition.randomChance(chance);
 	}
 
-	private static <T extends Comparable<T> & StringRepresentable> LootItemBlockStatePropertyCondition.@NotNull Builder hasProperty(Block block, @NotNull Pair<Property<T>, T> property) {
+	private static <T extends Comparable<T> & StringRepresentable, P extends Property<T>> LootItemBlockStatePropertyCondition.@NotNull Builder hasProperty(Block block, @NotNull Pair<P, T> property) {
 		return LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(
 			StatePropertiesPredicate.Builder.properties().hasProperty(property.getFirst(), property.getSecond())
+		);
+	}
+
+	private static <P extends Property<Integer>> LootItemBlockStatePropertyCondition.@NotNull Builder hasProperty(Block block, P property, Integer value) {
+		return LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(
+			StatePropertiesPredicate.Builder.properties().hasProperty(property, value)
 		);
 	}
 
@@ -239,6 +247,21 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 	private static <T> T withSurvivesExplosionCondition(@NotNull Block block, ConditionUserBuilder<T> condition) {
 		return EXPLOSION_RESISTANT_BLOCKS.contains(block) ? condition.unwrap() : condition.when(SURVIVES_EXPLOSION);
+	}
+
+	/* LOOT ENTRY PATTERNS ******************************************/
+
+	private static LootPoolSingletonContainer.@NotNull Builder<?> createPartialLootEntry(Block block, IntegerProperty property) {
+		return createPartialLootEntry(block, block, property);
+	}
+
+	private static LootPoolSingletonContainer.@NotNull Builder<?> createPartialLootEntry(Block block, ItemLike drop, IntegerProperty property) {
+		LootPoolSingletonContainer.Builder<?> lootEntry = item(drop);
+		if(property != null) for(Integer value : property.getPossibleValues()) {
+			if(value == 1) continue;
+			lootEntry.apply(setCount(value).when(hasProperty(block, property, value)));
+		}
+		return lootEntry;
 	}
 
 	/* LOOT TABLE PATTERNS ******************************************/
