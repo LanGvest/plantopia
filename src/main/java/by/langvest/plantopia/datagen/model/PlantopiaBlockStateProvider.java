@@ -72,6 +72,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	/* MODELS GENERATION ******************************************/
 
 	private void flowerPotBlock(@NotNull PlantopiaBlockMeta blockMeta) {
+		String baseName = blockMeta.getName();
 		FlowerPotBlock block = (FlowerPotBlock)blockMeta.getBlock();
 		Block plant = block.getContent();
 		PlantopiaBlockMeta plantMeta = PlantopiaMetaStore.getBlock(plant);
@@ -79,10 +80,9 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		if(plantMeta != null && plantMeta.getModelType() == PlantopiaBlockModelType.CUSTOM) return;
 
 		ResourceLocation pottedPlantTexture = texture("potted_" + nameOf(plant));
-
 		ResourceLocation plantTexture = isTextureExists(pottedPlantTexture) ? pottedPlantTexture : blockTexture(plant);
 
-		ModelFile model = flowerPotCrossModel(blockMeta.getName(), plantTexture, blockMeta.isTinted());
+		ModelFile model = flowerPotCrossModel(baseName, plantTexture, blockMeta.isTinted());
 
 		simpleBlock(block, model);
 	}
@@ -98,7 +98,6 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		ModelFile bottomModel = crossModel(baseName + "_bottom", bottomTexture, isTinted);
 
 		generatedItemModel(baseName, topTexture);
-
 		doubleHighBlock(blockMeta.getBlock(), topModel, bottomModel);
 	}
 
@@ -115,7 +114,6 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		ModelFile bottomModel = crossModel(baseName + "_bottom", bottomTexture, isTinted);
 
 		generatedItemModel(baseName, topTexture);
-
 		tripleHighBlock(blockMeta.getBlock(), topModel, middleModel, bottomModel);
 	}
 
@@ -132,7 +130,6 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		ModelFile bottomModel = tintedCrossModel(baseName + "_bottom", bottomTexture);
 
 		generatedItemModel(baseName, topTexture, flowersTexture);
-
 		doubleHighBlock(block, topModel, bottomModel);
 	}
 
@@ -148,15 +145,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		ModelFile bottomModel = giantFernTemplateModel(baseName + "_bottom", bottomTexture);
 
 		generatedItemModel(baseName, topTexture);
-
 		tripleHighBlock(block, topModel, middleModel, bottomModel);
 	}
 
 	private void cloverBlock(Block block) {
 		String baseName = nameOf(block);
-
 		generatedItemModel(baseName, itemTexture(baseName));
-
 		directionalPartialBlock(block, PlantopiaCloverBlock.AMOUNT);
 	}
 
