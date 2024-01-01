@@ -19,6 +19,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -46,6 +47,12 @@ public class PlantopiaBlocks {
 		PlantopiaMetaStore.getBlocks(PlantopiaBlockMeta::isPottable).forEach(blockMeta ->
 			registerBlock("potted_" + blockMeta.getName(), () -> new FlowerPotBlock(null, blockMeta.getObject(), Properties.of(Material.DECORATION).instabreak()), MetaProperties.of(MetaType.POTTED).pottedTint(blockMeta.getTintType()))
 		);
+	}
+
+	@Nullable
+	public static Block getPottedBlock(Block plant) {
+		PlantopiaBlockMeta pottedBlockMeta = PlantopiaMetaStore.getPottedBlock(plant);
+		return pottedBlockMeta == null ? null : pottedBlockMeta.getBlock();
 	}
 
 	public static void setup(IEventBus bus) {
