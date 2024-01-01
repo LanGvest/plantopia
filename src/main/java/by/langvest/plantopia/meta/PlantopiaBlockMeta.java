@@ -207,6 +207,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 		private @NotNull MetaType makeType(String name) {
 			MetaType metaType = new MetaType(name, this);
+			PlantopiaMetaAccessor.setRecursiveMetaType(metaType);
 			type = metaType;
 			return metaType;
 		}

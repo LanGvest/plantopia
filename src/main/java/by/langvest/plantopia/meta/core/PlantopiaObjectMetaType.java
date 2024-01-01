@@ -7,13 +7,12 @@ public abstract class PlantopiaObjectMetaType<T, P extends PlantopiaObjectMetaPr
 	private final String category;
 	private final String name;
 	protected final P properties;
-	protected final T type;
+	protected T type = null;
 
 	public PlantopiaObjectMetaType(String category, String name, @NotNull P properties) {
 		this.category = category;
 		this.name = name;
 		this.properties = properties;
-		this.type = properties.type;
 	}
 
 	public String getName() {

@@ -12,4 +12,8 @@ public class PlantopiaMetaAccessor {
 	public static <T extends PlantopiaObjectMetaType<T, P>, P extends PlantopiaObjectMetaProperties<T>> P getMetaProperties(@NotNull T metaType) {
 		return metaType.properties;
 	}
+
+	public static <T extends PlantopiaObjectMetaType<T, P>, P extends PlantopiaObjectMetaProperties<T>> void setRecursiveMetaType(@NotNull T metaType) {
+		metaType.type = metaType;
+	}
 }
