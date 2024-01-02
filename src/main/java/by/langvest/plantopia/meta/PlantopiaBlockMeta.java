@@ -20,6 +20,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final PlantopiaRenderType renderType;
 	private final PlantopiaBlockModelType modelType;
 	private final PlantopiaBlockDropType dropType;
+	private final PlantopiaRecipeType recipeType;
 	private final PlantopiaDisplayNameType displayNameType;
 	private final PlantopiaTintType tintType;
 	private final int encouragement;
@@ -38,6 +39,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		renderType = metaProperties.renderType;
 		modelType = metaProperties.modelType;
 		dropType = metaProperties.dropType;
+		recipeType = metaProperties.recipeType;
 		displayNameType = metaProperties.displayNameType;
 		tintType = metaProperties.tintType;
 		encouragement = metaProperties.encouragement;
@@ -94,6 +96,10 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		return dropType;
 	}
 
+	public PlantopiaRecipeType getRecipeType() {
+		return recipeType;
+	}
+
 	public PlantopiaDisplayNameType getDisplayNameType() {
 		return displayNameType;
 	}
@@ -116,6 +122,10 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public boolean shouldGenerateLootTable() {
 		return dropType != PlantopiaBlockDropType.NONE && dropType != PlantopiaBlockDropType.CUSTOM;
+	}
+
+	public boolean shouldGenerateRecipe() {
+		return recipeType != PlantopiaRecipeType.NONE && recipeType != PlantopiaRecipeType.CUSTOM;
 	}
 
 	public boolean shouldGenerateTranslation() {
@@ -196,6 +206,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private PlantopiaRenderType renderType = PlantopiaRenderType.NONE;
 		private PlantopiaBlockModelType modelType = PlantopiaBlockModelType.GENERATED;
 		private PlantopiaBlockDropType dropType = PlantopiaBlockDropType.GENERATED;
+		private PlantopiaRecipeType recipeType = PlantopiaRecipeType.GENERATED;
 		private PlantopiaDisplayNameType displayNameType = PlantopiaDisplayNameType.GENERATED;
 		private PlantopiaTintType tintType = PlantopiaTintType.NONE;
 		private int encouragement = 0;
@@ -226,6 +237,21 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 		public MetaProperties notTintedParticles() {
 			this.hasTintedParticles = false;
+			return this;
+		}
+
+		public MetaProperties noRecipe() {
+			this.recipeType = PlantopiaRecipeType.NONE;
+			return this;
+		}
+
+		public MetaProperties customRecipe() {
+			this.recipeType = PlantopiaRecipeType.CUSTOM;
+			return this;
+		}
+
+		public MetaProperties generatedRecipe() {
+			this.recipeType = PlantopiaRecipeType.GENERATED;
 			return this;
 		}
 
