@@ -104,7 +104,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 	private void dropSelf(@NotNull PlantopiaBlockMeta blockMeta) {
 		Block block = blockMeta.getBlock();
-		MetaType metaType = blockMeta.getType();
+		MetaType type = blockMeta.getType();
 		PlantopiaBlockHighType blockHighType = blockMeta.getBlockHighType();
 
 		if(blockHighType.getBaseHigh() == 1) {
@@ -112,7 +112,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 			return;
 		}
 
-		if(metaType != MetaType.PLANT) {
+		if(type != MetaType.PLANT) {
 			dropSelfIf(block, hasLowerHalfProperty(block, blockHighType));
 			return;
 		}
@@ -124,7 +124,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 	private void dropSelfByShears(@NotNull PlantopiaBlockMeta blockMeta) {
 		Block block = blockMeta.getBlock();
-		MetaType metaType = blockMeta.getType();
+		MetaType type = blockMeta.getType();
 		PlantopiaBlockHighType blockHighType = blockMeta.getBlockHighType();
 
 		if(blockHighType.getBaseHigh() == 1) {
@@ -132,7 +132,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 			return;
 		}
 
-		if(metaType != MetaType.PLANT) {
+		if(type != MetaType.PLANT) {
 			dropSelfByShearsIf(block, hasLowerHalfProperty(block, blockHighType));
 			return;
 		}
@@ -285,16 +285,16 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 	private static LootTable.@NotNull Builder createTable(@NotNull PlantopiaBlockMeta blockMeta, LootPoolEntryContainer.Builder<?> @NotNull ... lootEntries) {
 		Block block = blockMeta.getBlock();
-		MetaType metaType = blockMeta.getType();
+		MetaType type = blockMeta.getType();
 		PlantopiaBlockHighType blockHighType = blockMeta.getBlockHighType();
 
 		if(blockHighType == PlantopiaBlockHighType.TRIPLE) {
-			if(metaType == MetaType.PLANT) return createTripleHighPlantTable(block, lootEntries);
+			if(type == MetaType.PLANT) return createTripleHighPlantTable(block, lootEntries);
 			return createTripleHighBlockTable(block, lootEntries);
 		}
 
 		if(blockHighType == PlantopiaBlockHighType.DOUBLE) {
-			if(metaType == MetaType.PLANT) return createDoubleHighPlantTable(block, lootEntries);
+			if(type == MetaType.PLANT) return createDoubleHighPlantTable(block, lootEntries);
 			return createDoubleHighBlockTable(block, lootEntries);
 		}
 
