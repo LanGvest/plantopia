@@ -70,7 +70,7 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 				if(material == Material.REPLACEABLE_PLANT) REPLACEABLE_PLANTS.add(block);
 			}
 
-			if(type == MetaType.FLOWER) {
+			if(type.isFlowerLike()) {
 				if(baseHigh > 1) {
 					TALL_FLOWERS.add(block);
 					REPLACEABLE_PLANTS.add(block);
@@ -79,17 +79,17 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 				}
 			}
 
-			if(type == MetaType.LEAVES) {
+			if(type.isLeavesLike()) {
 				LEAVES.add(block);
 				MINEABLE_WITH_HOE.add(block);
 			}
 
-			if(type == MetaType.SAPLING) {
+			if(type.isSaplingLike()) {
 				SAPLINGS.add(block);
 				MINEABLE_WITH_AXE.add(block);
 			}
 
-			if(type.isMushroom()) {
+			if(type.isMushroomLike()) {
 				MINEABLE_WITH_AXE.add(block);
 				if(block instanceof BushBlock) ENDERMAN_HOLDABLE.add(block);
 			}

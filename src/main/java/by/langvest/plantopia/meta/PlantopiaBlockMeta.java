@@ -169,34 +169,46 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public static final class MetaType extends PlantopiaObjectMetaType<MetaType, MetaProperties> {
-		public static final MetaType PLANT = new MetaProperties().cutoutRender().flammable(Encouragement.PLANT, Flammability.PLANT).compostable(Compostability.PLANT_1).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("plant");
-		public static final MetaType FLOWER = MetaProperties.of(PLANT).pottable().compostable(Compostability.FLOWER).makeType("flower");
-		public static final MetaType SAPLING = MetaProperties.of(PLANT).pottable().makeType("sapling");
-		public static final MetaType MUSHROOM = MetaProperties.of(PLANT).pottable().notFlammable().compostable(Compostability.MUSHROOM).makeType("mushroom");
+		public static final MetaType PLANT = new MetaProperties().cutoutRender().flammable(Encouragement.PLANT, Flammability.PLANT).compostable(Compostability.PLANT_1).tintedParticles().group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("plant");
+		public static final MetaType FLOWER = MetaProperties.of(PLANT).pottable().notTintedParticles().compostable(Compostability.FLOWER).makeType("flower");
+		public static final MetaType SAPLING = MetaProperties.of(PLANT).pottable().notTintedParticles().makeType("sapling");
+		public static final MetaType MUSHROOM = MetaProperties.of(PLANT).pottable().notTintedParticles().notFlammable().compostable(Compostability.MUSHROOM).makeType("mushroom");
 		public static final MetaType MUSHROOM_STEM = new MetaProperties().compostable(Compostability.MUSHROOM_STEM).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("mushroom_stem");
 		public static final MetaType MUSHROOM_BLOCK = MetaProperties.of(MUSHROOM_STEM).compostable(Compostability.MUSHROOM_BLOCK).makeType("mushroom_block");
-		public static final MetaType POTTED = new MetaProperties().cutoutRender().notTintedParticles().noGroup().makeType("potted");
-		public static final MetaType LEAVES = new MetaProperties().cutoutMippedRender().group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("leaves");
+		public static final MetaType POTTED = new MetaProperties().cutoutRender().noGroup().makeType("potted");
+		public static final MetaType LEAVES = new MetaProperties().cutoutMippedRender().tintedParticles().group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("leaves");
 
 		private MetaType(String name, MetaProperties properties) {
 			super("block", name, properties);
 		}
 
-		public boolean isPlant() {
+		public boolean isPlantLike() {
 			return type == PLANT
-				|| type == FLOWER
-				|| type == SAPLING
-				|| type == MUSHROOM;
+				|| type == MUSHROOM
+				|| isSaplingLike()
+				|| isFlowerLike();
 		}
 
-		public boolean isMushroom() {
+		public boolean isSaplingLike() {
+			return type == SAPLING;
+		}
+
+		public boolean isFlowerLike() {
+			return type == FLOWER;
+		}
+
+		public boolean isLeavesLike() {
+			return type == LEAVES;
+		}
+
+		public boolean isMushroomLike() {
 			return type == MUSHROOM
 				|| type == MUSHROOM_STEM
 				|| type == MUSHROOM_BLOCK;
 		}
 
 		public boolean isAbleToBePotted() {
-			return isPlant();
+			return isPlantLike();
 		}
 	}
 
@@ -215,7 +227,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private boolean isPottable = false;
 		private boolean isIgnoredByBees = false;
 		private boolean isPreferredByBees = false;
-		private boolean hasTintedParticles = true;
+		private boolean hasTintedParticles = false;
 
 		private MetaProperties() {}
 
