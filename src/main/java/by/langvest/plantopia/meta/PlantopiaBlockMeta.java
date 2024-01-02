@@ -28,6 +28,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final boolean isPottable;
 	private final boolean isIgnoredByBees;
 	private final boolean isPreferredByBees;
+	private final boolean hasTintedParticles;
 
 	public PlantopiaBlockMeta(String name, RegistryObject<? extends Block> registryObject, @NotNull PlantopiaBlockMeta.MetaProperties metaProperties) {
 		super(name, registryObject);
@@ -45,6 +46,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		isPottable = metaProperties.isPottable;
 		isIgnoredByBees = metaProperties.isIgnoredByBees;
 		isPreferredByBees = metaProperties.isPreferredByBees;
+		hasTintedParticles = metaProperties.hasTintedParticles;
 	}
 
 	public Block getBlock() {
@@ -124,6 +126,10 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		return tintType != PlantopiaTintType.NONE && tintType != PlantopiaTintType.CUSTOM;
 	}
 
+	public boolean shouldApplyTintToParticles() {
+		return shouldApplyTint() && hasTintedParticles;
+	}
+
 	public boolean shouldApplyRenderLayer() {
 		return renderType != PlantopiaRenderType.NONE;
 	}
@@ -159,7 +165,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		public static final MetaType MUSHROOM = MetaProperties.of(PLANT).pottable().notFlammable().compostable(Compostability.MUSHROOM).makeType("mushroom");
 		public static final MetaType MUSHROOM_STEM = new MetaProperties().compostable(Compostability.MUSHROOM_STEM).group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("mushroom_stem");
 		public static final MetaType MUSHROOM_BLOCK = MetaProperties.of(MUSHROOM_STEM).compostable(Compostability.MUSHROOM_BLOCK).makeType("mushroom_block");
-		public static final MetaType POTTED = new MetaProperties().cutoutRender().noGroup().makeType("potted");
+		public static final MetaType POTTED = new MetaProperties().cutoutRender().notTintedParticles().noGroup().makeType("potted");
 		public static final MetaType LEAVES = new MetaProperties().cutoutMippedRender().group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("leaves");
 
 		private MetaType(String name, MetaProperties properties) {
@@ -198,6 +204,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private boolean isPottable = false;
 		private boolean isIgnoredByBees = false;
 		private boolean isPreferredByBees = false;
+		private boolean hasTintedParticles = true;
 
 		private MetaProperties() {}
 
@@ -210,6 +217,16 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 			PlantopiaMetaAccessor.setRecursiveMetaType(metaType);
 			type = metaType;
 			return metaType;
+		}
+
+		public MetaProperties tintedParticles() {
+			this.hasTintedParticles = true;
+			return this;
+		}
+
+		public MetaProperties notTintedParticles() {
+			this.hasTintedParticles = false;
+			return this;
 		}
 
 		public MetaProperties noDisplayName() {

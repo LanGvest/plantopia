@@ -16,6 +16,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -42,6 +43,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	protected void registerStatesAndModels() {
 		generateAll();
 
+		pottedFernBlock(Blocks.POTTED_FERN);
 		fireweedBlock(PlantopiaBlocks.FIREWEED.get());
 		giantFernBlock(PlantopiaBlocks.GIANT_FERN.get());
 		cloverBlock(PlantopiaBlocks.CLOVER.get());
@@ -164,6 +166,13 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		if(pottedBlock != null) simpleBlock(pottedBlock, existingModel(nameOf(pottedBlock)));
 	}
 
+	@SuppressWarnings("SameParameterValue")
+	private void pottedFernBlock(Block block) {
+		if(!(block instanceof FlowerPotBlock flowerPotBlock)) return;
+		Block plant = flowerPotBlock.getContent();
+		tintedFlowerPotCrossModel(idOf(flowerPotBlock), blockTexture(plant));
+	}
+
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
 	private void doubleHighBlock(Block block, ModelFile topModel, ModelFile bottomModel) {
@@ -214,7 +223,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	@Contract("_ -> new")
 	private @NotNull ModelFile existingModel(String name) {
-		return new ModelFile.ExistingModelFile(new PlantopiaIdentifier(ModelProvider.BLOCK_FOLDER + "/" + name), existingFileHelper);
+		return models().getExistingFile(new PlantopiaIdentifier(name));
 	}
 
 	private ModelFile crossModel(String name, ResourceLocation crossTexture, boolean tinted) {
@@ -233,7 +242,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	}
 
 	private ModelFile tintedFlowerPotCrossModel(String name, ResourceLocation plantTexture) {
-		return models().withExistingParent(name, "tinted_flower_pot_cross")
+		return models().withExistingParent(name, parent("tinted_flower_pot_cross"))
 			.texture("plant", plantTexture);
 	}
 
@@ -263,6 +272,8 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	/* HELPER METHODS ******************************************/
 
+
+
 	private boolean isTextureExists(@NotNull ResourceLocation texture) {
 		return existingFileHelper.exists(texture, TEXTURE);
 	}
@@ -284,5 +295,9 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	private static @NotNull String nameOf(@NotNull Block block) {
 		return Objects.requireNonNull(block.getRegistryName()).getPath();
+	}
+
+	private static @NotNull String idOf(@NotNull Block block) {
+		return Objects.requireNonNull(block.getRegistryName()).toString();
 	}
 }

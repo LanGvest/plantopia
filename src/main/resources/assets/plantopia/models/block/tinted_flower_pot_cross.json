@@ -1,8 +1,6 @@
 {
 	"ambientocclusion": false,
 	"textures": {
-		"leafs": "plantopia:block/potted_big_clover",
-		"stem": "plantopia:block/big_clover_stem",
 		"flowerpot": "block/flower_pot",
 		"dirt": "block/dirt",
 		"particle": "#flowerpot"
@@ -61,30 +59,21 @@
 			}
 		},
 		{
-			"from": [2, 7.75, 2],
-			"to": [14, 7.75, 14],
-			"rotation": { "angle": 0, "axis": "y", "origin": [8, 7.75, 8] },
+			"from": [2.6, 4, 8],
+			"to": [13.4, 16, 8],
+			"rotation": { "angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true },
 			"faces": {
-				"up": { "uv": [0, 16, 16, 0], "texture": "#leafs", "tintindex": 1 },
-				"down": { "uv": [0, 0, 16, 16], "texture": "#leafs", "tintindex": 1 }
+				"north": { "uv": [0, 0, 16, 16], "texture": "#plant", "tintindex": 1 },
+				"south": { "uv": [0, 0, 16, 16], "texture": "#plant", "tintindex": 1 }
 			}
 		},
 		{
-			"from": [2.6, 2.5, 8],
-			"to": [13.4, 14.5, 8],
-			"rotation": { "angle": 45, "axis": "y", "origin": [8, 6.5, 8], "rescale": true },
+			"from": [8, 4, 2.6],
+			"to": [8, 16, 13.4],
+			"rotation": { "angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true },
 			"faces": {
-				"north": { "uv": [0, 0, 16, 16], "texture": "#stem", "tintindex": 1 },
-				"south": { "uv": [0, 0, 16, 16], "texture": "#stem", "tintindex": 1 }
-			}
-		},
-		{
-			"from": [8, 2.5, 2.6],
-			"to": [8, 14.5, 13.4],
-			"rotation": { "angle": 45, "axis": "y", "origin": [8, 6.5, 8], "rescale": true },
-			"faces": {
-				"east": { "uv": [0, 0, 16, 16], "texture": "#stem", "tintindex": 1 },
-				"west": { "uv": [0, 0, 16, 16], "texture": "#stem", "tintindex": 1 }
+				"east": { "uv": [0, 0, 16, 16], "texture": "#plant", "tintindex": 1 },
+				"west": { "uv": [0, 0, 16, 16], "texture": "#plant", "tintindex": 1 }
 			}
 		}
 	]

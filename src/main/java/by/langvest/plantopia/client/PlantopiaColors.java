@@ -18,6 +18,7 @@ import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -34,13 +35,16 @@ import java.util.Set;
 @OnlyIn(Dist.CLIENT)
 public class PlantopiaColors {
 	private static final Set<Block> BLOCK_GRASS_COLOR_0 = Sets.newHashSet();
+	private static final Set<Block> BLOCK_GRASS_COLOR_1 = Sets.newHashSet();
 	private static final Set<Block> BLOCK_FOLIAGE_COLOR_0 = Sets.newHashSet();
+	private static final Set<Block> BLOCK_FOLIAGE_COLOR_1 = Sets.newHashSet();
 	private static final Set<Item> ITEM_GRASS_COLOR_0 = Sets.newHashSet();
 	private static final Set<Item> ITEM_INHERIT_BLOCK_COLOR = Sets.newHashSet();
 
 	public static void setup() {
 		registerAll();
 
+		pottedFernBlock(Blocks.POTTED_FERN);
 		fireweedBlock(PlantopiaBlocks.FIREWEED.get());
 
 		setAll();
@@ -61,15 +65,17 @@ public class PlantopiaColors {
 			Block block = blockMeta.getBlock();
 			PlantopiaTintType tintType = blockMeta.getTintType();
 
-			ITEM_INHERIT_BLOCK_COLOR.add(block.asItem());
+			if(blockMeta.hasItem()) ITEM_INHERIT_BLOCK_COLOR.add(block.asItem());
 
 			if(tintType == PlantopiaTintType.GRASS) {
-				BLOCK_GRASS_COLOR_0.add(block);
+				if(blockMeta.shouldApplyTintToParticles()) BLOCK_GRASS_COLOR_0.add(block);
+				else BLOCK_GRASS_COLOR_1.add(block);
 				return;
 			}
 
 			if(tintType == PlantopiaTintType.FOLIAGE) {
-				BLOCK_FOLIAGE_COLOR_0.add(block);
+				if(blockMeta.shouldApplyTintToParticles()) BLOCK_FOLIAGE_COLOR_0.add(block);
+				else BLOCK_FOLIAGE_COLOR_1.add(block);
 			}
 		});
 	}
@@ -80,19 +86,31 @@ public class PlantopiaColors {
 
 		/* BLOCK GRASS COLOR 0 ******************************************/
 		blockColors.register(
-			(state, level, pos, tintIndex) -> tintIndex == 0 ? grassColor(level, getBaseBlockPos(state, pos)) : noColor(),
+			(state, level, pos, tintIndex) -> grassTint(state, level, pos, tintIndex, 0),
 			BLOCK_GRASS_COLOR_0.toArray(Block[]::new)
+		);
+
+		/* BLOCK GRASS COLOR 1 ******************************************/
+		blockColors.register(
+			(state, level, pos, tintIndex) -> grassTint(state, level, pos, tintIndex, 1),
+			BLOCK_GRASS_COLOR_1.toArray(Block[]::new)
 		);
 
 		/* BLOCK FOLIAGE COLOR 0 ******************************************/
 		blockColors.register(
-			(state, level, pos, tintIndex) -> tintIndex == 0 ? foliageColor(level, getBaseBlockPos(state, pos)) : noColor(),
+			(state, level, pos, tintIndex) -> foliageTint(state, level, pos, tintIndex, 0),
 			BLOCK_FOLIAGE_COLOR_0.toArray(Block[]::new)
+		);
+
+		/* BLOCK FOLIAGE COLOR 1 ******************************************/
+		blockColors.register(
+			(state, level, pos, tintIndex) -> foliageTint(state, level, pos, tintIndex, 1),
+			BLOCK_FOLIAGE_COLOR_1.toArray(Block[]::new)
 		);
 
 		/* ITEM GRASS COLOR 0 ******************************************/
 		itemColors.register(
-			(itemStuck, tintIndex) -> tintIndex == 0 ? grassColor(null, null) : noColor(),
+			(itemStuck, tintIndex) -> grassTint(tintIndex, 0),
 			ITEM_GRASS_COLOR_0.toArray(Item[]::new)
 		);
 
@@ -127,6 +145,11 @@ public class PlantopiaColors {
 		);
 	}
 
+	@SuppressWarnings("SameParameterValue")
+	private static void pottedFernBlock(@NotNull Block block) {
+		BLOCK_GRASS_COLOR_1.add(block);
+	}
+
 	/* COLORS ******************************************/
 
 	private static int noColor() {
@@ -141,6 +164,20 @@ public class PlantopiaColors {
 	private static int foliageColor(BlockAndTintGetter level, BlockPos pos) {
 		if(level == null || pos == null) return FoliageColor.getDefaultColor();
 		return BiomeColors.getAverageFoliageColor(level, pos);
+	}
+
+	/* TINTS ******************************************/
+
+	private static int grassTint(int tintIndex, int targetTintIndex) {
+		return grassTint(null, null, null, tintIndex, targetTintIndex);
+	}
+
+	private static int grassTint(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex, int targetTintIndex) {
+		return tintIndex == targetTintIndex ? grassColor(level, getBaseBlockPos(state, pos)) : noColor();
+	}
+
+	private static int foliageTint(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex, int targetTintIndex) {
+		return tintIndex == targetTintIndex ? foliageColor(level, getBaseBlockPos(state, pos)) : noColor();
 	}
 
 	/* HELPER METHODS ******************************************/
