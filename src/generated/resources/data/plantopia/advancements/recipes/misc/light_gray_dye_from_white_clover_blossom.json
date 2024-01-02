@@ -1,0 +1,34 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"plantopia:light_gray_dye_from_white_clover_blossom"
+		]
+	},
+	"criteria": {
+		"has_white_clover_blossom": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:white_clover_blossom"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "plantopia:light_gray_dye_from_white_clover_blossom"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_white_clover_blossom",
+			"has_the_recipe"
+		]
+	]
+}

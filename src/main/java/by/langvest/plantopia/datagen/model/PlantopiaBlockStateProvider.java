@@ -48,6 +48,8 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		giantFernBlock(PlantopiaBlocks.GIANT_FERN.get());
 		cloverBlock(PlantopiaBlocks.CLOVER.get());
 		bigCloverBlock(PlantopiaBlocks.BIG_CLOVER.get());
+		cloverBlossomBlock(PlantopiaBlocks.WHITE_CLOVER_BLOSSOM.get());
+		cloverBlossomBlock(PlantopiaBlocks.PINK_CLOVER_BLOSSOM.get());
 	}
 
 	private void generateAll() {
@@ -173,6 +175,21 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		tintedFlowerPotCrossModel(idOf(flowerPotBlock), blockTexture(plant));
 	}
 
+	private void cloverBlossomBlock(Block block) {
+		String baseName = nameOf(block);
+
+		ResourceLocation blossomTexture = texture(baseName);
+		ResourceLocation stemItemTexture = itemTexture("clover_blossom_stem");
+
+		ModelFile model = cloverBlossomTemplateModel(baseName, blossomTexture);
+
+		generatedItemModel(baseName, blossomTexture, stemItemTexture);
+		simpleBlock(block, model);
+
+		Block pottedBlock = PlantopiaBlocks.getPottedBlock(block);
+		if(pottedBlock != null) simpleBlock(pottedBlock, pottedCloverBlossomTemplateModel(nameOf(pottedBlock), blossomTexture));
+	}
+
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
 	private void doubleHighBlock(Block block, ModelFile topModel, ModelFile bottomModel) {
@@ -260,6 +277,16 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 			.texture("cross", crossTexture);
 	}
 
+	private ModelFile cloverBlossomTemplateModel(String name, ResourceLocation blossomTexture) {
+		return models().withExistingParent(name, parent("template_clover_blossom"))
+			.texture("blossom", blossomTexture);
+	}
+
+	private ModelFile pottedCloverBlossomTemplateModel(String name, ResourceLocation blossomTexture) {
+		return models().withExistingParent(name, parent("template_potted_clover_blossom"))
+			.texture("blossom", blossomTexture);
+	}
+
 	/* ITEM MODELS ******************************************/
 
 	@SuppressWarnings("UnusedReturnValue")
@@ -271,8 +298,6 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	}
 
 	/* HELPER METHODS ******************************************/
-
-
 
 	private boolean isTextureExists(@NotNull ResourceLocation texture) {
 		return existingFileHelper.exists(texture, TEXTURE);
