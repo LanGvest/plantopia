@@ -6,6 +6,7 @@ import by.langvest.plantopia.meta.property.*;
 import by.langvest.plantopia.tab.PlantopiaCreativeModeTabs;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
@@ -30,6 +31,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final boolean isIgnoredByBees;
 	private final boolean isPreferredByBees;
 	private final boolean hasTintedParticles;
+	private final Item dye;
 
 	public PlantopiaBlockMeta(String name, RegistryObject<? extends Block> registryObject, @NotNull PlantopiaBlockMeta.MetaProperties metaProperties) {
 		super(name, registryObject);
@@ -49,6 +51,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		isIgnoredByBees = metaProperties.isIgnoredByBees;
 		isPreferredByBees = metaProperties.isPreferredByBees;
 		hasTintedParticles = metaProperties.hasTintedParticles;
+		dye = metaProperties.dye;
 	}
 
 	public Block getBlock() {
@@ -61,6 +64,11 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public MetaType getType() {
 		return type;
+	}
+
+	@Nullable
+	public Item getDye() {
+		return dye;
 	}
 
 	public boolean isIgnoredByBees() {
@@ -228,6 +236,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private boolean isIgnoredByBees = false;
 		private boolean isPreferredByBees = false;
 		private boolean hasTintedParticles = false;
+		private Item dye = null;
 
 		private MetaProperties() {}
 
@@ -240,6 +249,17 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 			PlantopiaMetaAccessor.setRecursiveMetaType(metaType);
 			type = metaType;
 			return metaType;
+		}
+
+		public MetaProperties noDye() {
+			this.dye = null;
+			return this;
+		}
+
+		public MetaProperties dye(Item dye) {
+			if(type != null && !type.isFlowerLike()) throw new PlantopiaMetaException.UnableToSet("dye", type);
+			this.dye = dye;
+			return this;
 		}
 
 		public MetaProperties tintedParticles() {
