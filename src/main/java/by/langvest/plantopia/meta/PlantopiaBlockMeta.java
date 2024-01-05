@@ -59,7 +59,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public Material getMaterial() {
-		return getBlock().material;
+		return getBlock().defaultBlockState().getMaterial();
 	}
 
 	public MetaType getType() {
