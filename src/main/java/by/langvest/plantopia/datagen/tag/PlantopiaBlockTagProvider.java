@@ -30,9 +30,15 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 	private final PlantopiaTagSet<Block> FLOWER_POTS = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> IGNORED_BY_BEES = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> PREFERRED_BY_BEES = PlantopiaTagSet.newTagSet();
+	private static PlantopiaBlockTagProvider instance;
 
-	public PlantopiaBlockTagProvider(DataGenerator pGenerator, ExistingFileHelper existingFileHelper) {
-		super(pGenerator, Plantopia.MOD_ID, existingFileHelper);
+	public PlantopiaBlockTagProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+		super(generator, Plantopia.MOD_ID, existingFileHelper);
+		instance = this;
+	}
+
+	public static PlantopiaBlockTagProvider getInstance() {
+		return instance;
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import by.langvest.plantopia.tag.PlantopiaItemTags;
 import by.langvest.plantopia.util.PlantopiaTagSet;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.ItemTags;
@@ -30,8 +29,8 @@ public class PlantopiaItemTagProvider extends ItemTagsProvider {
 	private final PlantopiaTagSet<Item> IGNORED_BY_BEES = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Item> PREFERRED_BY_BEES = PlantopiaTagSet.newTagSet();
 
-	public PlantopiaItemTagProvider(DataGenerator generator, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
-		super(generator, blockTagsProvider, Plantopia.MOD_ID, existingFileHelper);
+	public PlantopiaItemTagProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+		super(generator, PlantopiaBlockTagProvider.getInstance(), Plantopia.MOD_ID, existingFileHelper);
 	}
 
 	@Override

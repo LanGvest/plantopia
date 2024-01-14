@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = Plantopia.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PlantopiaDataGenerationHandler {
 	@SubscribeEvent
@@ -23,13 +24,11 @@ public class PlantopiaDataGenerationHandler {
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
 		generator.addProvider(new PlantopiaRecipeProvider(generator));
+		generator.addProvider(new PlantopiaEnUsLangProvider(generator));
 		generator.addProvider(new PlantopiaLootTableProvider(generator));
 		generator.addProvider(new PlantopiaBlockStateProvider(generator, existingFileHelper));
 		generator.addProvider(new PlantopiaItemModelProvider(generator, existingFileHelper));
-		generator.addProvider(new PlantopiaEnUsLangProvider(generator));
-
-		PlantopiaBlockTagProvider blockTagProvider = new PlantopiaBlockTagProvider(generator, existingFileHelper);
-		generator.addProvider(blockTagProvider);
-		generator.addProvider(new PlantopiaItemTagProvider(generator, blockTagProvider, existingFileHelper));
+		generator.addProvider(new PlantopiaBlockTagProvider(generator, existingFileHelper));
+		generator.addProvider(new PlantopiaItemTagProvider(generator, existingFileHelper));
 	}
 }
