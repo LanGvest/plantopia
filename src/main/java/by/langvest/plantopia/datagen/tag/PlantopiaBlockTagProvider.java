@@ -26,6 +26,7 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 	private final PlantopiaTagSet<Block> SAPLINGS = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> MINEABLE_WITH_AXE = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> MINEABLE_WITH_HOE = PlantopiaTagSet.newTagSet();
+	private final PlantopiaTagSet<Block> MINEABLE_WITH_PICKAXE = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> ENDERMAN_HOLDABLE = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> FLOWER_POTS = PlantopiaTagSet.newTagSet();
 	private final PlantopiaTagSet<Block> IGNORED_BY_BEES = PlantopiaTagSet.newTagSet();
@@ -68,7 +69,7 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 
 			if(blockMeta.isIgnoredByBees()) IGNORED_BY_BEES.add(block);
 			if(blockMeta.isPreferredByBees()) PREFERRED_BY_BEES.add(block);
-
+			if(type.isStoneLike()) MINEABLE_WITH_PICKAXE.add(block);
 			if(type == MetaType.POTTED) FLOWER_POTS.add(block);
 
 			if(type == MetaType.PLANT) {
@@ -110,6 +111,7 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 		save(BlockTags.SAPLINGS, SAPLINGS);
 		save(BlockTags.MINEABLE_WITH_AXE, MINEABLE_WITH_AXE);
 		save(BlockTags.MINEABLE_WITH_HOE, MINEABLE_WITH_HOE);
+		save(BlockTags.MINEABLE_WITH_PICKAXE, MINEABLE_WITH_PICKAXE);
 		save(BlockTags.ENDERMAN_HOLDABLE, ENDERMAN_HOLDABLE);
 		save(BlockTags.FLOWER_POTS, FLOWER_POTS);
 		save(PlantopiaBlockTags.IGNORED_BY_BEES, IGNORED_BY_BEES);
