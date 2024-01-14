@@ -6,6 +6,7 @@ import by.langvest.plantopia.datagen.loot.PlantopiaLootTableProvider;
 import by.langvest.plantopia.datagen.model.PlantopiaBlockStateProvider;
 import by.langvest.plantopia.datagen.model.PlantopiaItemModelProvider;
 import by.langvest.plantopia.datagen.recipe.PlantopiaRecipeProvider;
+import by.langvest.plantopia.datagen.sound.PlantopiaSoundProvider;
 import by.langvest.plantopia.datagen.tag.PlantopiaBlockTagProvider;
 import by.langvest.plantopia.datagen.tag.PlantopiaItemTagProvider;
 import net.minecraft.data.DataGenerator;
@@ -30,5 +31,6 @@ public class PlantopiaDataGenerationHandler {
 		generator.addProvider(new PlantopiaItemModelProvider(generator, existingFileHelper));
 		generator.addProvider(new PlantopiaBlockTagProvider(generator, existingFileHelper));
 		generator.addProvider(new PlantopiaItemTagProvider(generator, existingFileHelper));
+		generator.addProvider(new PlantopiaSoundProvider(generator, existingFileHelper));
 	}
 }
