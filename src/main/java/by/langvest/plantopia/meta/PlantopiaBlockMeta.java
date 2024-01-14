@@ -185,9 +185,14 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		public static final MetaType MUSHROOM_BLOCK = MetaProperties.of(MUSHROOM_STEM).compostable(Compostability.MUSHROOM_BLOCK).makeType("mushroom_block");
 		public static final MetaType POTTED = new MetaProperties().cutoutRender().noGroup().makeType("potted");
 		public static final MetaType LEAVES = new MetaProperties().cutoutMippedRender().tintedParticles().group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("leaves");
+		public static final MetaType STONE = new MetaProperties().group(PlantopiaCreativeModeTabs.TAB_PLANTOPIA).makeType("stone");
 
 		private MetaType(String name, MetaProperties properties) {
 			super("block", name, properties);
+		}
+
+		public boolean isStoneLike() {
+			return type == STONE;
 		}
 
 		public boolean isPlantLike() {
