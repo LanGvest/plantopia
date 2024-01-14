@@ -1,6 +1,7 @@
 package by.langvest.plantopia.meta;
 
 import com.google.common.collect.Sets;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.registries.RegistryObject;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public class PlantopiaMetaStore {
 	private static final Set<PlantopiaBlockMeta> blocks = Sets.newHashSet();
+	private static final Set<PlantopiaSoundEventMeta> soundEvents = Sets.newHashSet();
 
 	public static Set<PlantopiaBlockMeta> getBlocks() {
 		return blocks;
@@ -54,5 +56,18 @@ public class PlantopiaMetaStore {
 		PlantopiaBlockMeta blockMeta = new PlantopiaBlockMeta(name, object, metaProperties);
 		blocks.add(blockMeta);
 		return blockMeta;
+	}
+
+	public static Set<PlantopiaSoundEventMeta> getSoundEvents() {
+		return soundEvents;
+	}
+
+	public static <T extends SoundEvent> @NotNull PlantopiaSoundEventMeta add(String name, RegistryObject<T> object, PlantopiaSoundEventMeta.MetaProperties metaProperties) {
+		Objects.requireNonNull(name);
+		Objects.requireNonNull(object);
+		Objects.requireNonNull(metaProperties);
+		PlantopiaSoundEventMeta soundEventMeta = new PlantopiaSoundEventMeta(name, object, metaProperties);
+		soundEvents.add(soundEventMeta);
+		return soundEventMeta;
 	}
 }
