@@ -161,7 +161,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	private void cloverBlock(Block block) {
 		String baseName = nameOf(block);
 		generatedItemModel(baseName, itemTexture(baseName));
-		directionalPartialBlock(block, PlantopiaCloverBlock.AMOUNT);
+		directionalMultipartBlock(block, PlantopiaCloverBlock.AMOUNT);
 	}
 
 	private void bigCloverBlock(Block block) {
@@ -250,7 +250,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		});
 	}
 
-	private void directionalPartialBlock(Block block, @NotNull IntegerProperty property) {
+	private void directionalMultipartBlock(Block block, @NotNull IntegerProperty property) {
 		String baseName = nameOf(block);
 		Integer maxValue = Collections.max(property.getPossibleValues());
 		MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
