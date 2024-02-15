@@ -1,15 +1,16 @@
 package by.langvest.plantopia.datagen.recipe;
 
+import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +28,11 @@ public class PlantopiaRecipeProvider extends RecipeProvider implements IConditio
 	protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
 		setConsumer(consumer);
 		generateAll();
+
+		fullBlockRecipe(Blocks.COBBLESTONE, PlantopiaBlocks.COBBLESTONE_SHARD.get());
+		fullBlockRecipe(Blocks.MOSSY_COBBLESTONE, PlantopiaBlocks.MOSSY_COBBLESTONE_SHARD.get());
+		stonecutterRecipe(PlantopiaBlocks.COBBLESTONE_SHARD.get(), Blocks.COBBLESTONE, 9);
+		stonecutterRecipe(PlantopiaBlocks.MOSSY_COBBLESTONE_SHARD.get(), Blocks.MOSSY_COBBLESTONE, 9);
 	}
 
 	private void setConsumer(@NotNull Consumer<FinishedRecipe> consumer) {
@@ -50,17 +56,33 @@ public class PlantopiaRecipeProvider extends RecipeProvider implements IConditio
 	private void dyeFromFlower(@NotNull PlantopiaBlockMeta blockMeta) {
 		Item dye = blockMeta.getDye();
 		if(dye == null) return;
-		oneToOneConversionRecipe(blockMeta.getBlock(), dye, nameOf(dye), blockMeta.getBlockHighType().getBaseHigh());
+		oneToOneConversionRecipe(dye, blockMeta.getBlock(), nameOf(dye), blockMeta.getBlockHighType().getBaseHigh());
 	}
 
 	/* RECIPE GENERATION HELPER METHODS ******************************************/
 
-	private void oneToOneConversionRecipe(ItemLike ingredient, ItemLike result, String group, int amount) {
-		ShapelessRecipeBuilder.shapeless(result, amount)
+	private void oneToOneConversionRecipe(ItemLike result, ItemLike ingredient, String group, int resultAmount) {
+		ShapelessRecipeBuilder.shapeless(result, resultAmount)
 			.requires(ingredient)
 			.group(group)
 			.unlockedBy(getHasName(ingredient), has(ingredient))
 			.save(consumer, new PlantopiaIdentifier(getConversionRecipeName(result, ingredient)));
+	}
+
+	private void fullBlockRecipe(ItemLike result, ItemLike ingredient) {
+		ShapedRecipeBuilder.shaped(result)
+			.define('#', ingredient)
+			.pattern("###")
+			.pattern("###")
+			.pattern("###")
+			.unlockedBy(getHasName(ingredient), has(ingredient))
+			.save(consumer, new PlantopiaIdentifier(getSimpleRecipeName(result)));
+	}
+
+	private void stonecutterRecipe(ItemLike result, ItemLike ingredient, int resultAmount) {
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(ingredient), result, resultAmount)
+			.unlockedBy(getHasName(ingredient), has(ingredient))
+			.save(consumer, new PlantopiaIdentifier(getConversionRecipeName(result, ingredient) + "_stonecutting"));
 	}
 
 	/* HELPER METHODS ******************************************/

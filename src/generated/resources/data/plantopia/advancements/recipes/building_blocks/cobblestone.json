@@ -1,0 +1,34 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"plantopia:cobblestone"
+		]
+	},
+	"criteria": {
+		"has_cobblestone_shard": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:cobblestone_shard"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "plantopia:cobblestone"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_cobblestone_shard",
+			"has_the_recipe"
+		]
+	]
+}

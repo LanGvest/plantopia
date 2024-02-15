@@ -4,6 +4,7 @@ import by.langvest.plantopia.block.PlantopiaBlockStateProperties;
 import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.block.special.PlantopiaCloverBlock;
+import by.langvest.plantopia.block.special.PlantopiaCobblestoneShardBlock;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
@@ -33,6 +34,8 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
+import net.minecraft.world.level.storage.loot.functions.FunctionUserBuilder;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.*;
@@ -43,6 +46,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 
 public class PlantopiaBlockLootTables extends BlockLoot {
+	private static final LootItemConditionalFunction.Builder<?> EXPLOSION_DECAY = ApplyExplosionDecay.explosionDecay();
 	private static final LootItemCondition.Builder SURVIVES_EXPLOSION = ExplosionCondition.survivesExplosion();
 	private static final LootItemCondition.Builder HAS_SHEARS = MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS));
 	private static final float SEEDS_CHANCE = 0.125F;
@@ -60,6 +64,8 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 		add(PlantopiaBlocks.GIANT_GRASS.get(), block -> createTriplePlantWithSeedDrops(block, Blocks.GRASS, Items.WHEAT_SEEDS));
 		add(PlantopiaBlocks.GIANT_FERN.get(), block -> createTriplePlantWithSeedDrops(block, Blocks.FERN, Items.WHEAT_SEEDS));
 		add(PlantopiaBlocks.CLOVER.get(), PlantopiaBlockLootTables::createCloverDrops);
+		add(PlantopiaBlocks.COBBLESTONE_SHARD.get(), PlantopiaBlockLootTables::createCobblestoneShardDrops);
+		add(PlantopiaBlocks.MOSSY_COBBLESTONE_SHARD.get(), PlantopiaBlockLootTables::createCobblestoneShardDrops);
 	}
 
 	private void generateAll() {
@@ -216,6 +222,16 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 			);
 	}
 
+	private static LootTable.@NotNull Builder createCobblestoneShardDrops(Block block) {
+		LootPoolEntryContainer.Builder<?> lootEntry = withExplosionDecayFunction(block, createPartialLootEntry(block, PlantopiaCobblestoneShardBlock.SHARDS));
+
+		return LootTable.lootTable()
+			.withPool(
+				withSurvivesExplosionCondition(block, LootPool.lootPool())
+					.add(lootEntry)
+			);
+	}
+
 	/* HELPER METHODS ******************************************/
 
 	private static LootPoolSingletonContainer.@NotNull Builder<?> item(ItemLike item) {
@@ -260,6 +276,10 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 	@Contract(value = "_ -> new", pure = true)
 	private static @NotNull BlockPos y(int offset) {
 		return new BlockPos(0, offset, 0);
+	}
+
+	private static <T> T withExplosionDecayFunction(@NotNull Block block, FunctionUserBuilder<T>  function) {
+		return EXPLOSION_RESISTANT_BLOCKS.contains(block) ? function.unwrap() : function.apply(EXPLOSION_DECAY);
 	}
 
 	private static <T> T withSurvivesExplosionCondition(@NotNull Block block, ConditionUserBuilder<T> condition) {

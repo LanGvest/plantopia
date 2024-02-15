@@ -4,6 +4,7 @@ import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.block.special.PlantopiaCloverBlock;
+import by.langvest.plantopia.block.special.PlantopiaCobblestoneShardBlock;
 import by.langvest.plantopia.block.special.PlantopiaTriplePlantBlock;
 import by.langvest.plantopia.meta.property.PlantopiaBlockModelType;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Contract;
@@ -50,6 +52,8 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		bigCloverBlock(PlantopiaBlocks.BIG_CLOVER.get());
 		cloverBlossomBlock(PlantopiaBlocks.WHITE_CLOVER_BLOSSOM.get());
 		cloverBlossomBlock(PlantopiaBlocks.PINK_CLOVER_BLOSSOM.get());
+		cobblestoneShardBlock(PlantopiaBlocks.COBBLESTONE_SHARD.get());
+		cobblestoneShardBlock(PlantopiaBlocks.MOSSY_COBBLESTONE_SHARD.get());
 	}
 
 	private void generateAll() {
@@ -190,6 +194,21 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		if(pottedBlock != null) simpleBlock(pottedBlock, pottedCloverBlossomTemplateModel(nameOf(pottedBlock), blossomTexture));
 	}
 
+	private void cobblestoneShardBlock(Block block) {
+		String baseName = nameOf(block);
+
+		ResourceLocation shardsTexture = texture(baseName + "s");
+		ResourceLocation itemTexture = itemTexture(baseName);
+
+		ModelFile oneShardModel = oneCobblestoneShardTemplateModel("one_" + baseName, shardsTexture);
+		ModelFile twoShardsModel = twoCobblestoneShardsTemplateModel("two_" + baseName + "s", shardsTexture);
+		ModelFile threeShardsModel = threeCobblestoneShardsTemplateModel("three_" + baseName + "s", shardsTexture);
+		ModelFile fourShardsModel = fourCobblestoneShardsTemplateModel("four_" + baseName + "s", shardsTexture);
+
+		generatedItemModel(baseName, itemTexture);
+		rotatedVariableBlock(block, PlantopiaCobblestoneShardBlock.SHARDS, oneShardModel, twoShardsModel, threeShardsModel, fourShardsModel);
+	}
+
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
 	private void doubleHighBlock(Block block, ModelFile topModel, ModelFile bottomModel) {
@@ -234,6 +253,23 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 					.end()
 			);
 		});
+	}
+
+	private <T extends Comparable<T>> void rotatedVariableBlock(Block block, @NotNull Property<T> property, ModelFile ...modelFiles) {
+		int modelFileIndex = 0;
+		VariantBlockStateBuilder builder = getVariantBuilder(block);
+
+		for(T value : property.getPossibleValues()) {
+			if(modelFileIndex == modelFiles.length) break;
+			ModelFile modelFile = modelFiles[modelFileIndex++];
+
+			builder
+				.partialState().with(property, value).modelForState()
+				.modelFile(modelFile).nextModel()
+				.modelFile(modelFile).rotationY(90).nextModel()
+				.modelFile(modelFile).rotationY(180).nextModel()
+				.modelFile(modelFile).rotationY(270).addModel();
+		}
 	}
 
 	/* BLOCK MODELS ******************************************/
@@ -285,6 +321,26 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	private ModelFile pottedCloverBlossomTemplateModel(String name, ResourceLocation blossomTexture) {
 		return models().withExistingParent(name, parent("template_potted_clover_blossom"))
 			.texture("blossom", blossomTexture);
+	}
+
+	private ModelFile oneCobblestoneShardTemplateModel(String name, ResourceLocation shardsTexture) {
+		return models().withExistingParent(name, parent("template_one_cobblestone_shard"))
+			.texture("shards", shardsTexture);
+	}
+
+	private ModelFile twoCobblestoneShardsTemplateModel(String name, ResourceLocation shardsTexture) {
+		return models().withExistingParent(name, parent("template_two_cobblestone_shards"))
+			.texture("shards", shardsTexture);
+	}
+
+	private ModelFile threeCobblestoneShardsTemplateModel(String name, ResourceLocation shardsTexture) {
+		return models().withExistingParent(name, parent("template_three_cobblestone_shards"))
+			.texture("shards", shardsTexture);
+	}
+
+	private ModelFile fourCobblestoneShardsTemplateModel(String name, ResourceLocation shardsTexture) {
+		return models().withExistingParent(name, parent("template_four_cobblestone_shards"))
+			.texture("shards", shardsTexture);
 	}
 
 	/* ITEM MODELS ******************************************/

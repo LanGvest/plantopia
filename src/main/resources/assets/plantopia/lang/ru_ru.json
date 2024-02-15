@@ -1,9 +1,11 @@
 {
 	"block.plantopia.big_clover": "Большой клевер",
 	"block.plantopia.clover": "Клевер",
+	"block.plantopia.cobblestone_shard": "Осколок булыжника",
 	"block.plantopia.fireweed": "Иван-чай",
 	"block.plantopia.giant_fern": "Гигантский папоротник",
 	"block.plantopia.giant_grass": "Гигантская трава",
+	"block.plantopia.mossy_cobblestone_shard": "Осколок замшелого булыжника",
 	"block.plantopia.pink_clover_blossom": "Розовый цветущий клевер",
 	"block.plantopia.white_clover_blossom": "Белый цветущий клевер",
 	"itemGroup.plantopia": "Plantopia"
