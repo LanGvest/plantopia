@@ -54,6 +54,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		cloverBlossomBlock(PlantopiaBlocks.PINK_CLOVER_BLOSSOM.get());
 		cobblestoneShardBlock(PlantopiaBlocks.COBBLESTONE_SHARD.get());
 		cobblestoneShardBlock(PlantopiaBlocks.MOSSY_COBBLESTONE_SHARD.get());
+		bushBlock(PlantopiaBlocks.BUSH.get());
 	}
 
 	private void generateAll() {
@@ -209,6 +210,21 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		rotatedVariableBlock(block, PlantopiaCobblestoneShardBlock.SHARDS, oneShardModel, twoShardsModel, threeShardsModel, fourShardsModel);
 	}
 
+	private void bushBlock(Block block) {
+		String baseName = nameOf(block);
+
+		ResourceLocation bushTexture = texture(baseName);
+		ResourceLocation stemTexture = texture(baseName + "_stem");
+
+		ModelFile model = tintedCrossWithOverlayModel(baseName, bushTexture, stemTexture);
+
+		generatedItemModel(baseName, bushTexture, stemTexture);
+		simpleBlock(block, model);
+
+		Block pottedBlock = PlantopiaBlocks.getPottedBlock(block);
+		if(pottedBlock != null) simpleBlock(pottedBlock, tintedFlowerPotCrossWithOverlayModel(nameOf(pottedBlock), bushTexture, stemTexture));
+	}
+
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
 	private void doubleHighBlock(Block block, ModelFile topModel, ModelFile bottomModel) {
@@ -299,6 +315,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 			.texture("plant", plantTexture);
 	}
 
+	private ModelFile tintedFlowerPotCrossWithOverlayModel(String name, ResourceLocation plantTexture, ResourceLocation overlayTexture) {
+		return models().withExistingParent(name, parent("tinted_flower_pot_cross_with_overlay"))
+			.texture("plant", plantTexture)
+			.texture("overlay", overlayTexture);
+	}
+
 	private ModelFile crossModel(String name, ResourceLocation crossTexture) {
 		return models().cross(name, crossTexture);
 	}
@@ -306,6 +328,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	private ModelFile tintedCrossModel(String name, ResourceLocation crossTexture) {
 		return models().withExistingParent(name, "tinted_cross")
 			.texture("cross", crossTexture);
+	}
+
+	private ModelFile tintedCrossWithOverlayModel(String name, ResourceLocation crossTexture, ResourceLocation overlayTexture) {
+		return models().withExistingParent(name, parent("tinted_cross_with_overlay"))
+			.texture("cross", crossTexture)
+			.texture("overlay", overlayTexture);
 	}
 
 	private ModelFile giantFernTemplateModel(String name, ResourceLocation crossTexture) {

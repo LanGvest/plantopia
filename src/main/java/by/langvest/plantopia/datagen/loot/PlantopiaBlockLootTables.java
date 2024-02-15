@@ -40,6 +40,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,6 +67,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 		add(PlantopiaBlocks.CLOVER.get(), PlantopiaBlockLootTables::createCloverDrops);
 		add(PlantopiaBlocks.COBBLESTONE_SHARD.get(), PlantopiaBlockLootTables::createCobblestoneShardDrops);
 		add(PlantopiaBlocks.MOSSY_COBBLESTONE_SHARD.get(), PlantopiaBlockLootTables::createCobblestoneShardDrops);
+		add(PlantopiaBlocks.BUSH.get(), PlantopiaBlockLootTables::createBushDrops);
 	}
 
 	private void generateAll() {
@@ -232,6 +234,25 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 			);
 	}
 
+	private static LootTable.@NotNull Builder createBushDrops(Block block) {
+		LootPoolEntryContainer.Builder<?> lootEntry = item(block)
+			.when(HAS_SHEARS)
+			.otherwise(
+				withExplosionDecayFunction(
+					block,
+					withSurvivesExplosionCondition(block, item(Items.STICK))
+						.when(randomChance(SEEDS_CHANCE))
+						.apply(setCount(1, 2))
+				)
+			);
+
+		return LootTable.lootTable()
+			.withPool(
+				LootPool.lootPool()
+					.add(lootEntry)
+			);
+	}
+
 	/* HELPER METHODS ******************************************/
 
 	private static LootPoolSingletonContainer.@NotNull Builder<?> item(ItemLike item) {
@@ -240,6 +261,10 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 	private static LootItemConditionalFunction.@NotNull Builder<?> setCount(int count) {
 		return SetItemCountFunction.setCount(ConstantValue.exactly(count));
+	}
+
+	private static LootItemConditionalFunction.@NotNull Builder<?> setCount(int from, int to) {
+		return SetItemCountFunction.setCount(UniformGenerator.between(from, to));
 	}
 
 	private static LootItemCondition.@NotNull Builder randomChance(float chance) {

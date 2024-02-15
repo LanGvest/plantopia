@@ -34,6 +34,7 @@ public class PlantopiaBlocks {
 	public static final RegistryObject<Block> PINK_CLOVER_BLOSSOM = registerBlock("pink_clover_blossom", () -> new PlantopiaCloverBlossomBlock(() -> MobEffects.SATURATION, 7, Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.AZALEA)), MetaProperties.of(MetaType.FLOWER).customModel().grassTint().dye(Items.PINK_DYE));
 	public static final RegistryObject<Block> COBBLESTONE_SHARD = registerBlock("cobblestone_shard", () -> new PlantopiaCobblestoneShardBlock(Properties.of(Material.DECORATION).strength(0.2F).sound(SoundType.DRIPSTONE_BLOCK)), MetaProperties.of(MetaType.STONE).customModel().customDrop());
 	public static final RegistryObject<Block> MOSSY_COBBLESTONE_SHARD = registerBlock("mossy_cobblestone_shard", () -> new PlantopiaCobblestoneShardBlock(Properties.of(Material.DECORATION).strength(0.2F).sound(SoundType.DRIPSTONE_BLOCK)), MetaProperties.of(MetaType.STONE).customModel().customDrop());
+	public static final RegistryObject<Block> BUSH = registerBlock("bush", () -> new PlantopiaBushBlock(Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)), MetaProperties.of(MetaType.PLANT).customModel().foliageTint().customDrop().pottable());
 	public static final RegistryObject<Block> POTTED_GRASS = registerBlock("potted_grass", () -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, () -> Blocks.GRASS, Properties.of(Material.DECORATION).instabreak()), MetaProperties.of(MetaType.POTTED).pottedTint(PlantopiaTintType.GRASS));
 
 	static {
