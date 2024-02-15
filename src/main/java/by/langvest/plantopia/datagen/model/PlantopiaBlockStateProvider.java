@@ -136,7 +136,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		ResourceLocation flowersTexture = texture(baseName + "_top_flowers");
 		ResourceLocation bottomTexture = texture(baseName + "_bottom");
 
-		ModelFile topModel = existingModel(baseName + "_top");
+		ModelFile topModel = invertedTintedCrossWithOverlayModel(baseName + "_top", topTexture, flowersTexture);
 		ModelFile bottomModel = tintedCrossModel(baseName + "_bottom", bottomTexture);
 
 		generatedItemModel(baseName, topTexture, flowersTexture);
@@ -339,6 +339,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	private ModelFile giantFernTemplateModel(String name, ResourceLocation crossTexture) {
 		return models().withExistingParent(name, parent("template_giant_fern"))
 			.texture("cross", crossTexture);
+	}
+
+	private ModelFile invertedTintedCrossWithOverlayModel(String name, ResourceLocation crossTexture, ResourceLocation overlayTexture) {
+		return models().withExistingParent(name, parent("inverted_tinted_cross_with_overlay"))
+			.texture("cross", crossTexture)
+			.texture("overlay", overlayTexture);
 	}
 
 	private ModelFile cloverBlossomTemplateModel(String name, ResourceLocation blossomTexture) {

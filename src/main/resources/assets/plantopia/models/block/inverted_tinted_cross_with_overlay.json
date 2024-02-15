@@ -1,9 +1,7 @@
 {
 	"ambientocclusion": false,
 	"textures": {
-		"cross": "plantopia:block/fireweed_top",
-		"flowers": "plantopia:block/fireweed_top_flowers",
-		"particle": "#flowers"
+		"particle": "#overlay"
 	},
 	"elements": [
 		{
@@ -32,8 +30,8 @@
 			"rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45, "rescale": true },
 			"shade": false,
 			"faces": {
-				"north": { "uv": [0, 0, 16, 16], "texture": "#flowers" },
-				"south": { "uv": [0, 0, 16, 16], "texture": "#flowers" }
+				"north": { "uv": [0, 0, 16, 16], "texture": "#overlay" },
+				"south": { "uv": [0, 0, 16, 16], "texture": "#overlay" }
 			}
 		},
 		{
@@ -42,8 +40,8 @@
 			"rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45, "rescale": true },
 			"shade": false,
 			"faces": {
-				"west": { "uv": [0, 0, 16, 16], "texture": "#flowers" },
-				"east": { "uv": [0, 0, 16, 16], "texture": "#flowers" }
+				"west": { "uv": [0, 0, 16, 16], "texture": "#overlay" },
+				"east": { "uv": [0, 0, 16, 16], "texture": "#overlay" }
 			}
 		}
 	]
