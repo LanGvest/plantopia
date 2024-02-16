@@ -8,6 +8,7 @@
 		"PlantopiaBee$BeePollinateGoalMixin",
 		"PlantopiaBeeMixin",
 		"PlantopiaDoublePlantBlockMixin",
+		"PlantopiaSeaPickleBlockMixin",
 		"PlantopiaSugarCaneBlockMixin",
 		"PlantopiaTemptGoalMixin"
 	],
