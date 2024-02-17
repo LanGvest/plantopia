@@ -1,0 +1,34 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"plantopia:pink_dye_from_pink_foxglove"
+		]
+	},
+	"criteria": {
+		"has_pink_foxglove": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:pink_foxglove"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "plantopia:pink_dye_from_pink_foxglove"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_pink_foxglove",
+			"has_the_recipe"
+		]
+	]
+}

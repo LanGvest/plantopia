@@ -55,6 +55,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		cobblestoneShardBlock(PlantopiaBlocks.COBBLESTONE_SHARD.get());
 		cobblestoneShardBlock(PlantopiaBlocks.MOSSY_COBBLESTONE_SHARD.get());
 		bushBlock(PlantopiaBlocks.BUSH.get());
+		foxgloveBlock(PlantopiaBlocks.RED_FOXGLOVE.get());
+		foxgloveBlock(PlantopiaBlocks.ORANGE_FOXGLOVE.get());
+		foxgloveBlock(PlantopiaBlocks.YELLOW_FOXGLOVE.get());
+		foxgloveBlock(PlantopiaBlocks.WHITE_FOXGLOVE.get());
+		foxgloveBlock(PlantopiaBlocks.PINK_FOXGLOVE.get());
+		foxgloveBlock(PlantopiaBlocks.MAGENTA_FOXGLOVE.get());
 	}
 
 	private void generateAll() {
@@ -225,6 +231,20 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		if(pottedBlock != null) simpleBlock(pottedBlock, tintedFlowerPotCrossWithOverlayModel(nameOf(pottedBlock), bushTexture, stemTexture));
 	}
 
+	private void foxgloveBlock(Block block) {
+		String baseName = nameOf(block);
+
+		ResourceLocation topTexture = texture("foxglove_top");
+		ResourceLocation bottomTexture = texture("foxglove_bottom");
+		ResourceLocation flowersTexture = texture(baseName + "_flowers");
+
+		ModelFile topModel = foxgloveTopTemplateModel(baseName + "_top", topTexture, flowersTexture);
+		ModelFile bottomModel = crossModel(baseName + "_bottom", bottomTexture);
+
+		generatedItemModel(baseName, flowersTexture);
+		doubleHighBlock(block, topModel, bottomModel);
+	}
+
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
 	private void doubleHighBlock(Block block, ModelFile topModel, ModelFile bottomModel) {
@@ -375,6 +395,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	private ModelFile fourCobblestoneShardsTemplateModel(String name, ResourceLocation shardsTexture) {
 		return models().withExistingParent(name, parent("template_four_cobblestone_shards"))
 			.texture("shards", shardsTexture);
+	}
+
+	private ModelFile foxgloveTopTemplateModel(String name, ResourceLocation crossTexture, ResourceLocation flowersTexture) {
+		return models().withExistingParent(name, parent("template_foxglove_top"))
+			.texture("cross", crossTexture)
+			.texture("flowers", flowersTexture);
 	}
 
 	/* ITEM MODELS ******************************************/

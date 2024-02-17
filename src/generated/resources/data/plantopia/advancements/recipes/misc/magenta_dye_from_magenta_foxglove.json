@@ -1,0 +1,34 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"plantopia:magenta_dye_from_magenta_foxglove"
+		]
+	},
+	"criteria": {
+		"has_magenta_foxglove": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:magenta_foxglove"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "plantopia:magenta_dye_from_magenta_foxglove"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_magenta_foxglove",
+			"has_the_recipe"
+		]
+	]
+}

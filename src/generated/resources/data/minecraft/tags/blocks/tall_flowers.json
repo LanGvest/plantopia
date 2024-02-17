@@ -1,11 +1,6 @@
 {
 	"replace": false,
 	"values": [
-		"plantopia:bush",
-		"plantopia:clover",
-		"plantopia:fireweed",
-		"plantopia:giant_fern",
-		"plantopia:giant_grass",
 		"plantopia:magenta_foxglove",
 		"plantopia:orange_foxglove",
 		"plantopia:pink_foxglove",

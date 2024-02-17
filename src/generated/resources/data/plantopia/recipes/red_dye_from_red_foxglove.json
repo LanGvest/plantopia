@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "red_dye",
+	"ingredients": [
+		{
+			"item": "plantopia:red_foxglove"
+		}
+	],
+	"result": {
+		"item": "minecraft:red_dye",
+		"count": 2
+	}
+}

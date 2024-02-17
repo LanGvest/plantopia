@@ -6,8 +6,14 @@
 	"block.plantopia.fireweed": "Иван-чай",
 	"block.plantopia.giant_fern": "Гигантский папоротник",
 	"block.plantopia.giant_grass": "Гигантская трава",
+	"block.plantopia.magenta_foxglove": "Пурпурная наперстянка",
 	"block.plantopia.mossy_cobblestone_shard": "Осколок замшелого булыжника",
+	"block.plantopia.orange_foxglove": "Оранжевая наперстянка",
 	"block.plantopia.pink_clover_blossom": "Розовый цветущий клевер",
+	"block.plantopia.pink_foxglove": "Розовая наперстянка",
+	"block.plantopia.red_foxglove": "Красная наперстянка",
 	"block.plantopia.white_clover_blossom": "Белый цветущий клевер",
+	"block.plantopia.white_foxglove": "Белая наперстянка",
+	"block.plantopia.yellow_foxglove": "Жёлтая наперстянка",
 	"itemGroup.plantopia": "Plantopia"
 }
