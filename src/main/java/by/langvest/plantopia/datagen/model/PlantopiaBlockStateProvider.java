@@ -61,6 +61,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		foxgloveBlock(PlantopiaBlocks.WHITE_FOXGLOVE.get());
 		foxgloveBlock(PlantopiaBlocks.PINK_FOXGLOVE.get());
 		foxgloveBlock(PlantopiaBlocks.MAGENTA_FOXGLOVE.get());
+		hollyhockBlock(PlantopiaBlocks.RED_HOLLYHOCK.get());
+		hollyhockBlock(PlantopiaBlocks.ORANGE_HOLLYHOCK.get());
+		hollyhockBlock(PlantopiaBlocks.YELLOW_HOLLYHOCK.get());
+		hollyhockBlock(PlantopiaBlocks.WHITE_HOLLYHOCK.get());
+		hollyhockBlock(PlantopiaBlocks.PINK_HOLLYHOCK.get());
+		hollyhockBlock(PlantopiaBlocks.MAGENTA_HOLLYHOCK.get());
 	}
 
 	private void generateAll() {
@@ -245,6 +251,21 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		doubleHighBlock(block, topModel, bottomModel);
 	}
 
+	private void hollyhockBlock(Block block) {
+		String baseName = nameOf(block);
+
+		ResourceLocation topTexture = texture("hollyhock_top");
+		ResourceLocation bottomTexture = texture("hollyhock_bottom");
+		ResourceLocation flowersTopTexture = texture(baseName + "_flowers_top");
+		ResourceLocation flowersBottomTexture = texture(baseName + "_flowers_bottom");
+
+		ModelFile topModel = hollyhockTopTemplateModel(baseName + "_top", topTexture, flowersTopTexture);
+		ModelFile bottomModel = hollyhockBottomTemplateModel(baseName + "_bottom", bottomTexture, flowersBottomTexture);
+
+		generatedItemModel(baseName, flowersTopTexture);
+		doubleHighBlock(block, topModel, bottomModel);
+	}
+
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
 	private void doubleHighBlock(Block block, ModelFile topModel, ModelFile bottomModel) {
@@ -399,6 +420,18 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	private ModelFile foxgloveTopTemplateModel(String name, ResourceLocation crossTexture, ResourceLocation flowersTexture) {
 		return models().withExistingParent(name, parent("template_foxglove_top"))
+			.texture("cross", crossTexture)
+			.texture("flowers", flowersTexture);
+	}
+
+	private ModelFile hollyhockTopTemplateModel(String name, ResourceLocation crossTexture, ResourceLocation flowersTexture) {
+		return models().withExistingParent(name, parent("template_hollyhock_top"))
+			.texture("cross", crossTexture)
+			.texture("flowers", flowersTexture);
+	}
+
+	private ModelFile hollyhockBottomTemplateModel(String name, ResourceLocation crossTexture, ResourceLocation flowersTexture) {
+		return models().withExistingParent(name, parent("template_hollyhock_bottom"))
 			.texture("cross", crossTexture)
 			.texture("flowers", flowersTexture);
 	}
