@@ -219,21 +219,13 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 					.when(randomChance(SEEDS_CHANCE * 0.75F))
 			);
 
-		return LootTable.lootTable()
-			.withPool(
-				LootPool.lootPool()
-					.add(lootEntry)
-			);
+		return createBlockTable(block, lootEntry);
 	}
 
 	private static LootTable.@NotNull Builder createCobblestoneShardDrops(Block block) {
 		LootPoolEntryContainer.Builder<?> lootEntry = withExplosionDecayFunction(block, createPartialLootEntry(block, PlantopiaCobblestoneShardBlock.SHARDS));
 
-		return LootTable.lootTable()
-			.withPool(
-				withSurvivesExplosionCondition(block, LootPool.lootPool())
-					.add(lootEntry)
-			);
+		return createSurvivedExplosionBlockTable(block, lootEntry);
 	}
 
 	private static LootTable.@NotNull Builder createBushDrops(Block block) {
@@ -248,11 +240,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 				)
 			);
 
-		return LootTable.lootTable()
-			.withPool(
-				LootPool.lootPool()
-					.add(lootEntry)
-			);
+		return createBlockTable(block, lootEntry);
 	}
 
 	/* HELPER METHODS ******************************************/
@@ -350,6 +338,12 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 	private static LootTable.@NotNull Builder createBlockTable(@SuppressWarnings("unused") Block block, LootPoolEntryContainer.Builder<?> @NotNull ... lootEntries) {
 		LootPool.Builder lootPool = LootPool.lootPool();
+		for(LootPoolEntryContainer.Builder<?> lootEntry : lootEntries) lootPool.add(lootEntry);
+		return LootTable.lootTable().withPool(lootPool);
+	}
+
+	private static LootTable.@NotNull Builder createSurvivedExplosionBlockTable(Block block, LootPoolEntryContainer.Builder<?> @NotNull ... lootEntries) {
+		LootPool.Builder lootPool = withSurvivesExplosionCondition(block, LootPool.lootPool());
 		for(LootPoolEntryContainer.Builder<?> lootEntry : lootEntries) lootPool.add(lootEntry);
 		return LootTable.lootTable().withPool(lootPool);
 	}
