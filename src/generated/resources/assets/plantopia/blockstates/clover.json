@@ -3,7 +3,7 @@
 		{
 			"when": {
 				"facing": "north",
-				"leaf_amount": "1|2|3|4"
+				"plant_amount": "1|2|3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_1"
@@ -12,7 +12,7 @@
 		{
 			"when": {
 				"facing": "east",
-				"leaf_amount": "1|2|3|4"
+				"plant_amount": "1|2|3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_1",
@@ -22,7 +22,7 @@
 		{
 			"when": {
 				"facing": "south",
-				"leaf_amount": "1|2|3|4"
+				"plant_amount": "1|2|3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_1",
@@ -32,7 +32,7 @@
 		{
 			"when": {
 				"facing": "west",
-				"leaf_amount": "1|2|3|4"
+				"plant_amount": "1|2|3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_1",
@@ -42,7 +42,7 @@
 		{
 			"when": {
 				"facing": "north",
-				"leaf_amount": "2|3|4"
+				"plant_amount": "2|3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_2"
@@ -51,7 +51,7 @@
 		{
 			"when": {
 				"facing": "east",
-				"leaf_amount": "2|3|4"
+				"plant_amount": "2|3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_2",
@@ -61,7 +61,7 @@
 		{
 			"when": {
 				"facing": "south",
-				"leaf_amount": "2|3|4"
+				"plant_amount": "2|3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_2",
@@ -71,7 +71,7 @@
 		{
 			"when": {
 				"facing": "west",
-				"leaf_amount": "2|3|4"
+				"plant_amount": "2|3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_2",
@@ -81,7 +81,7 @@
 		{
 			"when": {
 				"facing": "north",
-				"leaf_amount": "3|4"
+				"plant_amount": "3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_3"
@@ -90,7 +90,7 @@
 		{
 			"when": {
 				"facing": "east",
-				"leaf_amount": "3|4"
+				"plant_amount": "3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_3",
@@ -100,7 +100,7 @@
 		{
 			"when": {
 				"facing": "south",
-				"leaf_amount": "3|4"
+				"plant_amount": "3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_3",
@@ -110,7 +110,7 @@
 		{
 			"when": {
 				"facing": "west",
-				"leaf_amount": "3|4"
+				"plant_amount": "3|4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_3",
@@ -120,7 +120,7 @@
 		{
 			"when": {
 				"facing": "north",
-				"leaf_amount": "4"
+				"plant_amount": "4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_4"
@@ -129,7 +129,7 @@
 		{
 			"when": {
 				"facing": "east",
-				"leaf_amount": "4"
+				"plant_amount": "4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_4",
@@ -139,7 +139,7 @@
 		{
 			"when": {
 				"facing": "south",
-				"leaf_amount": "4"
+				"plant_amount": "4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_4",
@@ -149,7 +149,7 @@
 		{
 			"when": {
 				"facing": "west",
-				"leaf_amount": "4"
+				"plant_amount": "4"
 			},
 			"apply": {
 				"model": "plantopia:block/clover_4",

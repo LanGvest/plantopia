@@ -28,7 +28,7 @@
 											"condition": "minecraft:block_state_property",
 											"block": "plantopia:clover",
 											"properties": {
-												"leaf_amount": "2"
+												"plant_amount": "2"
 											}
 										}
 									],
@@ -42,7 +42,7 @@
 											"condition": "minecraft:block_state_property",
 											"block": "plantopia:clover",
 											"properties": {
-												"leaf_amount": "3"
+												"plant_amount": "3"
 											}
 										}
 									],
@@ -56,7 +56,7 @@
 											"condition": "minecraft:block_state_property",
 											"block": "plantopia:clover",
 											"properties": {
-												"leaf_amount": "4"
+												"plant_amount": "4"
 											}
 										}
 									],
