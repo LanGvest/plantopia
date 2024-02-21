@@ -1,6 +1,8 @@
 package by.langvest.plantopia.mixin;
 
+import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaPollinableBlock;
+import by.langvest.plantopia.block.special.PlantopiaPollinatedDandelionBlock;
 import by.langvest.plantopia.tag.PlantopiaBlockTags;
 import by.langvest.plantopia.util.PlantopiaContextBinder;
 import net.minecraft.core.BlockPos;
@@ -58,9 +60,15 @@ public abstract class PlantopiaBee$BeePollinateGoalMixin implements PlantopiaCon
 	private void stop(CallbackInfo ci) {
 		if(plantopia$pollinationTargetPos == null) return;
 		assert plantopia$bee != null;
-		BlockState pollinationTargetState = plantopia$bee.level.getBlockState(plantopia$pollinationTargetPos);
-		if(!(pollinationTargetState.getBlock() instanceof PlantopiaPollinableBlock pollinableBlock)) return;
-		pollinableBlock.onPollinationStop(plantopia$bee.level, pollinationTargetState, plantopia$pollinationTargetPos, plantopia$bee, plantopia$bee.hasNectar());
+		boolean successfully = plantopia$bee.hasNectar();
+		BlockState state = plantopia$bee.level.getBlockState(plantopia$pollinationTargetPos);
+		Level level = plantopia$bee.level;
+		BlockPos pos = plantopia$pollinationTargetPos;
+		if(successfully && state.is(Blocks.DANDELION)) {
+			PlantopiaPollinatedDandelionBlock.placeAt(level, pos, PlantopiaBlocks.POLLINATED_DANDELION.get().defaultBlockState(), 27);
+		}
+		if(!(state.getBlock() instanceof PlantopiaPollinableBlock pollinableBlock)) return;
+		pollinableBlock.onPollinationStop(level, state, pos, plantopia$bee, successfully);
 	}
 
 	@Inject(

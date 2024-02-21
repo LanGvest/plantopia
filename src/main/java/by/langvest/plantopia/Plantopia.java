@@ -5,6 +5,7 @@ import by.langvest.plantopia.block.PlantopiaCompats;
 import by.langvest.plantopia.client.PlantopiaColors;
 import by.langvest.plantopia.client.PlantopiaRenderLayers;
 import by.langvest.plantopia.item.PlantopiaItems;
+import by.langvest.plantopia.particle.PlantopiaParticleTypes;
 import by.langvest.plantopia.sound.PlantopiaSoundEvents;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -31,6 +32,7 @@ public class Plantopia {
 
 		PlantopiaBlocks.setup(bus);
 		PlantopiaItems.setup(bus);
+		PlantopiaParticleTypes.setup(bus);
 		PlantopiaSoundEvents.setup(bus);
 	}
 

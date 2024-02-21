@@ -16,10 +16,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -67,6 +64,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		hollyhockBlock(PlantopiaBlocks.WHITE_HOLLYHOCK.get());
 		hollyhockBlock(PlantopiaBlocks.PINK_HOLLYHOCK.get());
 		hollyhockBlock(PlantopiaBlocks.MAGENTA_HOLLYHOCK.get());
+		pollinatedDandelionBlock(PlantopiaBlocks.POLLINATED_DANDELION.get());
 	}
 
 	private void generateAll() {
@@ -87,6 +85,10 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 			if(block instanceof DoublePlantBlock) {
 				doublePlantBlock(blockMeta);
+			}
+
+			if(block instanceof BushBlock) {
+				bushBlock(blockMeta);
 			}
 		});
 	}
@@ -137,6 +139,18 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 		generatedItemModel(baseName, topTexture);
 		tripleHighBlock(blockMeta.getBlock(), topModel, middleModel, bottomModel);
+	}
+
+	private void bushBlock(@NotNull PlantopiaBlockMeta blockMeta) {
+		String baseName = blockMeta.getName();
+		boolean isTinted = blockMeta.isTinted();
+
+		ResourceLocation texture = texture(baseName);
+
+		ModelFile model = crossModel(baseName, texture, isTinted);
+
+		generatedItemModel(baseName, texture);
+		simpleBlock(blockMeta.getBlock(), model);
 	}
 
 	/* CUSTOM MODELS GENERATION ******************************************/
@@ -266,6 +280,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		doubleHighBlock(block, topModel, bottomModel);
 	}
 
+	private void pollinatedDandelionBlock(Block block) {
+		ModelFile model = blockModel(Blocks.DANDELION);
+
+		simpleBlock(block, model);
+	}
+
 	/* MODEL GENERATION HELPER METHODS ******************************************/
 
 	private void doubleHighBlock(Block block, ModelFile topModel, ModelFile bottomModel) {
@@ -334,6 +354,11 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	@Contract("_ -> new")
 	private @NotNull ModelFile existingModel(String name) {
 		return models().getExistingFile(new PlantopiaIdentifier(name));
+	}
+
+	private ModelFile blockModel(@NotNull Block block) {
+		ResourceLocation registryName = Objects.requireNonNull(block.getRegistryName());
+		return models().getExistingFile(new ResourceLocation(registryName.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + registryName.getPath()));
 	}
 
 	private ModelFile crossModel(String name, ResourceLocation crossTexture, boolean tinted) {

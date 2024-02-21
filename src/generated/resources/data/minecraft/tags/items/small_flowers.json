@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"plantopia:fluffy_dandelion",
 		"plantopia:pink_clover_blossom",
 		"plantopia:white_clover_blossom"
 	]

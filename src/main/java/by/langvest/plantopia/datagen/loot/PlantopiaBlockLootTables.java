@@ -68,6 +68,7 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 		add(PlantopiaBlocks.COBBLESTONE_SHARD.get(), PlantopiaBlockLootTables::createCobblestoneShardDrops);
 		add(PlantopiaBlocks.MOSSY_COBBLESTONE_SHARD.get(), PlantopiaBlockLootTables::createCobblestoneShardDrops);
 		add(PlantopiaBlocks.BUSH.get(), PlantopiaBlockLootTables::createBushDrops);
+		add(PlantopiaBlocks.POLLINATED_DANDELION.get(), PlantopiaBlockLootTables::createPollinatedDandelionDrops);
 	}
 
 	private void generateAll() {
@@ -241,6 +242,10 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 			);
 
 		return createBlockTable(block, lootEntry);
+	}
+
+	private static LootTable.@NotNull Builder createPollinatedDandelionDrops(Block block) {
+		return createSurvivedExplosionBlockTable(block, item(Blocks.DANDELION));
 	}
 
 	/* HELPER METHODS ******************************************/
