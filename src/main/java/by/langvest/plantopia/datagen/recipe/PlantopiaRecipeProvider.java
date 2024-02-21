@@ -56,7 +56,7 @@ public class PlantopiaRecipeProvider extends RecipeProvider implements IConditio
 	private void dyeFromFlower(@NotNull PlantopiaBlockMeta blockMeta) {
 		Item dye = blockMeta.getDye();
 		if(dye == null) return;
-		oneToOneConversionRecipe(dye, blockMeta.getBlock(), nameOf(dye), blockMeta.getBlockHighType().getBaseHigh());
+		oneToOneConversionRecipe(dye, blockMeta.getBlock(), nameOf(dye), blockMeta.getBlockHeightType().getBaseHeight());
 	}
 
 	/* RECIPE GENERATION HELPER METHODS ******************************************/

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? extends Block>> {
 	private final MetaType type;
 	private final CreativeModeTab group;
-	private final PlantopiaBlockHighType blockHighType;
+	private final PlantopiaBlockHeightType blockHeightType;
 	private final PlantopiaRenderType renderType;
 	private final PlantopiaBlockModelType modelType;
 	private final PlantopiaBlockDropType dropType;
@@ -37,7 +37,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		super(name, registryObject);
 		type = PlantopiaMetaAccessor.getMetaType(metaProperties);
 		group = metaProperties.group;
-		blockHighType = metaProperties.blockHighType;
+		blockHeightType = metaProperties.blockHeightType;
 		renderType = metaProperties.renderType;
 		modelType = metaProperties.modelType;
 		dropType = metaProperties.dropType;
@@ -88,8 +88,8 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		return group != null;
 	}
 
-	public PlantopiaBlockHighType getBlockHighType() {
-		return blockHighType;
+	public PlantopiaBlockHeightType getBlockHeightType() {
+		return blockHeightType;
 	}
 
 	public PlantopiaRenderType getRenderType() {
@@ -165,7 +165,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public boolean isPottable() {
-		return hasItem() && isPottable && blockHighType.getBaseHigh() == 1;
+		return hasItem() && isPottable && blockHeightType.getBaseHeight() == 1;
 	}
 
 	public float getCompostability() {
@@ -227,7 +227,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public static final class MetaProperties extends PlantopiaObjectMetaProperties<MetaType> implements Cloneable {
 		private CreativeModeTab group = null;
-		private PlantopiaBlockHighType blockHighType = PlantopiaBlockHighType.NORMAL;
+		private PlantopiaBlockHeightType blockHeightType = PlantopiaBlockHeightType.SINGLE;
 		private PlantopiaRenderType renderType = PlantopiaRenderType.NONE;
 		private PlantopiaBlockModelType modelType = PlantopiaBlockModelType.GENERATED;
 		private PlantopiaBlockDropType dropType = PlantopiaBlockDropType.GENERATED;
@@ -390,23 +390,18 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 			return this;
 		}
 
-		public MetaProperties normalHigh() {
-			this.blockHighType = PlantopiaBlockHighType.NORMAL;
+		public MetaProperties singleHigh() {
+			this.blockHeightType = PlantopiaBlockHeightType.SINGLE;
 			return this;
 		}
 
 		public MetaProperties doubleHigh() {
-			this.blockHighType = PlantopiaBlockHighType.DOUBLE;
+			this.blockHeightType = PlantopiaBlockHeightType.DOUBLE;
 			return this;
 		}
 
 		public MetaProperties tripleHigh() {
-			this.blockHighType = PlantopiaBlockHighType.TRIPLE;
-			return this;
-		}
-
-		public MetaProperties columnHigh() {
-			this.blockHighType = PlantopiaBlockHighType.COLUMN;
+			this.blockHeightType = PlantopiaBlockHeightType.TRIPLE;
 			return this;
 		}
 

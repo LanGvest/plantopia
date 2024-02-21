@@ -9,7 +9,7 @@ import by.langvest.plantopia.meta.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
 import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import by.langvest.plantopia.meta.property.PlantopiaBlockDropType;
-import by.langvest.plantopia.meta.property.PlantopiaBlockHighType;
+import by.langvest.plantopia.meta.property.PlantopiaBlockHeightType;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancements.critereon.BlockPredicate;
@@ -113,15 +113,16 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 	private void dropSelf(@NotNull PlantopiaBlockMeta blockMeta) {
 		Block block = blockMeta.getBlock();
 		MetaType type = blockMeta.getType();
-		PlantopiaBlockHighType blockHighType = blockMeta.getBlockHighType();
+		PlantopiaBlockHeightType blockHeightType = blockMeta.getBlockHeightType();
+		int baseHeight = blockHeightType.getBaseHeight();
 
-		if(blockHighType.getBaseHigh() == 1) {
+		if(baseHeight == 1) {
 			dropSelf(block);
 			return;
 		}
 
 		if(type != MetaType.PLANT) {
-			dropSelfIf(block, hasLowerHalfProperty(block, blockHighType));
+			dropSelfIf(block, hasLowerHalfProperty(block, blockHeightType));
 			return;
 		}
 
@@ -133,15 +134,16 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 	private void dropSelfByShears(@NotNull PlantopiaBlockMeta blockMeta) {
 		Block block = blockMeta.getBlock();
 		MetaType type = blockMeta.getType();
-		PlantopiaBlockHighType blockHighType = blockMeta.getBlockHighType();
+		PlantopiaBlockHeightType blockHeightType = blockMeta.getBlockHeightType();
+		int baseHeight = blockHeightType.getBaseHeight();
 
-		if(blockHighType.getBaseHigh() == 1) {
+		if(baseHeight == 1) {
 			dropSelfByShears(block);
 			return;
 		}
 
 		if(type != MetaType.PLANT) {
-			dropSelfByShearsIf(block, hasLowerHalfProperty(block, blockHighType));
+			dropSelfByShearsIf(block, hasLowerHalfProperty(block, blockHeightType));
 			return;
 		}
 
@@ -283,8 +285,8 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 		);
 	}
 
-	private static LootItemCondition.@NotNull Builder hasLowerHalfProperty(Block block, PlantopiaBlockHighType blockHighType) {
-		if(blockHighType == PlantopiaBlockHighType.TRIPLE) return hasProperty(block, TRIPLE_BLOCK_HALF_LOWER);
+	private static LootItemCondition.@NotNull Builder hasLowerHalfProperty(Block block, PlantopiaBlockHeightType blockHeightType) {
+		if(blockHeightType == PlantopiaBlockHeightType.TRIPLE) return hasProperty(block, TRIPLE_BLOCK_HALF_LOWER);
 		return hasProperty(block, DOUBLE_BLOCK_HALF_LOWER);
 	}
 
@@ -331,22 +333,22 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 	private static LootTable.@NotNull Builder createTable(@NotNull PlantopiaBlockMeta blockMeta, LootPoolEntryContainer.Builder<?> @NotNull ... lootEntries) {
 		Block block = blockMeta.getBlock();
 		MetaType type = blockMeta.getType();
-		PlantopiaBlockHighType blockHighType = blockMeta.getBlockHighType();
+		PlantopiaBlockHeightType blockHeightType = blockMeta.getBlockHeightType();
 
-		if(blockHighType == PlantopiaBlockHighType.TRIPLE) {
+		if(blockHeightType == PlantopiaBlockHeightType.TRIPLE) {
 			if(type == MetaType.PLANT) return createTripleHighPlantTable(block, lootEntries);
 			return createTripleHighBlockTable(block, lootEntries);
 		}
 
-		if(blockHighType == PlantopiaBlockHighType.DOUBLE) {
+		if(blockHeightType == PlantopiaBlockHeightType.DOUBLE) {
 			if(type == MetaType.PLANT) return createDoubleHighPlantTable(block, lootEntries);
 			return createDoubleHighBlockTable(block, lootEntries);
 		}
 
-		return createNormalHighBlockTable(block, lootEntries);
+		return createBlockTable(block, lootEntries);
 	}
 
-	private static LootTable.@NotNull Builder createNormalHighBlockTable(@SuppressWarnings("unused") Block block, LootPoolEntryContainer.Builder<?> @NotNull ... lootEntries) {
+	private static LootTable.@NotNull Builder createBlockTable(@SuppressWarnings("unused") Block block, LootPoolEntryContainer.Builder<?> @NotNull ... lootEntries) {
 		LootPool.Builder lootPool = LootPool.lootPool();
 		for(LootPoolEntryContainer.Builder<?> lootEntry : lootEntries) lootPool.add(lootEntry);
 		return LootTable.lootTable().withPool(lootPool);

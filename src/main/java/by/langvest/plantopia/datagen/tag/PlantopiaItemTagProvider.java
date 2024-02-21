@@ -58,13 +58,13 @@ public class PlantopiaItemTagProvider extends ItemTagsProvider {
 			Block block = blockMeta.getBlock();
 			Item item = block.asItem();
 			PlantopiaBlockMeta.MetaType type = blockMeta.getType();
-			int baseHigh = blockMeta.getBlockHighType().getBaseHigh();
+			int baseHeight = blockMeta.getBlockHeightType().getBaseHeight();
 
 			if(blockMeta.isIgnoredByBees()) IGNORED_BY_BEES.add(item);
 			if(blockMeta.isPreferredByBees()) PREFERRED_BY_BEES.add(item);
 
 			if(type.isFlowerLike()) {
-				if(baseHigh > 1) TALL_FLOWERS.add(item);
+				if(baseHeight > 1) TALL_FLOWERS.add(item);
 				else SMALL_FLOWERS.add(item);
 			}
 

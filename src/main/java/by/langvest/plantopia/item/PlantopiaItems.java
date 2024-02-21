@@ -26,7 +26,7 @@ public class PlantopiaItems {
 		CreativeModeTab group = blockMeta.getGroup();
 		if(group == null) return;
 		Properties properties = new Properties().tab(group);
-		registerItem(blockMeta.getName(), () -> switch(blockMeta.getBlockHighType()) {
+		registerItem(blockMeta.getName(), () -> switch(blockMeta.getBlockHeightType()) {
 			case DOUBLE -> new DoubleHighBlockItem(blockMeta.getBlock(), properties);
 			case TRIPLE -> new PlantopiaTripleHighBlockItem(blockMeta.getBlock(), properties);
 			default -> new BlockItem(blockMeta.getBlock(), properties);

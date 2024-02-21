@@ -65,7 +65,7 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 			Block block = blockMeta.getBlock();
 			MetaType type = blockMeta.getType();
 			Material material = blockMeta.getMaterial();
-			int baseHigh = blockMeta.getBlockHighType().getBaseHigh();
+			int baseHeight = blockMeta.getBlockHeightType().getBaseHeight();
 
 			if(blockMeta.isIgnoredByBees()) IGNORED_BY_BEES.add(block);
 			if(blockMeta.isPreferredByBees()) PREFERRED_BY_BEES.add(block);
@@ -78,7 +78,7 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 			}
 
 			if(type.isFlowerLike()) {
-				if(baseHigh > 1) {
+				if(baseHeight > 1) {
 					TALL_FLOWERS.add(block);
 					REPLACEABLE_PLANTS.add(block);
 				} else {
