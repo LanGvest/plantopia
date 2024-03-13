@@ -12,7 +12,9 @@
 		"PlantopiaSugarCaneBlockMixin",
 		"PlantopiaTemptGoalMixin"
 	],
-	"client": [],
+	"client": [
+		"PlantopiaMinecraftMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}
