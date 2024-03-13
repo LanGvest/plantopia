@@ -13,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class PlantopiaEnUsLangProvider extends LanguageProvider {
-	public PlantopiaEnUsLangProvider(DataGenerator generator) {
+public class PlantopiaLanguageProvider extends LanguageProvider {
+	public PlantopiaLanguageProvider(DataGenerator generator) {
 		super(generator, Plantopia.MOD_ID, "en_us");
 	}
 
