@@ -22,7 +22,6 @@ public class PlantopiaFluffyDandelionSeedParticle extends TextureSheetParticle {
 		this.lifetime = 100 + (int)Math.floor(Math.random() * 50);
 		this.hasPhysics = true;
 		this.gravity = -0.0188F;
-
 		double xzFactor = 1.8D;
 		double yFactor = 1.3D;
 		this.xd = xSpeed + (Math.random() * xzFactor - xzFactor / 2) * 0.4F;

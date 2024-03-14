@@ -1,22 +1,12 @@
 package by.langvest.plantopia.block.special;
 
-import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.particle.PlantopiaParticleTypes;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
@@ -64,11 +54,14 @@ public class PlantopiaFluffyDandelionBlock extends FlowerBlock {
 
 	protected static void blowOutSeedParticle(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, boolean stepped) {
 		Vec3 blockOffset = state.getOffset(level, pos);
+		double xzFactor = 0.22D;
+		double yFactor = 0.08D;
+
 		level.addParticle(
 			PlantopiaParticleTypes.FLUFFY_DANDELION_SEED.get(),
-			pos.getX() + 0.5D + blockOffset.x(),
-			pos.getY() + 0.5D,
-			pos.getZ() + 0.5D + blockOffset.z(),
+			pos.getX() + 0.5D + blockOffset.x() + (Math.random() * xzFactor - xzFactor / 2),
+			pos.getY() + 0.45D + (Math.random() * yFactor - yFactor / 2),
+			pos.getZ() + 0.5D + blockOffset.z() + (Math.random() * xzFactor - xzFactor / 2),
 			0,
 			stepped ? -0.26F : 0,
 			0
