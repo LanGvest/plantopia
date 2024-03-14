@@ -1,5 +1,6 @@
 package by.langvest.plantopia.meta;
 
+import by.langvest.plantopia.adv.PlantopiaAdvancement;
 import com.google.common.collect.Sets;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.Block;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class PlantopiaMetaStore {
 	private static final Set<PlantopiaBlockMeta> blocks = Sets.newHashSet();
 	private static final Set<PlantopiaSoundEventMeta> soundEvents = Sets.newHashSet();
+	private static final Set<PlantopiaAdvancementMeta> advancements = Sets.newHashSet();
 
 	public static Set<PlantopiaBlockMeta> getBlocks() {
 		return blocks;
@@ -69,5 +71,23 @@ public class PlantopiaMetaStore {
 		PlantopiaSoundEventMeta soundEventMeta = new PlantopiaSoundEventMeta(name, object, metaProperties);
 		soundEvents.add(soundEventMeta);
 		return soundEventMeta;
+	}
+
+	public static Set<PlantopiaAdvancementMeta> getAdvancements() {
+		return advancements;
+	}
+
+	@Nullable
+	public static PlantopiaAdvancementMeta getAdvancement(PlantopiaAdvancement advancement) {
+		return advancements.stream().filter(advancementMeta -> advancementMeta.getAdvancement() == advancement).findFirst().orElse(null);
+	}
+
+	public static <T extends PlantopiaAdvancement> @NotNull PlantopiaAdvancementMeta add(String name, T object, PlantopiaAdvancementMeta.MetaProperties metaProperties) {
+		Objects.requireNonNull(name);
+		Objects.requireNonNull(object);
+		Objects.requireNonNull(metaProperties);
+		PlantopiaAdvancementMeta advancementMeta = new PlantopiaAdvancementMeta(name, object, metaProperties);
+		advancements.add(advancementMeta);
+		return advancementMeta;
 	}
 }
