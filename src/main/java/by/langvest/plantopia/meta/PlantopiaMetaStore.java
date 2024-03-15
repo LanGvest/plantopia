@@ -3,6 +3,7 @@ package by.langvest.plantopia.meta;
 import by.langvest.plantopia.adv.PlantopiaAdvancement;
 import com.google.common.collect.Sets;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.registries.RegistryObject;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public class PlantopiaMetaStore {
 	private static final Set<PlantopiaBlockMeta> blocks = Sets.newHashSet();
+	private static final Set<PlantopiaItemMeta> items = Sets.newHashSet();
 	private static final Set<PlantopiaSoundEventMeta> soundEvents = Sets.newHashSet();
 	private static final Set<PlantopiaAdvancementMeta> advancements = Sets.newHashSet();
 
@@ -89,5 +91,23 @@ public class PlantopiaMetaStore {
 		PlantopiaAdvancementMeta advancementMeta = new PlantopiaAdvancementMeta(name, object, metaProperties);
 		advancements.add(advancementMeta);
 		return advancementMeta;
+	}
+
+	public static Set<PlantopiaItemMeta> getItems() {
+		return items;
+	}
+
+	@Nullable
+	public static PlantopiaItemMeta getItem(Item item) {
+		return items.stream().filter(itemMeta -> itemMeta.getItem() == item).findFirst().orElse(null);
+	}
+
+	public static <T extends Item> @NotNull PlantopiaItemMeta add(String name, RegistryObject<T> object, PlantopiaItemMeta.MetaProperties metaProperties) {
+		Objects.requireNonNull(name);
+		Objects.requireNonNull(object);
+		Objects.requireNonNull(metaProperties);
+		PlantopiaItemMeta itemMeta = new PlantopiaItemMeta(name, object, metaProperties);
+		items.add(itemMeta);
+		return itemMeta;
 	}
 }

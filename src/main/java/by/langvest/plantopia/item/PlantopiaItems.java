@@ -2,6 +2,9 @@ package by.langvest.plantopia.item;
 
 import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.meta.PlantopiaBlockMeta;
+import by.langvest.plantopia.meta.PlantopiaItemMeta.MetaType;
+import by.langvest.plantopia.meta.PlantopiaItemMeta.MetaProperties;
+import by.langvest.plantopia.meta.PlantopiaMetaStore;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DoubleHighBlockItem;
@@ -13,24 +16,27 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class PlantopiaItems {
 	private static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, Plantopia.MOD_ID);
 
-	public static <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> supplier) {
-		return ITEM_REGISTER.register(name, supplier);
+	public static <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> supplier, MetaProperties metaProperties) {
+		RegistryObject<T> registryObject = ITEM_REGISTER.register(name, supplier);
+		PlantopiaMetaStore.add(name, registryObject, metaProperties);
+		return registryObject;
 	}
 
 	public static void registerBlockItem(@NotNull PlantopiaBlockMeta blockMeta) {
-		CreativeModeTab group = blockMeta.getGroup();
-		if(group == null) return;
+		if(!blockMeta.hasItem()) return;
+		CreativeModeTab group = Objects.requireNonNull(blockMeta.getGroup());
 		Properties properties = new Properties().tab(group);
 		registerItem(blockMeta.getName(), () -> switch(blockMeta.getBlockHeightType()) {
 			case DOUBLE -> new DoubleHighBlockItem(blockMeta.getBlock(), properties);
 			case TRIPLE -> new PlantopiaTripleHighBlockItem(blockMeta.getBlock(), properties);
 			default -> new BlockItem(blockMeta.getBlock(), properties);
-		});
+		}, MetaProperties.of(MetaType.BLOCK));
 	}
 
 	public static void setup(IEventBus bus) {
