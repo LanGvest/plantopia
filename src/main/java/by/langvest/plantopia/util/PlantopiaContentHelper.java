@@ -1,6 +1,5 @@
 package by.langvest.plantopia.util;
 
-import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import com.google.common.collect.Sets;
