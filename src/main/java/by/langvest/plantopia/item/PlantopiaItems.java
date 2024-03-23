@@ -1,10 +1,11 @@
 package by.langvest.plantopia.item;
 
 import by.langvest.plantopia.Plantopia;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta;
-import by.langvest.plantopia.meta.PlantopiaItemMeta.MetaType;
-import by.langvest.plantopia.meta.PlantopiaItemMeta.MetaProperties;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.item.special.PlantopiaRenderedIconItem;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
+import by.langvest.plantopia.meta.object.PlantopiaItemMeta.MetaType;
+import by.langvest.plantopia.meta.object.PlantopiaItemMeta.MetaProperties;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DoubleHighBlockItem;
@@ -21,6 +22,8 @@ import java.util.function.Supplier;
 
 public class PlantopiaItems {
 	private static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, Plantopia.MOD_ID);
+
+	public static final RegistryObject<Item> FLOWERS_ICON = registerItem("flowers_icon", () -> new PlantopiaRenderedIconItem(new Properties()), MetaProperties.of(MetaType.ICON));
 
 	public static <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> supplier, MetaProperties metaProperties) {
 		RegistryObject<T> registryObject = ITEM_REGISTER.register(name, supplier);

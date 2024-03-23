@@ -1,0 +1,81 @@
+{
+	"display": {
+		"icon": {
+			"item": "plantopia:fireweed"
+		},
+		"title": {
+			"translate": "advancements.plantopia.root.title"
+		},
+		"description": {
+			"translate": "advancements.plantopia.root.description"
+		},
+		"frame": "task",
+		"show_toast": false,
+		"announce_to_chat": false,
+		"hidden": false,
+		"background": "plantopia:textures/gui/advancements/backgrounds/dirt.png"
+	},
+	"criteria": {
+		"has_dirt": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"tag": "minecraft:dirt"
+					}
+				]
+			}
+		},
+		"has_sand": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"tag": "minecraft:sand"
+					}
+				]
+			}
+		},
+		"has_logs": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"tag": "minecraft:logs"
+					}
+				]
+			}
+		},
+		"has_flowers": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"tag": "minecraft:flowers"
+					}
+				]
+			}
+		},
+		"has_gravel": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:gravel"
+						]
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_dirt",
+			"has_sand",
+			"has_logs",
+			"has_flowers",
+			"has_gravel"
+		]
+	]
+}

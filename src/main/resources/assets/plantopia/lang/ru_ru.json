@@ -1,4 +1,8 @@
 {
+	"advancements.plantopia.collect_all_flowers.description": "Соберите по одному цветку каждого вида",
+	"advancements.plantopia.collect_all_flowers.title": "Садовод",
+	"advancements.plantopia.root.description": "Что за дивный мир!",
+	"advancements.plantopia.root.title": "Plantopia",
 	"block.plantopia.big_clover": "Большой клевер",
 	"block.plantopia.bush": "Куст",
 	"block.plantopia.clover": "Клевер",

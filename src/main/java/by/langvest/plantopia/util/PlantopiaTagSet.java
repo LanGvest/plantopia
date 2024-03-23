@@ -12,14 +12,14 @@ public class PlantopiaTagSet<T> {
 	private final ArrayList<TagKey<T>> tags;
 	private final ArrayList<T> elements;
 
-	private PlantopiaTagSet(ArrayList<TagKey<T>> tags, ArrayList<T> elements) {
-		this.tags = tags;
-		this.elements = elements;
+	public PlantopiaTagSet() {
+		tags = Lists.newArrayList();
+		elements = Lists.newArrayList();
 	}
 
 	@Contract(" -> new")
 	public static <T extends ItemLike> @NotNull PlantopiaTagSet<T> newTagSet() {
-		return new PlantopiaTagSet<>(Lists.newArrayList(), Lists.newArrayList());
+		return new PlantopiaTagSet<>();
 	}
 
 	public PlantopiaTagSet<T> add(T[] elements) {
@@ -33,11 +33,13 @@ public class PlantopiaTagSet<T> {
 		return this;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public PlantopiaTagSet<T> addTags(TagKey<T>[] tags) {
 		if(tags != null) for(TagKey<T> tag : tags) addTag(tag);
 		return this;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public PlantopiaTagSet<T> addTag(TagKey<T> tag) {
 		if(this.tags.contains(tag)) return this;
 		this.tags.add(tag);

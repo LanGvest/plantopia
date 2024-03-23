@@ -1,4 +1,4 @@
-package by.langvest.plantopia.meta;
+package by.langvest.plantopia.meta.object;
 
 import by.langvest.plantopia.meta.core.*;
 import net.minecraft.sounds.SoundEvent;

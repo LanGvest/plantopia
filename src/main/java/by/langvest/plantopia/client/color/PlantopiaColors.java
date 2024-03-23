@@ -1,9 +1,9 @@
-package by.langvest.plantopia.client;
+package by.langvest.plantopia.client.color;
 
 import by.langvest.plantopia.block.PlantopiaBlockStateProperties;
 import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import by.langvest.plantopia.meta.property.PlantopiaTintType;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
@@ -50,10 +50,12 @@ public class PlantopiaColors {
 		setAll();
 	}
 
+	@SuppressWarnings("unused")
 	private static void add(@NotNull Set<Block> blockSet, Block... blocks) {
 		blockSet.addAll(List.of(blocks));
 	}
 
+	@SuppressWarnings("unused")
 	private static void add(@NotNull Set<Item> itemSet, ItemLike... itemLikes) {
 		itemSet.addAll(Arrays.stream(itemLikes).map(ItemLike::asItem).toList());
 	}

@@ -4,10 +4,10 @@ import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.block.special.*;
 import by.langvest.plantopia.block.PlantopiaCompats.Compostability;
 import by.langvest.plantopia.item.PlantopiaItems;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaProperties;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta.MetaProperties;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta.MetaType;
 import by.langvest.plantopia.meta.property.PlantopiaTintType;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;
@@ -18,9 +18,10 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
+
+import static by.langvest.plantopia.util.PlantopiaContentHelper.*;
 
 public class PlantopiaBlocks {
 	private static final DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Plantopia.MOD_ID);
@@ -55,25 +56,23 @@ public class PlantopiaBlocks {
 	}
 
 	public static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> supplier, MetaProperties metaProperties) {
-		RegistryObject<T> blockRegistryObject = BLOCK_REGISTER.register(name, supplier);
-		PlantopiaBlockMeta blockMeta = PlantopiaMetaStore.add(name, blockRegistryObject, metaProperties);
+		RegistryObject<T> registryObject = BLOCK_REGISTER.register(name, supplier);
+		PlantopiaBlockMeta blockMeta = PlantopiaMetaStore.add(name, registryObject, metaProperties);
 		PlantopiaItems.registerBlockItem(blockMeta);
-		return blockRegistryObject;
+		return registryObject;
+	}
+
+	@SuppressWarnings("UnusedReturnValue")
+	public static RegistryObject<FlowerPotBlock> registerPottedBlock(String plantName, Supplier<? extends Block> plantSupplier, PlantopiaTintType plantTintType) {
+		return registerBlock(pottedNameOf(plantName), () -> new FlowerPotBlock(() -> FLOWER_POT_BLOCK, plantSupplier, Properties.of(Material.DECORATION).instabreak()), MetaProperties.of(MetaType.POTTED).pottedTint(plantTintType));
 	}
 
 	private static void registerPottedBlocks() {
-		registerBlock("potted_grass", () -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, () -> Blocks.GRASS, Properties.of(Material.DECORATION).instabreak()), MetaProperties.of(MetaType.POTTED).pottedTint(PlantopiaTintType.GRASS));
+		registerPottedBlock(nameOf(Blocks.GRASS), () -> Blocks.GRASS, PlantopiaTintType.GRASS);
 
 		PlantopiaMetaStore.getBlocks(PlantopiaBlockMeta::isPottable).forEach(blockMeta ->
-			registerBlock("potted_" + blockMeta.getName(), () -> new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, blockMeta.getObject(), Properties.of(Material.DECORATION).instabreak()), MetaProperties.of(MetaType.POTTED).pottedTint(blockMeta.getTintType()))
+			registerPottedBlock(blockMeta.getName(), blockMeta.getObject(), blockMeta.getTintType())
 		);
-	}
-
-	@Nullable
-	public static Block getPottedBlock(Block plant) {
-		PlantopiaBlockMeta pottedBlockMeta = PlantopiaMetaStore.getPottedBlock(plant);
-		if(pottedBlockMeta == null) return null;
-		return pottedBlockMeta.getBlock();
 	}
 
 	public static void setup(IEventBus bus) {

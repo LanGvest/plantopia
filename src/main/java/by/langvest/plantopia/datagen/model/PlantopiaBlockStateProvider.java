@@ -6,10 +6,10 @@ import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.block.special.PlantopiaCloverBlock;
 import by.langvest.plantopia.block.special.PlantopiaCobblestoneShardBlock;
 import by.langvest.plantopia.block.special.PlantopiaTriplePlantBlock;
-import by.langvest.plantopia.meta.property.PlantopiaBlockModelType;
+import by.langvest.plantopia.meta.property.PlantopiaModelType;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.core.Direction;
@@ -27,6 +27,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+
+import static by.langvest.plantopia.util.PlantopiaContentHelper.*;
 
 public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	private static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
@@ -85,15 +87,30 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 			if(block instanceof DoublePlantBlock) {
 				doublePlantBlock(blockMeta);
+				return;
 			}
 
 			if(block instanceof BushBlock) {
 				bushBlock(blockMeta);
+				return;
 			}
+
+			simpleBlock(blockMeta);
 		});
 	}
 
 	/* MODELS GENERATION ******************************************/
+
+	private void simpleBlock(@NotNull PlantopiaBlockMeta blockMeta) {
+		String baseName = blockMeta.getName();
+
+		ResourceLocation texture = texture(baseName);
+
+		ModelFile model = cubeAllModel(baseName, texture);
+
+		blockItemModel(baseName, model);
+		simpleBlock(blockMeta.getBlock(), model);
+	}
 
 	private void flowerPotBlock(@NotNull PlantopiaBlockMeta blockMeta) {
 		String baseName = blockMeta.getName();
@@ -101,7 +118,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		Block plant = block.getContent();
 		PlantopiaBlockMeta plantMeta = PlantopiaMetaStore.getBlock(plant);
 
-		if(plantMeta != null && plantMeta.getModelType() == PlantopiaBlockModelType.CUSTOM) return;
+		if(plantMeta != null && plantMeta.getModelType() == PlantopiaModelType.CUSTOM) return;
 
 		ResourceLocation pottedPlantTexture = texture("potted_" + nameOf(plant));
 		ResourceLocation plantTexture = isTextureExists(pottedPlantTexture) ? pottedPlantTexture : blockTexture(plant);
@@ -195,7 +212,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		generatedItemModel(baseName, texture(baseName));
 		simpleBlock(block, existingModel(baseName));
 
-		Block pottedBlock = PlantopiaBlocks.getPottedBlock(block);
+		Block pottedBlock = pottedBlockOf(block);
 		if(pottedBlock != null) simpleBlock(pottedBlock, existingModel(nameOf(pottedBlock)));
 	}
 
@@ -217,7 +234,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		generatedItemModel(baseName, blossomTexture, stemItemTexture);
 		simpleBlock(block, model);
 
-		Block pottedBlock = PlantopiaBlocks.getPottedBlock(block);
+		Block pottedBlock = pottedBlockOf(block);
 		if(pottedBlock != null) simpleBlock(pottedBlock, pottedCloverBlossomTemplateModel(nameOf(pottedBlock), blossomTexture));
 	}
 
@@ -247,7 +264,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		generatedItemModel(baseName, bushTexture, stemTexture);
 		simpleBlock(block, model);
 
-		Block pottedBlock = PlantopiaBlocks.getPottedBlock(block);
+		Block pottedBlock = pottedBlockOf(block);
 		if(pottedBlock != null) simpleBlock(pottedBlock, tintedFlowerPotCrossWithOverlayModel(nameOf(pottedBlock), bushTexture, stemTexture));
 	}
 
@@ -349,6 +366,22 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		}
 	}
 
+	private interface ModelFileResolver<T extends Comparable<T>> {
+		ModelFile getModelFile(T value);
+	}
+
+	private <T extends Comparable<T>> void variableBlock(Block block, @NotNull Property<T> property, ModelFileResolver<T> resolver) {
+		VariantBlockStateBuilder builder = getVariantBuilder(block);
+
+		for(T value : property.getPossibleValues()) {
+			ModelFile modelFile = resolver.getModelFile(value);
+
+			builder
+				.partialState().with(property, value).modelForState()
+				.modelFile(modelFile).addModel();
+		}
+	}
+
 	/* BLOCK MODELS ******************************************/
 
 	@Contract("_ -> new")
@@ -357,13 +390,26 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	}
 
 	private ModelFile blockModel(@NotNull Block block) {
-		ResourceLocation registryName = Objects.requireNonNull(block.getRegistryName());
-		return models().getExistingFile(new ResourceLocation(registryName.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + registryName.getPath()));
+		ResourceLocation location = locationOf(block);
+		return models().getExistingFile(new ResourceLocation(location.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + location.getPath()));
+	}
+
+	private ModelFile cubeAllModel(String name, ResourceLocation texture) {
+		return models().cubeAll(name, texture);
 	}
 
 	private ModelFile crossModel(String name, ResourceLocation crossTexture, boolean tinted) {
 		if(tinted) return tintedCrossModel(name, crossTexture);
 		return crossModel(name, crossTexture);
+	}
+
+	private ModelFile crossModel(String name, ResourceLocation crossTexture) {
+		return models().cross(name, crossTexture);
+	}
+
+	private ModelFile tintedCrossModel(String name, ResourceLocation crossTexture) {
+		return models().withExistingParent(name, "tinted_cross")
+			.texture("cross", crossTexture);
 	}
 
 	private ModelFile flowerPotCrossModel(String name, ResourceLocation plantTexture, boolean tinted) {
@@ -385,15 +431,6 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		return models().withExistingParent(name, parent("tinted_flower_pot_cross_with_overlay"))
 			.texture("plant", plantTexture)
 			.texture("overlay", overlayTexture);
-	}
-
-	private ModelFile crossModel(String name, ResourceLocation crossTexture) {
-		return models().cross(name, crossTexture);
-	}
-
-	private ModelFile tintedCrossModel(String name, ResourceLocation crossTexture) {
-		return models().withExistingParent(name, "tinted_cross")
-			.texture("cross", crossTexture);
 	}
 
 	private ModelFile tintedCrossWithOverlayModel(String name, ResourceLocation crossTexture, ResourceLocation overlayTexture) {
@@ -463,12 +500,14 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 
 	/* ITEM MODELS ******************************************/
 
-	@SuppressWarnings("UnusedReturnValue")
-	private ModelFile generatedItemModel(String name, ResourceLocation... layers) {
+	public void generatedItemModel(String name, ResourceLocation... layers) {
 		ItemModelBuilder itemModel = itemModels().withExistingParent(name, "generated");
 		int layerIndex = 0;
 		if(layers != null) for(ResourceLocation layeredTexture : layers) itemModel.texture("layer" + layerIndex++, layeredTexture);
-		return itemModel;
+	}
+
+	public void blockItemModel(String name, @NotNull ModelFile modelFile) {
+		itemModels().withExistingParent(name, modelFile.getLocation());
 	}
 
 	/* HELPER METHODS ******************************************/
@@ -490,13 +529,5 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 	@Contract("_ -> new")
 	private static @NotNull ResourceLocation parent(String name) {
 		return new PlantopiaIdentifier(ModelProvider.BLOCK_FOLDER + "/" + name);
-	}
-
-	private static @NotNull String nameOf(@NotNull Block block) {
-		return Objects.requireNonNull(block.getRegistryName()).getPath();
-	}
-
-	private static @NotNull String idOf(@NotNull Block block) {
-		return Objects.requireNonNull(block.getRegistryName()).toString();
 	}
 }

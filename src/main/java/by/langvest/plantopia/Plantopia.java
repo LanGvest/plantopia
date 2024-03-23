@@ -2,8 +2,8 @@ package by.langvest.plantopia;
 
 import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaCompats;
-import by.langvest.plantopia.client.PlantopiaColors;
-import by.langvest.plantopia.client.PlantopiaRenderLayers;
+import by.langvest.plantopia.client.color.PlantopiaColors;
+import by.langvest.plantopia.client.render.PlantopiaRenderLayers;
 import by.langvest.plantopia.item.PlantopiaItems;
 import by.langvest.plantopia.particle.PlantopiaParticleTypes;
 import by.langvest.plantopia.sound.PlantopiaSoundEvents;

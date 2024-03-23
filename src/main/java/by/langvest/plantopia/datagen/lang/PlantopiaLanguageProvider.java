@@ -2,8 +2,9 @@ package by.langvest.plantopia.datagen.lang;
 
 import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.adv.PlantopiaAdvancement;
-import by.langvest.plantopia.meta.PlantopiaAdvancementMeta;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.adv.PlantopiaAdvancements;
+import by.langvest.plantopia.meta.object.PlantopiaAdvancementMeta;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import by.langvest.plantopia.tab.PlantopiaCreativeModeTabs;
 import by.langvest.plantopia.util.PlantopiaStringHelper;
 import net.minecraft.data.DataGenerator;
@@ -26,8 +27,12 @@ public class PlantopiaLanguageProvider extends LanguageProvider {
 		generateAll();
 
 		add(PlantopiaCreativeModeTabs.TAB_PLANTOPIA, "Plantopia");
+
+		add(PlantopiaAdvancements.ROOT, "Plantopia", "What a wonderful world!");
+		add(PlantopiaAdvancements.COLLECT_ALL_FLOWERS, "Real Gardener", "Collect one of every flower");
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	private void add(@NotNull CreativeModeTab tab, String name) {
 		add(tab.getDisplayName().getString(), name);
 	}

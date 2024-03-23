@@ -5,9 +5,9 @@ import by.langvest.plantopia.block.PlantopiaBlocks;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.block.special.PlantopiaCloverBlock;
 import by.langvest.plantopia.block.special.PlantopiaCobblestoneShardBlock;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta.MetaType;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import by.langvest.plantopia.meta.property.PlantopiaBlockDropType;
 import by.langvest.plantopia.meta.property.PlantopiaBlockHeightType;
 import com.google.common.collect.Sets;
@@ -77,11 +77,6 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 			PlantopiaBlockDropType dropType = blockMeta.getDropType();
 
-			if(dropType == PlantopiaBlockDropType.GENERATED) {
-				dropGenerated(blockMeta);
-				return;
-			}
-
 			if(dropType == PlantopiaBlockDropType.SELF) {
 				dropSelf(blockMeta);
 				return;
@@ -89,7 +84,10 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 
 			if(dropType == PlantopiaBlockDropType.SELF_BY_SHEARS) {
 				dropSelfByShears(blockMeta);
+				return;
 			}
+
+			dropGenerated(blockMeta);
 		});
 	}
 

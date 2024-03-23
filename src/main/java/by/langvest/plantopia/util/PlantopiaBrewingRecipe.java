@@ -5,6 +5,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,9 +14,9 @@ public class PlantopiaBrewingRecipe implements IBrewingRecipe {
 	private final Item ingredient;
 	private final Potion input;
 
-	public PlantopiaBrewingRecipe(Potion result, Item ingredient, Potion precursor) {
+	public PlantopiaBrewingRecipe(@NotNull Potion result, @NotNull ItemLike ingredient, @NotNull Potion precursor) {
 		this.output = result;
-		this.ingredient = ingredient;
+		this.ingredient = ingredient.asItem();
 		this.input = precursor;
 	}
 

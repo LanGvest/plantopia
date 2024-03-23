@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class PlantopiaItemTags {
 	public static final TagKey<Item> IGNORED_BY_BEES = createItemTag("ignored_by_bees");
 	public static final TagKey<Item> PREFERRED_BY_BEES = createItemTag("preferred_by_bees");
+	public static final TagKey<Item> NATURE_BLOCKS = createItemTag("nature_blocks");
 
 	private PlantopiaItemTags() {}
 

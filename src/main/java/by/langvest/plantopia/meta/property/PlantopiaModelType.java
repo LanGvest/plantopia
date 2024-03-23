@@ -1,6 +1,6 @@
 package by.langvest.plantopia.meta.property;
 
-public enum PlantopiaBlockModelType {
+public enum PlantopiaModelType {
 	NONE,
 	CUSTOM,
 	GENERATED

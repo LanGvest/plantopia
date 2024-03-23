@@ -1,10 +1,11 @@
-package by.langvest.plantopia.meta;
+package by.langvest.plantopia.meta.object;
 
 import by.langvest.plantopia.adv.PlantopiaAdvancement;
 import by.langvest.plantopia.adv.PlantopiaAdvancementTab;
 import by.langvest.plantopia.meta.core.*;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
-import by.langvest.plantopia.util.PlantopiaStringHelper;
+import by.langvest.plantopia.util.PlantopiaTemplateHelper;
 import net.minecraft.advancements.FrameType;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +14,10 @@ import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.Supplier;
+
+import static by.langvest.plantopia.util.PlantopiaTemplateHelper.*;
 
 @SuppressWarnings("unused")
 public class PlantopiaAdvancementMeta extends PlantopiaObjectMeta<PlantopiaAdvancement> {
@@ -33,21 +37,29 @@ public class PlantopiaAdvancementMeta extends PlantopiaObjectMeta<PlantopiaAdvan
 		super(name, object);
 		type = PlantopiaMetaAccessor.getMetaType(metaProperties);
 		frameType = metaProperties.frameType;
-		icon = metaProperties.icon;
-		group = metaProperties.group;
-		background = metaProperties.background;
-		parent = metaProperties.parent;
 		showToast = metaProperties.showToast;
 		announceToChat = metaProperties.announceToChat;
 		isHidden = metaProperties.isHidden;
 
-		if(group == null) throw new PlantopiaMetaException.Required("group", type);
+		icon = metaProperties.icon;
 		if(icon == null) throw new PlantopiaMetaException.Required("icon", type);
-		if(type == MetaType.ROOT && background == null) throw new PlantopiaMetaException.Required("background", type);
+
+		parent = metaProperties.parent;
 		if(type != MetaType.ROOT && parent == null) throw new PlantopiaMetaException.Required("parent", type);
 
-		title = new TranslatableComponent(PlantopiaStringHelper.advancementTitle(group.getName(), name));
-		description = new TranslatableComponent(PlantopiaStringHelper.advancementDescription(group.getName(), name));
+		if(type == MetaType.ROOT) {
+			group = metaProperties.group;
+		} else {
+			PlantopiaAdvancementMeta parentMeta = Objects.requireNonNull(PlantopiaMetaStore.getAdvancement(parent));
+			group = parentMeta.getGroup();
+		}
+		if(group == null) throw new PlantopiaMetaException.Required("group", type);
+
+		background = metaProperties.background;
+		if(type == MetaType.ROOT && background == null) throw new PlantopiaMetaException.Required("background", type);
+
+		title = new TranslatableComponent(advancementTitle(group, name));
+		description = new TranslatableComponent(advancementDescription(group, name));
 	}
 
 	public PlantopiaAdvancement getAdvancement() {
@@ -56,6 +68,10 @@ public class PlantopiaAdvancementMeta extends PlantopiaObjectMeta<PlantopiaAdvan
 
 	public MetaType getType() {
 		return type;
+	}
+
+	public String getPath() {
+		return group + "/" + getName();
 	}
 
 	@Nullable
@@ -136,6 +152,7 @@ public class PlantopiaAdvancementMeta extends PlantopiaObjectMeta<PlantopiaAdvan
 		}
 
 		public MetaProperties group(PlantopiaAdvancementTab group) {
+			if(type != null && type != MetaType.ROOT) throw new PlantopiaMetaException.UnableToSet("group", type);
 			this.group = group;
 			return this;
 		}
@@ -175,7 +192,7 @@ public class PlantopiaAdvancementMeta extends PlantopiaObjectMeta<PlantopiaAdvan
 		}
 
 		public MetaProperties background(String name) {
-			return background(new PlantopiaIdentifier(PlantopiaStringHelper.advancementBackground(name)));
+			return background(new PlantopiaIdentifier(PlantopiaTemplateHelper.advancementBackground(name)));
 		}
 
 		public MetaProperties background(ResourceLocation background) {

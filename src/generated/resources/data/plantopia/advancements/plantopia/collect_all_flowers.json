@@ -1,0 +1,565 @@
+{
+	"parent": "plantopia:plantopia/root",
+	"display": {
+		"icon": {
+			"item": "plantopia:flowers_icon"
+		},
+		"title": {
+			"translate": "advancements.plantopia.collect_all_flowers.title"
+		},
+		"description": {
+			"translate": "advancements.plantopia.collect_all_flowers.description"
+		},
+		"frame": "challenge",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"rewards": {
+		"experience": 100
+	},
+	"criteria": {
+		"minecraft:allium": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:allium"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:azure_bluet": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:azure_bluet"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:blue_orchid": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:blue_orchid"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:chorus_flower": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:chorus_flower"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:cornflower": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:cornflower"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:dandelion": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:dandelion"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:flowering_azalea": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:flowering_azalea"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:flowering_azalea_leaves": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:flowering_azalea_leaves"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:lilac": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:lilac"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:lily_of_the_valley": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:lily_of_the_valley"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:orange_tulip": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:orange_tulip"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:oxeye_daisy": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:oxeye_daisy"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:peony": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:peony"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:pink_tulip": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:pink_tulip"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:poppy": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:poppy"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:red_tulip": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:red_tulip"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:rose_bush": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:rose_bush"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:spore_blossom": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:spore_blossom"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:sunflower": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:sunflower"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:white_tulip": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:white_tulip"
+						]
+					}
+				]
+			}
+		},
+		"minecraft:wither_rose": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:wither_rose"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:fluffy_dandelion": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:fluffy_dandelion"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:magenta_foxglove": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:magenta_foxglove"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:magenta_hollyhock": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:magenta_hollyhock"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:orange_foxglove": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:orange_foxglove"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:orange_hollyhock": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:orange_hollyhock"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:pink_clover_blossom": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:pink_clover_blossom"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:pink_foxglove": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:pink_foxglove"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:pink_hollyhock": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:pink_hollyhock"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:red_foxglove": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:red_foxglove"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:red_hollyhock": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:red_hollyhock"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:white_clover_blossom": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:white_clover_blossom"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:white_foxglove": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:white_foxglove"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:white_hollyhock": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:white_hollyhock"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:yellow_foxglove": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:yellow_foxglove"
+						]
+					}
+				]
+			}
+		},
+		"plantopia:yellow_hollyhock": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"plantopia:yellow_hollyhock"
+						]
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"minecraft:allium"
+		],
+		[
+			"minecraft:azure_bluet"
+		],
+		[
+			"minecraft:blue_orchid"
+		],
+		[
+			"minecraft:chorus_flower"
+		],
+		[
+			"minecraft:cornflower"
+		],
+		[
+			"minecraft:dandelion"
+		],
+		[
+			"minecraft:flowering_azalea"
+		],
+		[
+			"minecraft:flowering_azalea_leaves"
+		],
+		[
+			"minecraft:lilac"
+		],
+		[
+			"minecraft:lily_of_the_valley"
+		],
+		[
+			"minecraft:orange_tulip"
+		],
+		[
+			"minecraft:oxeye_daisy"
+		],
+		[
+			"minecraft:peony"
+		],
+		[
+			"minecraft:pink_tulip"
+		],
+		[
+			"minecraft:poppy"
+		],
+		[
+			"minecraft:red_tulip"
+		],
+		[
+			"minecraft:rose_bush"
+		],
+		[
+			"minecraft:spore_blossom"
+		],
+		[
+			"minecraft:sunflower"
+		],
+		[
+			"minecraft:white_tulip"
+		],
+		[
+			"minecraft:wither_rose"
+		],
+		[
+			"plantopia:fluffy_dandelion"
+		],
+		[
+			"plantopia:magenta_foxglove"
+		],
+		[
+			"plantopia:magenta_hollyhock"
+		],
+		[
+			"plantopia:orange_foxglove"
+		],
+		[
+			"plantopia:orange_hollyhock"
+		],
+		[
+			"plantopia:pink_clover_blossom"
+		],
+		[
+			"plantopia:pink_foxglove"
+		],
+		[
+			"plantopia:pink_hollyhock"
+		],
+		[
+			"plantopia:red_foxglove"
+		],
+		[
+			"plantopia:red_hollyhock"
+		],
+		[
+			"plantopia:white_clover_blossom"
+		],
+		[
+			"plantopia:white_foxglove"
+		],
+		[
+			"plantopia:white_hollyhock"
+		],
+		[
+			"plantopia:yellow_foxglove"
+		],
+		[
+			"plantopia:yellow_hollyhock"
+		]
+	]
+}

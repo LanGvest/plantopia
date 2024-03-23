@@ -1,9 +1,10 @@
 package by.langvest.plantopia.datagen.tag;
 
 import by.langvest.plantopia.Plantopia;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta.MetaType;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import by.langvest.plantopia.tag.PlantopiaBlockTags;
+import by.langvest.plantopia.util.PlantopiaContentHelper;
 import by.langvest.plantopia.util.PlantopiaTagSet;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -16,7 +17,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Comparator;
 
 public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 	private final PlantopiaTagSet<Block> REPLACEABLE_PLANTS = PlantopiaTagSet.newTagSet();
@@ -56,7 +57,8 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 	}
 
 	@SafeVarargs
-	private void addTags(@NotNull PlantopiaTagSet<Block> tagSet, TagKey<Block>... tags) {
+	@SuppressWarnings("unused")
+	private void add(@NotNull PlantopiaTagSet<Block> tagSet, TagKey<Block>... tags) {
 		tagSet.addTags(tags);
 	}
 
@@ -126,20 +128,10 @@ public class PlantopiaBlockTagProvider extends BlockTagsProvider {
 		ArrayList<TagKey<Block>> tags = tagSet.getTags();
 		ArrayList<Block> blocks = tagSet.getElements();
 
-		tags.sort((prev, next) -> idOf(prev).compareTo(idOf(next)));
-		blocks.sort((prev, next) -> idOf(prev).compareTo(idOf(next)));
+		tags.sort(Comparator.comparing(PlantopiaContentHelper::idOf));
+		blocks.sort(Comparator.comparing(PlantopiaContentHelper::idOf));
 
 		for(TagKey<Block> tag : tags) targetTag.addTag(tag);
 		for(Block block : blocks) targetTag.add(block);
-	}
-
-	/* HELPER METHODS ******************************************/
-
-	private @NotNull String idOf(@NotNull Block block) {
-		return Objects.requireNonNull(block.getRegistryName()).toString();
-	}
-
-	private @NotNull String idOf(@NotNull TagKey<Block> tag) {
-		return tag.location().toString();
 	}
 }

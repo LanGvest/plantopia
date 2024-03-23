@@ -1,9 +1,9 @@
 package by.langvest.plantopia.datagen.recipe;
 
 import by.langvest.plantopia.block.PlantopiaBlocks;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta.MetaType;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta.MetaType;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
@@ -14,8 +14,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 import java.util.function.Consumer;
+
+import static by.langvest.plantopia.util.PlantopiaContentHelper.*;
 
 public class PlantopiaRecipeProvider extends RecipeProvider implements IConditionBuilder {
 	private Consumer<FinishedRecipe> consumer;
@@ -83,11 +84,5 @@ public class PlantopiaRecipeProvider extends RecipeProvider implements IConditio
 		SingleItemRecipeBuilder.stonecutting(Ingredient.of(ingredient), result, resultAmount)
 			.unlockedBy(getHasName(ingredient), has(ingredient))
 			.save(consumer, new PlantopiaIdentifier(getConversionRecipeName(result, ingredient) + "_stonecutting"));
-	}
-
-	/* HELPER METHODS ******************************************/
-
-	private static @NotNull String nameOf(@NotNull Item item) {
-		return Objects.requireNonNull(item.getRegistryName()).getPath();
 	}
 }

@@ -2,12 +2,14 @@ package by.langvest.plantopia.adv;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
-public class PlantopiaAdvancement {
+public class PlantopiaAdvancement extends ForgeRegistryEntry<PlantopiaAdvancement> {
 	private Advancement instance = null;
 	private final Advancement.Builder builder;
 
@@ -29,7 +31,8 @@ public class PlantopiaAdvancement {
 		return this;
 	}
 
-	public void save(@NotNull Consumer<Advancement> consumer, ResourceLocation location) {
+	public void save(@NotNull Consumer<Advancement> consumer) {
+		ResourceLocation location = Objects.requireNonNull(getRegistryName());
 		instance = builder.build(location);
 		consumer.accept(instance);
 	}

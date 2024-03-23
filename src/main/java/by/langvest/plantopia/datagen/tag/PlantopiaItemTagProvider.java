@@ -1,9 +1,10 @@
 package by.langvest.plantopia.datagen.tag;
 
 import by.langvest.plantopia.Plantopia;
-import by.langvest.plantopia.meta.PlantopiaBlockMeta;
-import by.langvest.plantopia.meta.PlantopiaMetaStore;
+import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
+import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
 import by.langvest.plantopia.tag.PlantopiaItemTags;
+import by.langvest.plantopia.util.PlantopiaContentHelper;
 import by.langvest.plantopia.util.PlantopiaTagSet;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.Comparator;
 
 public class PlantopiaItemTagProvider extends ItemTagsProvider {
 	private final PlantopiaTagSet<Item> TALL_FLOWERS = PlantopiaTagSet.newTagSet();
@@ -42,12 +43,13 @@ public class PlantopiaItemTagProvider extends ItemTagsProvider {
 		saveAll();
 	}
 
-	private void add(@NotNull PlantopiaTagSet<Item> tagSet, ItemLike... itemLikes) {
-		tagSet.add(Arrays.stream(itemLikes).map(ItemLike::asItem).toArray(Item[]::new));
+	private void add(@NotNull PlantopiaTagSet<Item> tagSet, ItemLike... items) {
+		tagSet.add(Arrays.stream(items).map(ItemLike::asItem).toArray(Item[]::new));
 	}
 
 	@SafeVarargs
-	private void addTags(@NotNull PlantopiaTagSet<Item> tagSet, TagKey<Item>... tags) {
+	@SuppressWarnings("unused")
+	private void add(@NotNull PlantopiaTagSet<Item> tagSet, TagKey<Item>... tags) {
 		tagSet.addTags(tags);
 	}
 
@@ -90,20 +92,10 @@ public class PlantopiaItemTagProvider extends ItemTagsProvider {
 		ArrayList<TagKey<Item>> tags = tagSet.getTags();
 		ArrayList<Item> items = tagSet.getElements();
 
-		tags.sort((prev, next) -> idOf(prev).compareTo(idOf(next)));
-		items.sort((prev, next) -> idOf(prev).compareTo(idOf(next)));
+		tags.sort(Comparator.comparing(PlantopiaContentHelper::idOf));
+		items.sort(Comparator.comparing(PlantopiaContentHelper::idOf));
 
 		for(TagKey<Item> tag : tags) targetTag.addTag(tag);
 		for(Item item : items) targetTag.add(item);
-	}
-
-	/* HELPER METHODS ******************************************/
-
-	private @NotNull String idOf(@NotNull Item item) {
-		return Objects.requireNonNull(item.getRegistryName()).toString();
-	}
-
-	private @NotNull String idOf(@NotNull TagKey<Item> tag) {
-		return tag.location().toString();
 	}
 }

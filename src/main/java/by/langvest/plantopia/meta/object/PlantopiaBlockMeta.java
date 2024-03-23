@@ -1,4 +1,4 @@
-package by.langvest.plantopia.meta;
+package by.langvest.plantopia.meta.object;
 
 import by.langvest.plantopia.block.PlantopiaCompats.*;
 import by.langvest.plantopia.meta.core.*;
@@ -19,7 +19,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final CreativeModeTab group;
 	private final PlantopiaBlockHeightType blockHeightType;
 	private final PlantopiaRenderType renderType;
-	private final PlantopiaBlockModelType modelType;
+	private final PlantopiaModelType modelType;
 	private final PlantopiaBlockDropType dropType;
 	private final PlantopiaRecipeType recipeType;
 	private final PlantopiaDisplayNameType displayNameType;
@@ -96,7 +96,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		return renderType;
 	}
 
-	public PlantopiaBlockModelType getModelType() {
+	public PlantopiaModelType getModelType() {
 		return modelType;
 	}
 
@@ -125,7 +125,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public boolean shouldGenerateModel() {
-		return modelType != PlantopiaBlockModelType.NONE && modelType != PlantopiaBlockModelType.CUSTOM;
+		return modelType != PlantopiaModelType.NONE && modelType != PlantopiaModelType.CUSTOM;
 	}
 
 	public boolean shouldGenerateLootTable() {
@@ -229,7 +229,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		private CreativeModeTab group = null;
 		private PlantopiaBlockHeightType blockHeightType = PlantopiaBlockHeightType.SINGLE;
 		private PlantopiaRenderType renderType = PlantopiaRenderType.NONE;
-		private PlantopiaBlockModelType modelType = PlantopiaBlockModelType.GENERATED;
+		private PlantopiaModelType modelType = PlantopiaModelType.GENERATED;
 		private PlantopiaBlockDropType dropType = PlantopiaBlockDropType.GENERATED;
 		private PlantopiaRecipeType recipeType = PlantopiaRecipeType.GENERATED;
 		private PlantopiaDisplayNameType displayNameType = PlantopiaDisplayNameType.GENERATED;
@@ -406,17 +406,17 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		}
 
 		public MetaProperties noModel() {
-			this.modelType = PlantopiaBlockModelType.NONE;
+			this.modelType = PlantopiaModelType.NONE;
 			return this;
 		}
 
 		public MetaProperties customModel() {
-			this.modelType = PlantopiaBlockModelType.CUSTOM;
+			this.modelType = PlantopiaModelType.CUSTOM;
 			return this;
 		}
 
 		public MetaProperties generatedModel() {
-			this.modelType = PlantopiaBlockModelType.GENERATED;
+			this.modelType = PlantopiaModelType.GENERATED;
 			return this;
 		}
 
