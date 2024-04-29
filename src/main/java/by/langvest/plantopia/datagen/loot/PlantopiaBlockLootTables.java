@@ -2,6 +2,7 @@ package by.langvest.plantopia.datagen.loot;
 
 import by.langvest.plantopia.block.PlantopiaBlockStateProperties;
 import by.langvest.plantopia.block.PlantopiaBlocks;
+import by.langvest.plantopia.block.PlantopiaQuarter;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.block.special.PlantopiaCloverBlock;
 import by.langvest.plantopia.block.special.PlantopiaCobblestoneShardBlock;
@@ -56,6 +57,10 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 	private static final Pair<Property<PlantopiaTripleBlockHalf>, PlantopiaTripleBlockHalf> TRIPLE_BLOCK_HALF_LOWER = Pair.of(PlantopiaBlockStateProperties.TRIPLE_BLOCK_HALF, PlantopiaTripleBlockHalf.LOWER);
 	private static final Pair<Property<PlantopiaTripleBlockHalf>, PlantopiaTripleBlockHalf> TRIPLE_BLOCK_HALF_CENTRAL = Pair.of(PlantopiaBlockStateProperties.TRIPLE_BLOCK_HALF, PlantopiaTripleBlockHalf.CENTRAL);
 	private static final Pair<Property<PlantopiaTripleBlockHalf>, PlantopiaTripleBlockHalf> TRIPLE_BLOCK_HALF_UPPER = Pair.of(PlantopiaBlockStateProperties.TRIPLE_BLOCK_HALF, PlantopiaTripleBlockHalf.UPPER);
+	private static final Pair<Property<PlantopiaQuarter>, PlantopiaQuarter> QUARTER_SOUTH_WEST = Pair.of(PlantopiaBlockStateProperties.QUARTER, PlantopiaQuarter.SOUTH_WEST);
+	private static final Pair<Property<PlantopiaQuarter>, PlantopiaQuarter> QUARTER_WEST_NORTH = Pair.of(PlantopiaBlockStateProperties.QUARTER, PlantopiaQuarter.WEST_NORTH);
+	private static final Pair<Property<PlantopiaQuarter>, PlantopiaQuarter> QUARTER_NORTH_EAST = Pair.of(PlantopiaBlockStateProperties.QUARTER, PlantopiaQuarter.NORTH_EAST);
+	private static final Pair<Property<PlantopiaQuarter>, PlantopiaQuarter> QUARTER_EAST_SOUTH = Pair.of(PlantopiaBlockStateProperties.QUARTER, PlantopiaQuarter.EAST_SOUTH);
 	private static final Set<Block> EXPLOSION_RESISTANT_BLOCKS = Sets.newHashSet();
 
 	@Override
@@ -324,14 +329,20 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 	private static LootTable.@NotNull Builder createTable(@NotNull PlantopiaBlockMeta blockMeta, LootPoolEntryContainer.Builder<?> @NotNull ... lootEntries) {
 		Block block = blockMeta.getBlock();
 		MetaType type = blockMeta.getType();
-		PlantopiaBlockHeightType blockHeightType = blockMeta.getBlockHeightType();
+		int height = blockMeta.getBlockHeightType().getBaseHeight();
+		int width = blockMeta.getBlockWidthType().getBaseWidth();
 
-		if(blockHeightType == PlantopiaBlockHeightType.TRIPLE) {
+		if(height == 3 && width == 1) {
 			if(type == MetaType.PLANT) return createTripleHighPlantTable(block, lootEntries);
 			return createTripleHighBlockTable(block, lootEntries);
 		}
 
-		if(blockHeightType == PlantopiaBlockHeightType.DOUBLE) {
+		if(height == 3 && width == 2) {
+			if(type == MetaType.PLANT) return createWideTripleHighPlantTable(block, lootEntries);
+			// return createWideTripleHighBlockTable(block, lootEntries);
+		}
+
+		if(height == 2) {
 			if(type == MetaType.PLANT) return createDoubleHighPlantTable(block, lootEntries);
 			return createDoubleHighBlockTable(block, lootEntries);
 		}
@@ -417,5 +428,78 @@ public class PlantopiaBlockLootTables extends BlockLoot {
 					.when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_LOWER, y(-2)))
 					.when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_CENTRAL, y(-1)))
 			);
+	}
+
+	private static LootTable.@NotNull Builder createWideTripleHighPlantTable(Block block, LootPoolEntryContainer.Builder<?> @NotNull ... lootEntries) {
+		LootPool.Builder lowerLootPool = LootPool.lootPool();
+		LootPool.Builder centralLootPool = LootPool.lootPool();
+		LootPool.Builder upperLootPool = LootPool.lootPool();
+
+		for(LootPoolEntryContainer.Builder<?> lootEntry : lootEntries) {
+			lowerLootPool.add(lootEntry);
+			centralLootPool.add(lootEntry);
+			upperLootPool.add(lootEntry);
+		}
+
+		return LootTable.lootTable()
+			.withPool(
+				lowerLootPool
+					.when(hasProperty(block, TRIPLE_BLOCK_HALF_LOWER))
+					.when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_CENTRAL, y(1)))
+					.when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_UPPER, y(2)))
+			)
+			.withPool(
+				centralLootPool
+					.when(hasProperty(block, TRIPLE_BLOCK_HALF_CENTRAL))
+					.when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_LOWER, y(-1)))
+					.when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_UPPER, y(1)))
+			)
+			.withPool(
+				upperLootPool
+					.when(hasProperty(block, TRIPLE_BLOCK_HALF_UPPER))
+					.when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_LOWER, y(-2)))
+					.when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_CENTRAL, y(-1)))
+			);
+
+
+
+
+		// LootPool.Builder southWestLootPool = LootPool.lootPool();
+		// LootPool.Builder westNorthLootPool = LootPool.lootPool();
+		// LootPool.Builder northEastLootPool = LootPool.lootPool();
+		// LootPool.Builder eastSouthLootPool = LootPool.lootPool();
+		//
+		// for(LootPoolEntryContainer.Builder<?> lootEntry : lootEntries) {
+		// 	southWestLootPool.add(lootEntry);
+		// 	westNorthLootPool.add(lootEntry);
+		// 	northEastLootPool.add(lootEntry);
+		// 	eastSouthLootPool.add(lootEntry);
+		// }
+		//
+		// return LootTable.lootTable()
+		// 	.withPool(
+		// 		southWestLootPool
+		// 			.when(hasProperty(block, QUARTER_SOUTH_WEST))
+		// 			// .when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_CENTRAL, y(1)))
+		// 			// .when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_UPPER, y(2)))
+		// 	)
+		// 	.withPool(
+		// 		westNorthLootPool
+		// 			.when(hasProperty(block, QUARTER_WEST_NORTH))
+		// 			// .when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_LOWER, y(-1)))
+		// 			// .when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_UPPER, y(1)))
+		// 	)
+		// 	.withPool(
+		// 		northEastLootPool
+		// 			.when(hasProperty(block, QUARTER_NORTH_EAST))
+		// 			// .when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_LOWER, y(-2)))
+		// 			// .when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_CENTRAL, y(-1)))
+		// 	)
+		// 	.withPool(
+		// 		eastSouthLootPool
+		// 			.when(hasProperty(block, QUARTER_EAST_SOUTH))
+		// 			// .when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_LOWER, y(-2)))
+		// 			// .when(checkPropertyAt(block, TRIPLE_BLOCK_HALF_CENTRAL, y(-1)))
+		// 	);
 	}
 }

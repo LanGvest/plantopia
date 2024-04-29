@@ -50,6 +50,7 @@ public class PlantopiaBlocks {
 	public static final RegistryObject<Block> MAGENTA_HOLLYHOCK = registerBlock("magenta_hollyhock", () -> new TallFlowerBlock(Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS)), MetaProperties.of(MetaType.FLOWER).doubleHigh().customModel().dye(Items.MAGENTA_DYE));
 	public static final RegistryObject<Block> POLLINATED_DANDELION = registerBlock("pollinated_dandelion", () -> new PlantopiaPollinatedDandelionBlock(Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)), MetaProperties.of(MetaType.FLOWER).customModel().customDrop().noGroup());
 	public static final RegistryObject<Block> FLUFFY_DANDELION = registerBlock("fluffy_dandelion", () -> new PlantopiaFluffyDandelionBlock(() -> MobEffects.SLOW_FALLING, 7, Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)), MetaProperties.of(MetaType.FLOWER).ignoredByBees().noDye());
+	public static final RegistryObject<Block> HOGWEED = registerBlock("hogweed", () -> new PlantopiaHogweedBlock(Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)), MetaProperties.of(MetaType.PLANT).tripleHigh().doubleWide().customModel().compostable(Compostability.PLANT_3 * 1.5F));
 
 	static {
 		registerPottedBlocks();

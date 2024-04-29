@@ -6,9 +6,8 @@ import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
 import by.langvest.plantopia.meta.object.PlantopiaItemMeta.MetaType;
 import by.langvest.plantopia.meta.object.PlantopiaItemMeta.MetaProperties;
 import by.langvest.plantopia.meta.store.PlantopiaMetaStore;
-import net.minecraft.world.item.BlockItem;
+import by.langvest.plantopia.util.PlantopiaBlockItemHelper;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -35,11 +34,7 @@ public class PlantopiaItems {
 		if(!blockMeta.hasItem()) return;
 		CreativeModeTab group = Objects.requireNonNull(blockMeta.getGroup());
 		Properties properties = new Properties().tab(group);
-		registerItem(blockMeta.getName(), () -> switch(blockMeta.getBlockHeightType()) {
-			case DOUBLE -> new DoubleHighBlockItem(blockMeta.getBlock(), properties);
-			case TRIPLE -> new PlantopiaTripleHighBlockItem(blockMeta.getBlock(), properties);
-			default -> new BlockItem(blockMeta.getBlock(), properties);
-		}, MetaProperties.of(MetaType.BLOCK));
+		registerItem(blockMeta.getName(), PlantopiaBlockItemHelper.getBlockItemSupplier(blockMeta, properties), MetaProperties.of(MetaType.BLOCK));
 	}
 
 	public static void setup(IEventBus bus) {

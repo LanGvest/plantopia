@@ -2,7 +2,6 @@ package by.langvest.plantopia.block.special;
 
 import by.langvest.plantopia.block.PlantopiaBlockStateProperties;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
-import by.langvest.plantopia.util.PlantopiaFluidHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -22,6 +21,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import static by.langvest.plantopia.util.PlantopiaFluidHelper.*;
 
 public class PlantopiaTriplePlantBlock extends BushBlock {
 	public static final EnumProperty<PlantopiaTripleBlockHalf> HALF = PlantopiaBlockStateProperties.TRIPLE_BLOCK_HALF;
@@ -53,17 +54,17 @@ public class PlantopiaTriplePlantBlock extends BushBlock {
 	public static void placeAt(@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState state, int flags) {
 		BlockPos posAbove1 = pos.above(1);
 		BlockPos posAbove2 = pos.above(2);
-		level.setBlock(pos, PlantopiaFluidHelper.copyWaterloggedFrom(level, pos, state.setValue(HALF, PlantopiaTripleBlockHalf.LOWER)), flags);
-		level.setBlock(posAbove1, PlantopiaFluidHelper.copyWaterloggedFrom(level, posAbove1, state.setValue(HALF, PlantopiaTripleBlockHalf.CENTRAL)), flags);
-		level.setBlock(posAbove2, PlantopiaFluidHelper.copyWaterloggedFrom(level, posAbove2, state.setValue(HALF, PlantopiaTripleBlockHalf.UPPER)), flags);
+		level.setBlock(pos, copyWaterloggedFrom(level, pos, state.setValue(HALF, PlantopiaTripleBlockHalf.LOWER)), flags);
+		level.setBlock(posAbove1, copyWaterloggedFrom(level, posAbove1, state.setValue(HALF, PlantopiaTripleBlockHalf.CENTRAL)), flags);
+		level.setBlock(posAbove2, copyWaterloggedFrom(level, posAbove2, state.setValue(HALF, PlantopiaTripleBlockHalf.UPPER)), flags);
 	}
 
 	@Override
 	public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @Nullable LivingEntity placer, @NotNull ItemStack stack) {
 		BlockPos posAbove1 = pos.above(1);
 		BlockPos posAbove2 = pos.above(2);
-		level.setBlock(posAbove1, PlantopiaFluidHelper.copyWaterloggedFrom(level, posAbove1, defaultBlockState().setValue(HALF, PlantopiaTripleBlockHalf.CENTRAL)), 3);
-		level.setBlock(posAbove2, PlantopiaFluidHelper.copyWaterloggedFrom(level, posAbove2, defaultBlockState().setValue(HALF, PlantopiaTripleBlockHalf.UPPER)), 3);
+		level.setBlock(posAbove1, copyWaterloggedFrom(level, posAbove1, defaultBlockState().setValue(HALF, PlantopiaTripleBlockHalf.CENTRAL)), 3);
+		level.setBlock(posAbove2, copyWaterloggedFrom(level, posAbove2, defaultBlockState().setValue(HALF, PlantopiaTripleBlockHalf.UPPER)), 3);
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class PlantopiaTriplePlantBlock extends BushBlock {
 
 	@Override
 	public void playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
-		if(!level.isClientSide) {
+		if(!level.isClientSide()) {
 			if(player.isCreative()) {
 				preventCreativeDropFromBottomPart(level, pos, state, player);
 			} else {
@@ -90,9 +91,9 @@ public class PlantopiaTriplePlantBlock extends BushBlock {
 		if(half == PlantopiaTripleBlockHalf.LOWER) return;
 		BlockPos baseBlockPos = getBaseBlockPos(state, pos);
 		BlockState baseBlockState = level.getBlockState(baseBlockPos);
-		if(baseBlockState.getBlock() != state.getBlock()) return;
+		if(!baseBlockState.is(state.getBlock())) return;
 		if(baseBlockState.getValue(HALF) != PlantopiaTripleBlockHalf.LOWER) return;
-		level.setBlock(baseBlockPos, PlantopiaFluidHelper.getFluidBlockState(level, pos), 35);
+		level.setBlock(baseBlockPos, getFluidBlockState(level, baseBlockPos), 35);
 		level.levelEvent(player, 2001, baseBlockPos, Block.getId(baseBlockState));
 	}
 

@@ -18,6 +18,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	private final MetaType type;
 	private final CreativeModeTab group;
 	private final PlantopiaBlockHeightType blockHeightType;
+	private final PlantopiaBlockWidthType blockWidthType;
 	private final PlantopiaRenderType renderType;
 	private final PlantopiaModelType modelType;
 	private final PlantopiaBlockDropType dropType;
@@ -38,6 +39,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 		type = PlantopiaMetaAccessor.getMetaType(metaProperties);
 		group = metaProperties.group;
 		blockHeightType = metaProperties.blockHeightType;
+		blockWidthType = metaProperties.blockWidthType;
 		renderType = metaProperties.renderType;
 		modelType = metaProperties.modelType;
 		dropType = metaProperties.dropType;
@@ -90,6 +92,10 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 	public PlantopiaBlockHeightType getBlockHeightType() {
 		return blockHeightType;
+	}
+
+	public PlantopiaBlockWidthType getBlockWidthType() {
+		return blockWidthType;
 	}
 
 	public PlantopiaRenderType getRenderType() {
@@ -165,7 +171,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	}
 
 	public boolean isPottable() {
-		return hasItem() && isPottable && blockHeightType.getBaseHeight() == 1;
+		return hasItem() && isPottable && blockHeightType.getBaseHeight() == 1 && blockWidthType.getBaseWidth() == 1;
 	}
 
 	public float getCompostability() {
@@ -228,6 +234,7 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 	public static final class MetaProperties extends PlantopiaObjectMetaProperties<MetaType> implements Cloneable {
 		private CreativeModeTab group = null;
 		private PlantopiaBlockHeightType blockHeightType = PlantopiaBlockHeightType.SINGLE;
+		private PlantopiaBlockWidthType blockWidthType = PlantopiaBlockWidthType.SINGLE;
 		private PlantopiaRenderType renderType = PlantopiaRenderType.NONE;
 		private PlantopiaModelType modelType = PlantopiaModelType.GENERATED;
 		private PlantopiaBlockDropType dropType = PlantopiaBlockDropType.GENERATED;
@@ -402,6 +409,16 @@ public class PlantopiaBlockMeta extends PlantopiaObjectMeta<RegistryObject<? ext
 
 		public MetaProperties tripleHigh() {
 			this.blockHeightType = PlantopiaBlockHeightType.TRIPLE;
+			return this;
+		}
+
+		public MetaProperties singleWide() {
+			this.blockWidthType = PlantopiaBlockWidthType.SINGLE;
+			return this;
+		}
+
+		public MetaProperties doubleWide() {
+			this.blockWidthType = PlantopiaBlockWidthType.DOUBLE;
 			return this;
 		}
 

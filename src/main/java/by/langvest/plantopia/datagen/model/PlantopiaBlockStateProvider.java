@@ -2,10 +2,12 @@ package by.langvest.plantopia.datagen.model;
 
 import by.langvest.plantopia.Plantopia;
 import by.langvest.plantopia.block.PlantopiaBlocks;
+import by.langvest.plantopia.block.PlantopiaQuarter;
 import by.langvest.plantopia.block.PlantopiaTripleBlockHalf;
 import by.langvest.plantopia.block.special.PlantopiaCloverBlock;
 import by.langvest.plantopia.block.special.PlantopiaCobblestoneShardBlock;
 import by.langvest.plantopia.block.special.PlantopiaTriplePlantBlock;
+import by.langvest.plantopia.block.special.PlantopiaWideTriplePlantBlock;
 import by.langvest.plantopia.meta.property.PlantopiaModelType;
 import by.langvest.plantopia.util.PlantopiaIdentifier;
 import by.langvest.plantopia.meta.object.PlantopiaBlockMeta;
@@ -67,6 +69,7 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		hollyhockBlock(PlantopiaBlocks.PINK_HOLLYHOCK.get());
 		hollyhockBlock(PlantopiaBlocks.MAGENTA_HOLLYHOCK.get());
 		pollinatedDandelionBlock(PlantopiaBlocks.POLLINATED_DANDELION.get());
+		hogweedBlock(PlantopiaBlocks.HOGWEED.get());
 	}
 
 	private void generateAll() {
@@ -216,7 +219,6 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		if(pottedBlock != null) simpleBlock(pottedBlock, existingModel(nameOf(pottedBlock)));
 	}
 
-	@SuppressWarnings("SameParameterValue")
 	private void pottedFernBlock(Block block) {
 		if(!(block instanceof FlowerPotBlock flowerPotBlock)) return;
 		Block plant = flowerPotBlock.getContent();
@@ -301,6 +303,40 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		ModelFile model = blockModel(Blocks.DANDELION);
 
 		simpleBlock(block, model);
+	}
+
+	private void hogweedBlock(Block block) {
+		String baseName = nameOf(block);
+
+		ResourceLocation topLeftTexture = texture(baseName + "_top_left");
+		ResourceLocation topRightTexture = texture(baseName + "_top_right");
+		ResourceLocation middleLeftTexture = texture(baseName + "_middle_left");
+		ResourceLocation middleRightTexture = texture(baseName + "_middle_right");
+		ResourceLocation bottomLeftTexture = texture(baseName + "_bottom_left");
+		ResourceLocation bottomRightTexture = texture(baseName + "_bottom_right");
+
+		ModelFile topModel = wideCrossLeafModel(baseName + "_top", topLeftTexture, topRightTexture);
+		ModelFile middleModel = wideCrossLeafModel(baseName + "_middle", middleLeftTexture, middleRightTexture);
+		ModelFile bottomModel = wideCrossLeafModel(baseName + "_bottom", bottomLeftTexture, bottomRightTexture);
+
+		generatedItemModel(baseName, topRightTexture);
+
+		getVariantBuilder(block).forAllStates(state -> {
+			PlantopiaTripleBlockHalf half = state.getValue(PlantopiaWideTriplePlantBlock.HALF);
+			PlantopiaQuarter quarter = state.getValue(PlantopiaWideTriplePlantBlock.QUARTER);
+			ModelFile modelFile = switch(half) {
+				case UPPER -> topModel;
+				case CENTRAL -> middleModel;
+				case LOWER -> bottomModel;
+			};
+			int rotation = switch(quarter) {
+				case SOUTH_WEST -> 0;
+				case WEST_NORTH -> 90;
+				case NORTH_EAST -> 180;
+				case EAST_SOUTH -> 270;
+			};
+			return ConfiguredModel.builder().modelFile(modelFile).rotationY(rotation).build();
+		});
 	}
 
 	/* MODEL GENERATION HELPER METHODS ******************************************/
@@ -448,6 +484,12 @@ public class PlantopiaBlockStateProvider extends BlockStateProvider {
 		return models().withExistingParent(name, parent("inverted_tinted_cross_with_overlay"))
 			.texture("cross", crossTexture)
 			.texture("overlay", overlayTexture);
+	}
+
+	private ModelFile wideCrossLeafModel(String name, ResourceLocation leftTexture, ResourceLocation rightTexture) {
+		return models().withExistingParent(name, parent("wide_cross_leaf"))
+			.texture("right", rightTexture)
+			.texture("left", leftTexture);
 	}
 
 	private ModelFile cloverBlossomTemplateModel(String name, ResourceLocation blossomTexture) {

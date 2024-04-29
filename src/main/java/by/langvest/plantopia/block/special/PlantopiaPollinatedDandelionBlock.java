@@ -38,10 +38,10 @@ public class PlantopiaPollinatedDandelionBlock extends BushBlock implements Plan
 	@SuppressWarnings("deprecation")
 	public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull Random random) {
 		super.randomTick(state, level, pos, random);
-		if(!level.isAreaLoaded(pos, 1)) return;
-		if(level.getRawBrightness(pos, 0) < 9) return;
 		int pollinationCount = state.getValue(COUNT);
 		if(pollinationCount != MAX_POLLINATES) return;
+		if(!level.isAreaLoaded(pos, 1)) return;
+		if(level.getRawBrightness(pos, 0) < 9) return;
 		level.setBlock(pos, PlantopiaBlocks.FLUFFY_DANDELION.get().defaultBlockState(), 3);
 	}
 
