@@ -17,4 +17,4 @@
 ## License
 
 Copyright © 2024 Vyacheslav Logvinets (LanGvest). All rights reserved.<br/>
-Licensed under the AGPL-3.0 license. See LICENSE in the project root for detailed information.
+Licensed under the AGPL-3.0 license. See [LICENSE](LICENSE) for more information.
