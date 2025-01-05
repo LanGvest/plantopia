@@ -18,5 +18,5 @@
 
 ## License
 
-Copyright © 2024 Vyacheslav Logvinets (LanGvest). All rights reserved.<br/>
+Copyright © 2025 Vyacheslav Logvinets (LanGvest). All rights reserved.<br/>
 Licensed under the AGPL-3.0 license. See [LICENSE](LICENSE) for details.
